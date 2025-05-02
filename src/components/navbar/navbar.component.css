@@ -1,0 +1,7 @@
+.bg-nav {
+    background-color: var(--claro100) !important;
+}
+
+.bg-cartCount {
+    background-color: var(--primario);
+}

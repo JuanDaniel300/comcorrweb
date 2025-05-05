@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import NavbarCategoriesClient from "./NavbarCategoriesClient";
 import cache from "memory-cache";
-import { getCategorias } from "@/services/home/categorias/categorias";
+import { getCategorias } from "@/services/categorias/categorias";
 import NavbarCategoriesSkeleton from "./Skeleton";
 import { categorias } from "@/constants/generic";
 

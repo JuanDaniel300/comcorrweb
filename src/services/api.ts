@@ -5,6 +5,7 @@ import { getSession } from "next-auth/react";
 let demoToken: string | null = null;
 
 async function getDemoToken(): Promise<string> {
+  console.log("⚠ Volvio a pedir el token");
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/auth/login`,
     {
@@ -23,7 +24,7 @@ async function getDemoToken(): Promise<string> {
 }
 
 const axiosInstance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL, // URL de tu backend
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
   headers: {
     "Content-Type": "application/json",
   },

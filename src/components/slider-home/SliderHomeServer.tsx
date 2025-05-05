@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import SliderHomeClient from "./SliderHomeClient";
 import cache from "memory-cache";
-import { getBanners } from "@/services/home/banner";
+import { getBanners } from "@/services/banners/banner";
 
 export default async function SliderHomeServer() {
   let banners = cache.get("banners");

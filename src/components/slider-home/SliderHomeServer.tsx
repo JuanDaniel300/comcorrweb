@@ -1,12 +1,16 @@
 import { Suspense } from "react";
 import SliderHomeClient from "./SliderHomeClient";
+import cache from "memory-cache";
+import { getBanners } from "@/services/home/banner";
 
 export default async function SliderHomeServer() {
-  const banners = [];
+  let banners = cache.get("banners");
 
-  return (
-    <Suspense>
-      <SliderHomeClient banners={banners} />;
-    </Suspense>
-  );
+  if (!banners) {
+    banners = await getBanners();
+
+    cache.put("banners", banners, 1000 * 60 * 5);
+  }
+
+  return <SliderHomeClient banners={banners?.promos} />;
 }

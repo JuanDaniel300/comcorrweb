@@ -5,9 +5,11 @@ import type { NextAuthOptions } from "next-auth";
 declare module "next-auth" {
   interface User {
     token?: string;
+    userName?: string;
   }
   interface Session {
     accessToken?: string;
+    userType?: string;
   }
   interface Token {
     accessToken?: string;
@@ -44,7 +46,7 @@ export const authOptions: NextAuthOptions = {
         if (res.ok && data.token) {
           return {
             id: data.user?.id ?? "guest",
-            name: data.user?.name ?? "Invitado",
+            name: data.user?.nombre ?? "Invitado",
             email: data.user?.email ?? credentials?.email,
             token: data.token,
           };
@@ -61,12 +63,13 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user }) {
       if (user?.token) {
         token.accessToken = user.token;
+        token.userType = user?.userName === "demo_user" ? "demo" : "real";
       }
       return token;
     },
     async session({ session, token }) {
-      session.accessToken =
-        typeof token.accessToken === "string" ? token.accessToken : undefined;
+      session.accessToken = token.accessToken as string;
+      session.userType = token.userType as string | undefined;
       return session;
     },
   },

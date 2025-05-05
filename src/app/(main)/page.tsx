@@ -1,6 +1,8 @@
+import ProductCard from "@/components/productCard/ProductCard";
 import SliderHome from "@/components/slider-home";
 import SliderMarcas from "@/components/slider-marcas";
 import { categoriesHome, promociones } from "@/constants/generic";
+import { Suspense } from "react";
 import { CgShoppingBag } from "react-icons/cg";
 import { CiDiscount1 } from "react-icons/ci";
 import { MdPhoneInTalk } from "react-icons/md";
@@ -13,7 +15,9 @@ export default function HomePage() {
       <section className="container mx-auto px-20 pt-10 space-y-28">
         {/* Slider */}
         <div className="h-[443px] ">
-          <SliderHome />
+          <Suspense fallback={<div>cargando..</div>}>
+            <SliderHome />
+          </Suspense>
         </div>
 
         {/* Categorias */}
@@ -23,8 +27,8 @@ export default function HomePage() {
           </div>
 
           <div className="flex gap-20 items-center justify-center">
-            {categoriesHome.map((value) => (
-              <div className="text-center mx-auto">
+            {categoriesHome.map((value, index) => (
+              <div className="text-center mx-auto" key={index}>
                 <div className="rounded-full px-2 py-8 bg-primario clickeable">
                   <img
                     src={value?.path}
@@ -59,10 +63,10 @@ export default function HomePage() {
           </div>
 
           <div className="flex pt-10 justify-between">
-            <ProductCard key={5} />
+            {/* <ProductCard key={5} />
             <ProductCard key={6} />
             <ProductCard key={7} />
-            <ProductCard key={8} />
+            <ProductCard key={8} /> */}
           </div>
         </div>
 
@@ -73,8 +77,11 @@ export default function HomePage() {
           </div>
 
           <div className="flex justify-between mt-10 gap-10">
-            {promociones.map((value) => (
-              <div className="bg-white border border-gray-200 rounded-xl p-2">
+            {promociones.map((value, index) => (
+              <div
+                className="bg-white border border-gray-200 rounded-xl p-2"
+                key={index}
+              >
                 <img
                   src={value?.path}
                   className="object-scale-down w-max rounded-xl h-max"
@@ -97,10 +104,10 @@ export default function HomePage() {
           </div>
 
           <div className="flex pt-10 justify-between">
-            <ProductCard key={1} />
+            {/* <ProductCard key={1} />
             <ProductCard key={2} />
             <ProductCard key={3} />
-            <ProductCard key={4} />
+            <ProductCard key={4} /> */}
           </div>
         </div>
 

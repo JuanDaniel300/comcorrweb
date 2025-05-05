@@ -1,6 +1,26 @@
-import axios from "axios";
-import { NextApiRequest, NextApiResponse } from "next";
-import { loginRequest } from "./auth/authService";
+import axios, { AxiosRequestConfig } from "axios";
+import createAuthRefreshInterceptor from "axios-auth-refresh";
+import { getSession } from "next-auth/react";
+
+let demoToken: string | null = null;
+
+async function getDemoToken(): Promise<string> {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/auth/login`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: process.env.NEXT_DEMO_USER_EMAIL,
+        password: process.env.NEXT_DEMO_USER_PASSWORD,
+      }),
+    }
+  );
+
+  if (!response.ok) throw new Error("Error al obtener token demo");
+  const data = await response.json();
+  return data.token;
+}
 
 const axiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL, // URL de tu backend
@@ -9,47 +29,27 @@ const axiosInstance = axios.create({
   },
 });
 
-// Interceptor para agregar el token a cada solicitud de Axios
-axiosInstance.interceptors.request.use(
-  async (config) => {
-    try {
-      // Obtener el token del servidor
-      const token = await loginRequest();
+axiosInstance.interceptors.request.use(async (config) => {
+  const session = await getSession();
 
-      if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
-      }
+  let token: string | null = null;
 
-      return config;
-    } catch (error) {
-      console.error("Error al obtener el token:", error);
-      return Promise.reject(error);
+  if (session?.accessToken) {
+    token = session.accessToken as string;
+  } else {
+    if (!demoToken) {
+      demoToken = await getDemoToken();
     }
-  },
-  (error) => {
-    return Promise.reject(error);
+    token = demoToken;
   }
-);
 
-// Interceptor para manejar errores y renovar el token si es necesario
-axiosInstance.interceptors.response.use(
-  (response) => response,
-  async (error) => {
-    if (error.response?.status === 401) {
-      // Si el token ha caducado, intentar renovarlo
-      console.log("Token caducado, intentando renovar...");
+  config.headers = config.headers || {};
+  config.headers.Authorization = `Bearer ${token}`;
+  return config;
+});
 
-      try {
-        const token = await loginRequest();
-        error.config.headers.Authorization = `Bearer ${token}`;
-        return axiosInstance(error.config); // Reintentar la solicitud
-      } catch (err) {
-        console.error("No se pudo renovar el token.");
-        return Promise.reject(err);
-      }
-    }
-    return Promise.reject(error.response?.data || error);
-  }
-);
+createAuthRefreshInterceptor(axiosInstance, async () => {
+  demoToken = await getDemoToken();
+});
 
 export default axiosInstance;

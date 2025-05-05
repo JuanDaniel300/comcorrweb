@@ -1,3 +1,4 @@
+"use client";
 import { images } from "@/constants/generic";
 
 const speed = 20000;

@@ -29,7 +29,7 @@ export const authOptions: NextAuthOptions = {
           `${process.env.NEXT_PUBLIC_API_URL}/auth/login`,
           {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: { "Content-Type": "applicantion/json" },
             body: JSON.stringify({
               email: credentials?.email,
               password: credentials?.password,

@@ -73,7 +73,7 @@ const Navbar = () => {
                     )} */}
 
           <Link
-            href="/shoppingCart"
+            href="/Shopping-cart"
             className="Carrito flex items-center gap-3 cursor-pointer"
           >
             <motion.div

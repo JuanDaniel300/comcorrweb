@@ -2,6 +2,8 @@ import ProductCard from "@/components/productCard/ProductCard";
 import SliderHome from "@/components/slider-home";
 import SliderMarcas from "@/components/slider-marcas";
 import { categoriesHome, promociones } from "@/constants/generic";
+import PopularesSection from "@/sections/home/populares/populares";
+import RecomendadosSection from "@/sections/home/recomendados/Recomendados";
 import { Suspense } from "react";
 import { CgShoppingBag } from "react-icons/cg";
 import { CiDiscount1 } from "react-icons/ci";
@@ -50,7 +52,9 @@ export default function HomePage() {
         </div>
 
         <div className="w-full h-max py-5 mt-5 bg-white">
-          <SliderMarcas />
+          <Suspense fallback={<div>cargando..</div>}>
+            <SliderMarcas />
+          </Suspense>
         </div>
       </div>
 
@@ -63,10 +67,9 @@ export default function HomePage() {
           </div>
 
           <div className="flex pt-10 justify-between">
-            {/* <ProductCard key={5} />
-            <ProductCard key={6} />
-            <ProductCard key={7} />
-            <ProductCard key={8} /> */}
+            <Suspense fallback={<div>cargando..</div>}>
+              <PopularesSection />
+            </Suspense>
           </div>
         </div>
 
@@ -104,10 +107,9 @@ export default function HomePage() {
           </div>
 
           <div className="flex pt-10 justify-between">
-            {/* <ProductCard key={1} />
-            <ProductCard key={2} />
-            <ProductCard key={3} />
-            <ProductCard key={4} /> */}
+            <Suspense fallback={<div>cargando..</div>}>
+              <RecomendadosSection />
+            </Suspense>
           </div>
         </div>
 

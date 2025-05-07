@@ -1,4 +1,3 @@
-import { Suspense } from "react";
 import SliderMarcasClient from "./SliderMarcasClient";
 import { getMarcas } from "@/services/marcas/marcas";
 import cache from "memory-cache";

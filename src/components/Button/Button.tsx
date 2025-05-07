@@ -1,3 +1,5 @@
+"use client";
+
 import { motion } from "framer-motion";
 import { FC } from "react";
 import ClipLoader from "react-spinners/ClipLoader";
@@ -72,10 +74,9 @@ const Button: FC<ButtonProps> = ({
           ${baseStyles}
           ${styles}
           ${sizeStyles}
-          ${
-            disabled || isLoading
-              ? "opacity-60 cursor-not-allowed"
-              : "cursor-pointer"
+          ${disabled || isLoading
+            ? "opacity-60 cursor-not-allowed"
+            : "cursor-pointer"
           }
           ${className}
         `}

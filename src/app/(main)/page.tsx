@@ -106,7 +106,7 @@ export default function HomePage() {
             Recomendados para tu Hogar
           </div>
 
-          <div className="flex pt-10 justify-between">
+          <div className=" pt-10 recomendados__products__container">
             <Suspense fallback={<div>cargando..</div>}>
               <RecomendadosSection />
             </Suspense>

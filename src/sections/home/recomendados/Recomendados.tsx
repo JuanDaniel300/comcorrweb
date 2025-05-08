@@ -1,19 +1,13 @@
+import ProductCard from "@/components/productCard/ProductCard";
 import { getRecomendados } from "@/services/recomendados/recomendados";
-import cache from "memory-cache";
+import { Producto } from "@/types/product.type";
 
 export default async function RecomendadosSection() {
-    let recomendados = cache.get("recomendados");
+    const recomendados = await getRecomendados();
 
-    if (!recomendados) {
-        recomendados = await getRecomendados();
-
-        cache.put("recomendados", recomendados, 1000 * 60 * 5);
-    }
-
-    console.log(recomendados)
     return (
-        <div>
-            <h1>Recomendados section</h1>
+        <div className="grid grid-cols-4 w-full">
+            {recomendados?.promos.map((product: Producto, index: number) => <ProductCard product={product} key={index} />)}
         </div>
     )
 }

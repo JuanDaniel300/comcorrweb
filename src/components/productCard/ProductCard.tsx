@@ -66,6 +66,7 @@ const ProductCard = ({ product, key }: { product: any; key: number }) => {
             className="w-full bg-white relative"
             direction="horizontal"
             slidesPerView={1}
+            loop={true}
             modules={[Pagination, Navigation]}
           >
             <SwiperSlide className="bg-white">

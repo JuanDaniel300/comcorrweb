@@ -12,6 +12,9 @@ export default function NavbarCategoriesClient({
 }: {
   categorias: any;
 }) {
+
+  console.log(categorias)
+
   const [openCategory, setOpenCategory] = useState<string | null>(null);
   const menuRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
 
@@ -86,12 +89,12 @@ export default function NavbarCategoriesClient({
                 <Link
                   href={`/categoria/${generarSlug(
                     category.nombre
-                  )}/${generarSlug(sub)}`}
+                  )}/${generarSlug(sub.nombre)}`}
                   key={index}
                   onClick={() => handleToggle(category.nombre)}
                 >
                   <div className="px-4 py-2 text-sm font-semibold  hover:text-red-700 cursor-pointer">
-                    {sub}
+                    {sub.nombre}
                   </div>
                 </Link>
               ))}

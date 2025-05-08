@@ -1,12 +1,21 @@
+import { TIMER_CACHE } from "@/constants/timer";
 import axiosInstance from "../api";
+import cache from "memory-cache";
 
 export const getRecomendados = async () => {
   try {
-    const response = await axiosInstance.get("/recomendados");
+    let recomendados = cache.get("recomendados");
 
-    return response.data;
+    if (!recomendados) {
+      const response = await axiosInstance.get("/recomendados");
+      recomendados = response.data;
+
+      cache.put("recomendados", recomendados, TIMER_CACHE);
+    }
+
+    return recomendados;
   } catch (error) {
-    console.error("Error fetching populares:", error);
+    console.error("Error fetching recomendados:", error);
     throw error;
   }
 };

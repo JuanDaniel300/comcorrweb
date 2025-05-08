@@ -4,13 +4,8 @@ import cache from "memory-cache";
 import { getBanners } from "@/services/banners/banner";
 
 export default async function SliderHomeServer() {
-  let banners = cache.get("banners");
+  const banners = await getBanners();
 
-  if (!banners) {
-    banners = await getBanners();
-
-    cache.put("banners", banners, 1000 * 60 * 5);
-  }
 
   return <SliderHomeClient banners={banners?.promos} />;
 }

@@ -1,56 +1,26 @@
-import axios, { AxiosRequestConfig } from "axios";
-import createAuthRefreshInterceptor from "axios-auth-refresh";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import axios from "axios";
+import { getServerSession } from "next-auth";
 import { getSession } from "next-auth/react";
-
-let demoToken: string | null = null;
-
-async function getDemoToken(): Promise<string> {
-  console.log("⚠ Volvio a pedir el token");
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/auth/login`,
-    {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email: process.env.NEXT_DEMO_USER_EMAIL,
-        password: process.env.NEXT_DEMO_USER_PASSWORD,
-      }),
-    }
-  );
-
-  if (!response.ok) throw new Error("Error al obtener token demo");
-  const data = await response.json();
-  return data.token;
-}
 
 const axiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
   headers: {
     "Content-Type": "application/json",
   },
+  withCredentials: true, // Para que las cookies se envíen con las solicitudes
 });
 
+// Agregar token al header Authorization de cada solicitud
 axiosInstance.interceptors.request.use(async (config) => {
-  const session = await getSession();
-
-  let token: string | null = null;
+  const session = await getServerSession(authOptions);
 
   if (session?.accessToken) {
-    token = session.accessToken as string;
-  } else {
-    if (!demoToken) {
-      demoToken = await getDemoToken();
-    }
-    token = demoToken;
+    // Si hay un token de sesión, lo agregamos al header Authorization
+    config.headers.Authorization = `Bearer ${session.accessToken}`;
   }
 
-  config.headers = config.headers || {};
-  config.headers.Authorization = `Bearer ${token}`;
   return config;
-});
-
-createAuthRefreshInterceptor(axiosInstance, async () => {
-  demoToken = await getDemoToken();
 });
 
 export default axiosInstance;

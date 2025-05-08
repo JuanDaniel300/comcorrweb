@@ -1,12 +1,21 @@
+import { TIMER_CACHE } from "@/constants/timer";
 import axiosInstance from "../api";
+import cache from "memory-cache";
 
 export const getBanners = async () => {
   try {
-    const response = await axiosInstance.get("/banner");
+    let banners = cache.get("banners");
 
-    return response.data;
-  } catch (error) {
-    console.error("Error fetching banner:", error);
-    throw error;
+    if (!banners) {
+      const response = await axiosInstance.get("/banner");
+      banners = response?.data;
+
+      cache.put("banners", banners, TIMER_CACHE);
+    }
+
+    return banners;
+  } catch (error: any) {
+    console.error("Error fetching banner:", error.message);
+    return [];
   }
 };

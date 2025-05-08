@@ -25,13 +25,12 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        console.log("hola");
-
+        console.log({ credentials });
         const res = await fetch(
           `${process.env.NEXT_PUBLIC_API_URL}/auth/login`,
           {
             method: "POST",
-            headers: { "Content-Type": "applicantion/json" },
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
               email: credentials?.email,
               password: credentials?.password,
@@ -40,14 +39,14 @@ export const authOptions: NextAuthOptions = {
         );
 
         const data = await res.json();
-
-        console.log("hola");
+        console.log("token obtenido");
+        console.log({ data });
 
         if (res.ok && data.token) {
           return {
-            id: data.user?.id ?? "guest",
-            name: data.user?.nombre ?? "Invitado",
-            email: data.user?.email ?? credentials?.email,
+            id: data?.user?.id ?? "guest",
+            name: data?.user?.nombre ?? "Invitado",
+            email: data?.user?.email ?? credentials?.email,
             token: data.token,
           };
         }
@@ -56,6 +55,9 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   ],
+  pages: {
+    signIn: "/Login", // Opcional: redirige a una página de login personalizada
+  },
   session: {
     strategy: "jwt",
   },

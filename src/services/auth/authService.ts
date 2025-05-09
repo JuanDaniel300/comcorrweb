@@ -54,3 +54,17 @@ export async function autoLoginGuest() {
     return false;
   }
 }
+
+export async function getTokenCookie() {
+  const response = await fetch(
+    `${process.env.NEXT_FRONT_URL}/api/auth/session`
+  );
+
+  if (!response.ok) throw new Error("Credenciales Incorrectas");
+
+  const data = await response.json();
+
+  console.log({ sessionCokkie: data });
+
+  return data;
+}

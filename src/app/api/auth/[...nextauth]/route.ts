@@ -25,7 +25,6 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        console.log({ credentials });
         const res = await fetch(
           `${process.env.NEXT_PUBLIC_API_URL}/auth/login`,
           {
@@ -39,8 +38,6 @@ export const authOptions: NextAuthOptions = {
         );
 
         const data = await res.json();
-        console.log("token obtenido");
-        console.log({ data });
 
         if (res.ok && data.token) {
           return {
@@ -61,6 +58,17 @@ export const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
   },
+  // cookies: {
+  //   sessionToken: {
+  //     name: "session-cookie",
+  //     options: {
+  //       httpOnly: true, // Protege la cookie de acceso
+  //       secure: process.env.NODE_ENV === "production", // Solo en HTTPS
+  //       sameSite: "lax", // Configuración recomendada
+  //     },
+  //   },
+  // },
+
   callbacks: {
     async jwt({ token, user }) {
       if (user?.token) {

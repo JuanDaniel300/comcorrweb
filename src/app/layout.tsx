@@ -16,6 +16,11 @@ export const metadata: Metadata = {
   description: "Ecommerce comcorrweb lideres en linea blanca",
 };
 
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+import "swiper/css/scrollbar";
+
 export default async function RootLayout({
   children,
 }: Readonly<{

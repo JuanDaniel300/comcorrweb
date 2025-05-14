@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import "../styles/main.css";
 import { getServerSession } from "next-auth";
-import { authOptions } from "./api/auth/[...nextauth]/route";
 import GuestLogin from "@/components/auth/GuestLogin";
 
 const montserrat = Montserrat({
@@ -20,13 +19,16 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "swiper/css/scrollbar";
+import { authOptionsUtils } from "@/lib/session";
 
 export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await getServerSession(authOptions)
+  const session = await getServerSession(authOptionsUtils)
+
+
   return (
     <html lang="en">
       <body className={montserrat.className}>

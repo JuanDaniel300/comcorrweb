@@ -1,5 +1,7 @@
 import Button from "@/components/Button/Button";
 import ListShoppingCart from "@/components/cart/listShoppingCart.component";
+import RecomendadosSection from "@/sections/home/recomendados/Recomendados";
+import { Suspense } from "react";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { BiPackage } from "react-icons/bi";
 
@@ -40,7 +42,7 @@ const ShoppingCart = () => {
 
     return (
         <div className="min-h-screen padding-top ">
-            <div className="container mx-auto px-20 py-10">
+            <div className="container mx-auto  py-10">
                 <div className="min-h-[450px] flex gap-10 mb-20">
                     <div className="h-full w-[70%] bg-white border border-gray-200 p-5 rounded-xl">
                         <div className="text-2xl text-primario font-semibold">Carrito</div>
@@ -108,6 +110,9 @@ const ShoppingCart = () => {
                     </div>
 
                     <div className="flex pt-10 justify-between">
+                        <Suspense fallback={<div>cargando..</div>}>
+                            <RecomendadosSection />
+                        </Suspense>
                         {/* <ProductCard key={5} />
                         <ProductCard key={6} />
                         <ProductCard key={7} />

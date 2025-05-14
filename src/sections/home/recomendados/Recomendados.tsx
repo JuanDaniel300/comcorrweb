@@ -7,7 +7,7 @@ export default async function RecomendadosSection() {
 
     return (
         <div className="grid grid-cols-4 w-full">
-            {recomendados?.promos.map((product: Producto, index: number) => <ProductCard product={product} key={index} />)}
+            {recomendados?.promos.map((product: Producto, index: number) => <ProductCard product={product} keyIndex={index} />)}
         </div>
     )
 }

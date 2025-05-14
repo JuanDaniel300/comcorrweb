@@ -3,7 +3,7 @@
 import { IoIosArrowDown } from "react-icons/io";
 import { useState, useEffect, useRef } from "react";
 import { motion } from "motion/react";
-import { generarSlug } from "@/utils/generic";
+import { capitalize, generarSlug } from "@/utils/generic";
 import "./styles.css";
 import Link from "next/link";
 
@@ -12,15 +12,13 @@ export default function NavbarCategoriesClient({
 }: {
   categorias: any;
 }) {
-
-  console.log(categorias)
-
   const [openCategory, setOpenCategory] = useState<string | null>(null);
   const menuRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
 
   const handleToggle = (categoryName: string) => {
     setOpenCategory((prev) => (prev === categoryName ? null : categoryName));
   };
+
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -52,7 +50,7 @@ export default function NavbarCategoriesClient({
 
   return (
     <div className="w-full bg-navbarCategories">
-      <div className="container px-20 text-white mx-auto flex justify-between py-3">
+      <div className="container  text-white mx-auto flex justify-between py-3">
         {categorias.map((category: any) => (
           <div
             key={category.nombre}
@@ -66,7 +64,7 @@ export default function NavbarCategoriesClient({
               className="font-[500] flex items-center gap-2 text-sm cursor-pointer"
               onClick={() => handleToggle(category.nombre)}
             >
-              <span>{category.nombre}</span>
+              <span>{capitalize(category.nombre)}</span>
               <motion.div
                 animate={{ rotate: openCategory === category.nombre ? 180 : 0 }}
                 transition={{ duration: 0.3 }}
@@ -89,12 +87,12 @@ export default function NavbarCategoriesClient({
                 <Link
                   href={`/categoria/${generarSlug(
                     category.nombre
-                  )}/${generarSlug(sub.nombre)}`}
+                  )}/${generarSlug(sub.nombre)}/${sub.id}`}
                   key={index}
                   onClick={() => handleToggle(category.nombre)}
                 >
                   <div className="px-4 py-2 text-sm font-semibold  hover:text-red-700 cursor-pointer">
-                    {sub.nombre}
+                    {capitalize(sub.nombre)}
                   </div>
                 </Link>
               ))}

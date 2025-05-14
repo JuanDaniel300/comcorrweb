@@ -5,7 +5,8 @@ import { Swiper, SwiperSlide } from "swiper/react";
 type banner = {
   id: number;
   image: string;
-  name: string;
+  url_imagen: string;
+  nombre: string;
 };
 
 export default function SliderHomeClient({ banners }: { banners: banner[] }) {
@@ -29,9 +30,9 @@ export default function SliderHomeClient({ banners }: { banners: banner[] }) {
           return (
             <SwiperSlide key={promo.id} className="w-full">
               <img
-                src={"/Comcorr.jpg"}
+                src={promo?.url_imagen}
                 className="object-cover w-full h-full rounded-lg"
-                alt={promo.name}
+                alt={promo.nombre}
               />
             </SwiperSlide>
           );

@@ -71,7 +71,7 @@ const AuthView = () => {
         <motion.div
             layout
             transition={{ duration: 0.2, ease: "easeInOut" }}
-            className="rounded-xl p-6 bg-white w-[544px] h-max m-auto"
+            className="rounded-xl p-6 bg-white w-[544px] h-max m-auto shadow-md"
         >
             {/* Logo */}
             <div className="flex items-center w-max me-auto">
@@ -185,7 +185,7 @@ const AuthView = () => {
                 <div className="w-full text-xs text-center my-5">
                     ¿Aún no tienes cuenta?{" "}
                     <Link
-                        href="/Registro"
+                        href="/Register"
                         className="text-primario font-semibold hover:underline cursor-pointer"
                     >
                         Regístrate aquí

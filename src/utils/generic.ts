@@ -60,3 +60,14 @@ export const generarSlug = (texto: string): string => {
     .replace(/[^\w\-]+/g, "") // Elimina caracteres no alfanuméricos (excepto guiones)
     .replace(/\-\-+/g, "-"); // Sustituye múltiples guiones por uno
 };
+
+/**
+ * Convierte un slug en texto legible.
+ * @param slug - El slug a convertir
+ * @returns El texto convertido (capitalizado)
+ */
+export const slugATexto = (slug: string): string => {
+  return slug
+    .replace(/-/g, " ") // Guiones por espacios
+    .replace(/\b\w/g, (char) => char.toUpperCase()); // Capitaliza cada palabra
+};

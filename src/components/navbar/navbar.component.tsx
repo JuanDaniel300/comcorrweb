@@ -6,6 +6,7 @@ import { BiUser } from "react-icons/bi";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { motion } from "motion/react";
 import Link from "next/link";
+import SearchBar from "../searchBar/SearchBar";
 
 type userProp = {
   user: string;
@@ -18,7 +19,7 @@ const Navbar = () => {
 
   return (
     <div className="w-full bg-nav ">
-      <div className="container px-20  mx-auto  py-5 flex  items-center">
+      <div className="container   mx-auto  py-5 flex  items-center">
         {/* Logo */}
         <motion.div
           whileHover={{
@@ -37,10 +38,8 @@ const Navbar = () => {
         </motion.div>
 
         {/* Search */}
-        <div className="lg:flex items-center  me-10">
-          <div className="">
-            <IoSearch size={30} />
-          </div>
+        <div className="lg:flex items-center  me-10 ">
+          <SearchBar />
         </div>
 
         {/* NavbarItems */}

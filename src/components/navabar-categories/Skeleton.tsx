@@ -1,7 +1,7 @@
 const NavbarCategoriesSkeleton = () => {
     return (
         <div className="w-full bg-navbarCategories">
-            <div className="container px-20 text-white mx-auto flex justify-between py-3">
+            <div className="container  text-white mx-auto flex justify-between py-3">
                 {Array.from({ length: 5 }).map((_, index) => (
                     <div key={index} className="relative">
                         {/* Skeleton de la categoría principal */}

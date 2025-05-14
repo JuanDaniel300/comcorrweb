@@ -28,7 +28,7 @@ export const loginRequest = async (credentials = GUEST_CREDENTIALS) => {
 export async function autoLoginGuest() {
   try {
     const response = await fetch(
-      `${process.env.NEXT_FRONT_URL}/api/auth/callback/credentials`,
+      `${process.env.NEXTAUTH_URL}/api/auth/callback/credentials`,
       {
         method: "POST",
         headers: {
@@ -45,8 +45,6 @@ export async function autoLoginGuest() {
     );
 
     const data = await response.json();
-    console.log("login exitoso");
-    console.log(data);
 
     return response.ok;
   } catch (error) {
@@ -56,15 +54,11 @@ export async function autoLoginGuest() {
 }
 
 export async function getTokenCookie() {
-  const response = await fetch(
-    `${process.env.NEXT_FRONT_URL}/api/auth/session`
-  );
+  const response = await fetch(`${process.env.NEXTAUTH_URL}/api/auth/session`);
 
   if (!response.ok) throw new Error("Credenciales Incorrectas");
 
   const data = await response.json();
-
-  console.log({ sessionCokkie: data });
 
   return data;
 }

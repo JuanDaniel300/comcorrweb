@@ -14,7 +14,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen mb-20 padding-top ">
       {/* Section 1 */}
-      <section className="container mx-auto px-20 pt-10 space-y-28">
+      <section className="container mx-auto  pt-10 space-y-28">
         {/* Slider */}
         <div className="h-[443px] ">
           <Suspense fallback={<div>cargando..</div>}>
@@ -59,7 +59,7 @@ export default function HomePage() {
       </div>
 
       {/* Section 2 */}
-      <section className="container mx-auto px-20  space-y-28">
+      <section className="container mx-auto   space-y-28">
         {/* Products popular */}
         <div className="w-full" id="productPopular">
           <div className="font-semibold text-primario text-2xl">

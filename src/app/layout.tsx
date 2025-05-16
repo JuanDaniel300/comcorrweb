@@ -26,13 +26,12 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await getServerSession(authOptionsUtils)
-
+  // const session = await getServerSession(authOptionsUtils)
 
   return (
     <html lang="en">
       <body className={montserrat.className}>
-        {!session && <GuestLogin />}
+        {/* {!session && <GuestLogin />} */}
         {children}
       </body>
     </html>

@@ -3,11 +3,13 @@ import { getRecomendados } from "@/services/recomendados/recomendados";
 import { Producto } from "@/types/product.type";
 
 export default async function RecomendadosSection() {
-    const recomendados = await getRecomendados();
+  const recomendados = await getRecomendados();
 
-    return (
-        <div className="grid grid-cols-4 w-full">
-            {recomendados?.promos.map((product: Producto, index: number) => <ProductCard product={product} keyIndex={index} />)}
-        </div>
-    )
+  return (
+    <div className="flex justify-between w-full">
+      {recomendados?.promos.map((product: Producto, index: number) => (
+        <ProductCard key={index} product={product} keyIndex={index} />
+      ))}
+    </div>
+  );
 }

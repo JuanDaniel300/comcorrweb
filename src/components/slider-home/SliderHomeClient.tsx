@@ -11,7 +11,7 @@ type banner = {
 
 export default function SliderHomeClient({ banners }: { banners: banner[] }) {
   return (
-    <div className="h-max w-full">
+    <div className=" h-max w-full">
       <Swiper
         navigation
         loop={true}

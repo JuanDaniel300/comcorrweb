@@ -3,6 +3,7 @@ import SliderHome from "@/components/slider-home";
 import SliderMarcas from "@/components/slider-marcas";
 import { categoriesHome, promociones } from "@/constants/generic";
 import PopularesSection from "@/sections/home/populares/populares";
+import PromocionalesSection from "@/sections/home/promocionales/promocionales";
 import RecomendadosSection from "@/sections/home/recomendados/Recomendados";
 import { Suspense } from "react";
 import { CgShoppingBag } from "react-icons/cg";
@@ -14,9 +15,9 @@ export default function HomePage() {
   return (
     <div className="min-h-screen mb-20 padding-top ">
       {/* Section 1 */}
-      <section className="container mx-auto  pt-10 space-y-28">
+      <section className="container mx-auto pt-10 space-y-15">
         {/* Slider */}
-        <div className="h-[443px] ">
+        <div className="w-full">
           <Suspense fallback={<div>cargando..</div>}>
             <SliderHome />
           </Suspense>
@@ -80,23 +81,7 @@ export default function HomePage() {
           </div>
 
           <div className="flex justify-between mt-10 gap-10">
-            {promociones.map((value, index) => (
-              <div
-                className="bg-white border border-gray-200 rounded-xl p-2"
-                key={index}
-              >
-                <img
-                  src={value?.path}
-                  className="object-scale-down w-max rounded-xl h-max"
-                  alt=""
-                />
-                <div>
-                  <button className="w-full bg-primario text-white py-1 rounded-full">
-                    Ver Productos
-                  </button>
-                </div>
-              </div>
-            ))}
+            <PromocionalesSection />
           </div>
         </div>
 

@@ -19,3 +19,21 @@ export const getCategorias = async () => {
     throw error;
   }
 };
+
+export const getCategoriasById = async (id: string) => {
+  try {
+    let categorias = cache.get(`categorias_${id}`);
+
+    if (!categorias) {
+      const response = await axiosInstance.get(`/categorias/${id}`);
+      categorias = response?.data;
+
+      cache.put(`categorias_${id}`, categorias, TIMER_CACHE);
+    }
+
+    return categorias;
+  } catch (error) {
+    console.error("Error fetching categorias by id", error);
+    throw error;
+  }
+};

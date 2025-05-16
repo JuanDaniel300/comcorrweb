@@ -2,25 +2,28 @@ import { authOptionsUtils } from "@/lib/session";
 import axios from "axios";
 import { getServerSession } from "next-auth";
 import { getSession } from "next-auth/react";
-import { deleteCookie } from "cookies-next";
-import { redirect } from "next/navigation";
-import { cookies } from "next/headers";
+
+const isClient = typeof window !== "undefined";
 
 const axiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
   headers: {
     "Content-Type": "application/json",
   },
-  withCredentials: true, // Para que las cookies se envíen con las solicitudes
+  withCredentials: true,
 });
 
 // Agregar token al header Authorization de cada solicitud
 axiosInstance.interceptors.request.use(async (config) => {
-  const session = await getServerSession(authOptionsUtils);
+  const session = isClient
+    ? await getSession()
+    : await getServerSession(authOptionsUtils);
 
   if (session?.accessToken) {
     // Si hay un token de sesión, lo agregamos al header Authorization
     config.headers.Authorization = `Bearer ${session.accessToken}`;
+  } else {
+    config.headers.Authorization = `Bearer ${process.env.NEXT_PUBLIC_ACCESS_TOKEN}`;
   }
 
   return config;

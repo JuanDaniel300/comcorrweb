@@ -19,7 +19,6 @@ export default function NavbarCategoriesClient({
     setOpenCategory((prev) => (prev === categoryName ? null : categoryName));
   };
 
-
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       const isClickInsideMenu = Object.values(menuRefs.current).some(
@@ -85,9 +84,9 @@ export default function NavbarCategoriesClient({
             >
               {category.lineas.map((sub: any, index: any) => (
                 <Link
-                  href={`/categoria/${generarSlug(
-                    category.nombre
-                  )}/${generarSlug(sub.nombre)}/${sub.id}`}
+                  href={`/${generarSlug(
+                    `${category.nombre}-${category.id}`
+                  )}/${generarSlug(`${sub.nombre}-${sub.id}`)}`}
                   key={index}
                   onClick={() => handleToggle(category.nombre)}
                 >

@@ -1,6 +1,6 @@
 // lib/adapters/productAdapter.ts
 
-type RawProduct = {
+export type RawProduct = {
   clave: string;
   descripcion: string;
   precio1: string;
@@ -15,7 +15,7 @@ type RawProduct = {
   codigo: string;
 };
 
-type AdaptedProduct = {
+export type AdaptedProduct = {
   clave: string;
   descripcion: string;
   precio1: number;

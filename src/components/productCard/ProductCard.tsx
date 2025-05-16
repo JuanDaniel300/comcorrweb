@@ -11,12 +11,15 @@ import { capitalize, formatCurrency } from "@/utils/generic";
 import Button from "../Button/Button";
 import { redirect } from "next/navigation";
 
-const ProductCard = ({ product, keyIndex }: { product: any; keyIndex: number }) => {
-
+const ProductCard = ({
+  product,
+  keyIndex,
+}: {
+  product: any;
+  keyIndex: number;
+}) => {
   const hasPromotion = product?.precio1 < product?.precio2;
   const hasDiscount = product?.precio2 > 0;
-
-  console.log("ProductCard", product);
 
   const handleGoToProductView = () => {
     redirect(`/articulo/${product?.clave}`);
@@ -26,144 +29,113 @@ const ProductCard = ({ product, keyIndex }: { product: any; keyIndex: number }) 
     e.preventDefault();
     e.stopPropagation();
 
-    console.log("Añadir al carrito");
-
-    // cart({
-    //   id: 1,
-    //   name: product?.descripcion,
-    //   brand: "SAMSUNG",
-    //   price: product?.precio1,
-    //   image: "/products/refrigerador.png",
-    //   quantity: 1
-    // })
+    // Lógica para añadir al carrito
   };
-
-
 
   return (
     <motion.div
       onClick={handleGoToProductView}
       key={keyIndex}
-      whileHover={{
-        transition: { duration: 0.5 },
-      }}
-      className="productCard w-[300px] w-max-[300px] h-max border border-gray-200 bg-white rounded-2xl px-3 pt-4 pb-3 cursor-pointer"
+      whileHover={{ transition: { duration: 0.5 } }}
+      className="productCard w-[300px] min-w-[300px] h-[500px] border border-gray-200 bg-white rounded-2xl px-3 pt-4 pb-3 cursor-pointer flex flex-col justify-between"
     >
-      {/* Image and promotions if had */}
-      <div className="relative h-[252px]  rounded-xl w-full ">
-        {/* Promotion badge */}
+      {/* Imagen y badge */}
+      <div className="relative h-[250px] w-full">
+        {hasPromotion && hasDiscount && (
+          <div className="flex items-center gap-2 bg-secundario w-max rounded-lg px-2 absolute z-10">
+            <CiDiscount1 color="white" size={20} />
+            <span className="text-xs text-white font-medium">¡Oferta!</span>
+          </div>
+        )}
 
-        {
-          hasPromotion && hasDiscount && (
-            <div className="flex items-center gap-3 bg-secundario w-max rounded-lg px-2 absolute z-10">
-              <CiDiscount1 color="white" size={25} />
-              <span className="text-sm text-white font-[500]">!Oferta!</span>
-            </div>
-          )
-        }
-
-        <div className="relative w-full mx-auto  h-[250px] max-h-[250px]" onClick={(e) => e.preventDefault()}>
-          {/* Image */}
+        <div
+          className="relative w-full h-full"
+          onClick={(e) => e.preventDefault()}
+        >
           <ProductGallery product={product} />
         </div>
       </div>
 
-      {/* Marca y linea */}
-      <div className="w-full flex justify-between py-3">
-        <div className="font-[500]  text-oscuro2 text-sm uppercase">{product?.marca}</div>
-        <div className="font-semibold  text-oscuro2 text-sm">{capitalize(product?.linea)}</div>
+      {/* Marca y línea */}
+      <div className="flex justify-between items-center mt-3">
+        <div className="font-medium text-oscuro2 text-xs uppercase truncate max-w-[130px]">
+          {product?.marca}
+        </div>
+        <div className="font-semibold text-oscuro2 text-xs truncate max-w-[130px]">
+          {capitalize(product?.linea)}
+        </div>
       </div>
 
-      {/* Divider */}
-      <hr className="border border-gray-100" />
+      <hr className="border border-gray-100 my-2" />
 
-      {/* Nombre and Sku */}
-      <div className="w-full py-3 ">
-        <div className="text-primario font-semibold text-wrap  h-15  items-center flex">
+      {/* Descripción y código */}
+      <div className="flex flex-col h-[70px] overflow-hidden">
+        <div className="text-primario font-semibold text-sm leading-snug line-clamp-2">
           {product?.descripcion}
         </div>
-
-        <div className="text-sm font-[600] pt-1">{product?.codigo}</div>
+        <div className="text-xs font-semibold text-gray-600 mt-1">
+          {product?.codigo}
+        </div>
       </div>
 
-      {/* Divider */}
-      <hr className="border border-gray-100" />
+      <hr className="border border-gray-100 my-2" />
 
-      {/* Price and discount if had */}
-      <div className="w-full py-3 flex items-center gap-3">
-        {/* 
-        {
-          hasPromotion && hasDiscount && (
-            <div className="text-secundario font-semibold text-sm bg-secundario/20 rounded-lg px-2 py-1">
-              {`-${Math.round(((product?.precio2 - product?.precio1) / product?.precio2) * 100)}%`}
+      {/* Precio y descuento */}
+      <div className="flex items-center gap-3">
+        {hasPromotion && hasDiscount ? (
+          <>
+            <div className="text-secundario font-semibold text-lg">
+              {formatCurrency(product?.precio1)}
             </div>
-          )
-        } */}
-
-        {
-          hasPromotion && hasDiscount ?
-            (
-              <Fragment>
-                <div className="text-secundario font-semibold text-xl">
-                  {formatCurrency(product?.precio1)}
-                </div>
-                <div className="text-oscuro2 text-sm font-[600] line-through">
-                  {formatCurrency(product?.precio2)}
-                </div>
-              </Fragment>
-            ) :
-            (
-              <Fragment>
-                <div className="text-secundario font-semibold text-xl">
-                  {formatCurrency(product?.precio1)}
-                </div>
-              </Fragment>
-            )
-        }
-
+            <div className="text-oscuro2 text-sm font-semibold line-through">
+              {formatCurrency(product?.precio2)}
+            </div>
+          </>
+        ) : (
+          <div className="text-secundario font-semibold text-lg">
+            {formatCurrency(product?.precio1)}
+          </div>
+        )}
       </div>
 
-      {/* button add producto to cart */}
-      <div className="w-full">
+      {/* Botón */}
+      <div className="mt-auto">
         <Button
           variants="primary"
           onClick={handleAddToCart}
           title="Añadir al carrito"
-          icon={<AiOutlineShoppingCart color="white" size={25} />}
+          icon={<AiOutlineShoppingCart color="white" size={20} />}
         />
       </div>
-    </motion.div >
+    </motion.div>
   );
 };
-
 
 const ProductGallery = ({ product }: { product: any }) => {
   const [swiperRef, setSwiperRef] = useState<any>(null);
 
-  // Filtrar solo imágenes válidas
-  const images = [product?.imagen1, product?.imagen2, product?.imagen3].filter(Boolean);
-
-  // Determinar si hay más de una imagen para activar la galería
+  const images = [product?.imagen1, product?.imagen2, product?.imagen3].filter(
+    Boolean
+  );
   const isGalleryActive = images.length > 1;
 
   const handlePrev = () => swiperRef?.slidePrev();
   const handleNext = () => swiperRef?.slideNext();
 
-  // Si solo hay una imagen, no usamos Swiper ni los botones
   if (!isGalleryActive) {
     return (
-      <div className="w-full h-full bg-white">
+      <div className="w-full h-full flex items-center justify-center bg-white">
         <img
           src={images[0] || "/products/refrigerador.png"}
           alt="Producto"
-          className="w-full h-full object-scale-down"
+          className="max-h-full max-w-full object-contain"
         />
       </div>
     );
   }
 
   return (
-    <div className="relative w-full h-full bg-white ">
+    <div className="relative w-full h-full bg-white">
       <Swiper
         onSwiper={setSwiperRef}
         className="w-full h-full"
@@ -173,23 +145,25 @@ const ProductGallery = ({ product }: { product: any }) => {
         modules={[Pagination, Navigation]}
       >
         {images.map((img, index) => (
-          <SwiperSlide key={index} className="bg-white h-full">
+          <SwiperSlide
+            key={index}
+            className="bg-white h-full flex items-center m-auto w-full justify-center"
+          >
             <img
               src={img}
-              className="w-full h-full object-scale-down"
+              className="max-h-full max-w-full object-contain m-auto"
               alt={`Producto ${index + 1}`}
             />
           </SwiperSlide>
         ))}
       </Swiper>
 
-      {/* Botones de navegación */}
       <button
         onClick={(e) => {
           e.stopPropagation();
           handlePrev();
         }}
-        className="absolute left-2 top-1/2 -translate-y-1/2 z-10 cursor-pointer bg-white/80 hover:bg-white w-8 h-8 rounded-full flex items-center justify-center border border-gray-200 transition-colors"
+        className="absolute left-2 top-1/2 -translate-y-1/2 z-10 bg-white/80 hover:bg-white w-8 h-8 rounded-full flex items-center justify-center border border-gray-200"
         aria-label="Slide anterior"
       >
         <FaChevronLeft className="text-gray-700" size={14} />
@@ -200,7 +174,7 @@ const ProductGallery = ({ product }: { product: any }) => {
           e.stopPropagation();
           handleNext();
         }}
-        className="absolute right-2 top-1/2 -translate-y-1/2 z-10 cursor-pointer bg-white/80 hover:bg-white w-8 h-8 rounded-full flex items-center justify-center border border-gray-200 transition-colors"
+        className="absolute right-2 top-1/2 -translate-y-1/2 z-10 bg-white/80 hover:bg-white w-8 h-8 rounded-full flex items-center justify-center border border-gray-200"
         aria-label="Siguiente slide"
       >
         <FaChevronRight className="text-gray-700" size={14} />
@@ -208,6 +182,5 @@ const ProductGallery = ({ product }: { product: any }) => {
     </div>
   );
 };
-
 
 export default ProductCard;

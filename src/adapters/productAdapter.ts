@@ -1,10 +1,10 @@
 // lib/adapters/productAdapter.ts
 
-export type RawProduct = {
+export type Product = {
   clave: string;
   descripcion: string;
-  precio1: string;
-  precio2: string;
+  precio1: number;
+  precio2: number;
   imagen1?: string | null;
   imagen2?: string | null;
   imagen3?: string | null;
@@ -32,14 +32,12 @@ export type AdaptedProduct = {
 
 const BASE_IMAGE_URL = "http://18.191.238.226:3000/";
 
-export function adaptProducts(
-  rawProducts: RawProduct[] = []
-): AdaptedProduct[] {
+export function adaptProducts(rawProducts: Product[] = []): AdaptedProduct[] {
   return rawProducts.map((product) => ({
     clave: product.clave,
     descripcion: product.descripcion,
-    precio1: parseFloat(product.precio1),
-    precio2: parseFloat(product.precio2),
+    precio1: product.precio1,
+    precio2: product.precio2,
     imagen1: product.imagen1 ? BASE_IMAGE_URL + product.imagen1 : false,
     imagen2: product.imagen2 ? BASE_IMAGE_URL + product.imagen2 : false,
     imagen3: product.imagen3 ? BASE_IMAGE_URL + product.imagen3 : false,

@@ -15,6 +15,7 @@ import { capitalize, formatCurrency } from "@/utils/generic";
 import ProductCard from "@/components/productCard/ProductCard";
 import { useParams } from "next/navigation";
 import Breadcrumbs from "../Breadcrumbs/breadCrumbs";
+import { Product } from "@/adapters/productAdapter";
 
 // Animation variants
 const containerVariants = {
@@ -60,7 +61,7 @@ export default function ProductGrid({
   title,
   Breadcrumb,
 }: {
-  products: any[];
+  products: Product[];
   title: string;
   Breadcrumb: any[];
 }) {

@@ -1,11 +1,22 @@
 "use client";
 
+import { Product } from "@/adapters/productAdapter";
+import ProductGrid from "@/components/productGrid/ProductGrid";
 import { getArticulosBySearch } from "@/services/articulos/articulos";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
+export interface ArticulosResponse {
+  success: boolean;
+  page: number;
+  limit: number;
+  totalRecords: number;
+  totalPages: number;
+  articulos: Product[];
+}
+
 export default function BuscadorPage() {
-  const [articulos, setArticulos] = useState<any[]>([]);
+  const [articulos, setArticulos] = useState<ArticulosResponse>();
   const [loading, setLoading] = useState(true);
   const searchParams = useSearchParams();
   const q = searchParams.get("q");
@@ -26,7 +37,7 @@ export default function BuscadorPage() {
     };
 
     fetchArticulos();
-  }, [q]);
+  }, [JSON.stringify(q)]);
 
   if (!q) {
     return <div>Por favor, ingresa un término de búsqueda.</div>;
@@ -36,11 +47,15 @@ export default function BuscadorPage() {
     return <div>Cargando...</div>;
   }
 
-  if (articulos.length === 0) {
+  if (articulos?.articulos.length === 0) {
     return <div>No se encontraron resultados para "{q}".</div>;
   }
 
-  console.log("Articulos:", articulos);
-
-  return <div></div>;
+  return (
+    <ProductGrid
+      title={`Resultados para "${q}"`}
+      products={articulos?.articulos}
+      Breadcrumb={[{ title: q, link: "#" }]}
+    />
+  );
 }

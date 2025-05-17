@@ -10,7 +10,6 @@ const axiosInstance = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
-  withCredentials: true,
 });
 
 // Agregar token al header Authorization de cada solicitud

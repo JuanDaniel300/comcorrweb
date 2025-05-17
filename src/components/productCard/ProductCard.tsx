@@ -1,28 +1,31 @@
 "use client";
-
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { CiDiscount1 } from "react-icons/ci";
 import { motion } from "motion/react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
-import { Fragment, useState } from "react";
+import { useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import { capitalize, formatCurrency } from "@/utils/generic";
+import { capitalize, formatCurrency, generarSlug } from "@/utils/generic";
 import Button from "../Button/Button";
-import { redirect } from "next/navigation";
+import { Product } from "@/types/product.type";
+import { useRouter } from 'nextjs-toploader/app';
 
 const ProductCard = ({
   product,
   keyIndex,
 }: {
-  product: any;
+  product: Product;
   keyIndex: number;
 }) => {
+  const router = useRouter();
   const hasPromotion = product?.precio1 < product?.precio2;
   const hasDiscount = product?.precio2 > 0;
 
   const handleGoToProductView = () => {
-    redirect(`/articulo/${product?.clave}`);
+    const urlPath = `${generarSlug(product?.descripcion)}-${product?.clave}`;
+
+    router.push(`/${urlPath}`);
   };
 
   const handleAddToCart = (e: React.MouseEvent) => {

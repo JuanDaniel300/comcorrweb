@@ -1,6 +1,7 @@
 import { adaptProducts } from "@/adapters/productAdapter";
 import ProductGrid from "@/components/productGrid/ProductGrid";
 import { getPromocionalesById } from "@/services/promos/promocionales";
+import { Product } from "@/types/product.type";
 import { capitalize, slugATexto } from "@/utils/generic";
 
 export default async function PromocionPage(params: {
@@ -19,7 +20,8 @@ export default async function PromocionPage(params: {
   return (
     <ProductGrid
       title={slugATexto(promocionTitle)}
-      products={products}
+      products={products as Product[]}
+      loading={false}
       Breadcrumb={[{ title: slugATexto(promocionTitle), link: "#" }]}
     />
   );

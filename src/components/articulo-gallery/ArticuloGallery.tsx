@@ -1,61 +1,58 @@
 "use client"
 
-import { Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
-export default function ArticuloGalery() {
-    const [selectedImage, setSelectedImage] = useState<string | null>("/products/image_main.png")
+interface Props {
+    images: (string | boolean)[];
+}
+
+export default function ArticuloGalery({ images }: Props) {
+    const [selectedImage, setSelectedImage] = useState<string>("");
+
+
+    console.log("ArticuloGalery images:", images[0]);
+    useEffect(() => {
+
+        if (images && images.length > 0) {
+            setSelectedImage(images[0] as string);
+        } else {
+            setSelectedImage("/products/image_main.png"); // fallback por defecto
+        }
+    }, [images]);
 
     const handleThumbnailClick = (image: string) => {
-        setSelectedImage(image)
-    }
-
-    useEffect(() => {
-        setSelectedImage("/products/image_main.png")
-    }, [])
+        setSelectedImage(image);
+    };
 
     return (
-        <div className=" product__images">
-            <div className="product__main__image w-full">
+        <div className="product__images">
+            {/* Imagen principal */}
+            <div className="product__main__image w-full  rounded-xl border-2 border-gray-200 bg-white">
                 <img
-                    src={selectedImage || ""}
-                    className="w-full h-auto object-cover"
-                    alt=""
+                    src={selectedImage}
+                    className="w-full h-auto object-cover rounded-xl "
+                    alt="Producto"
                 />
             </div>
-            <div className="product__gallery flex justify-between mt-4">
-                <div className="product__gallery__item">
-                    <img
-                        onClick={() => handleThumbnailClick('/gallery/image1.png')}
-                        src="/gallery/image1.png"
-                        className="w-full h-auto object-cover"
-                        alt=""
-                    />
+
+            {/* Thumbnails */}
+            {images && images.length > 1 && (
+                <div className="product__gallery flex justify-between mt-4 gap-2">
+                    {images.map((img, index) => (
+                        <div
+                            key={index}
+                            className={`product__gallery__item cursor-pointer rounded overflow-hidden border ${selectedImage === img ? 'border-blue-600' : 'border-gray-300'}`}
+                            onClick={() => handleThumbnailClick(img as string)}
+                        >
+                            <img
+                                src={img as string}
+                                className="w-20 h-20 object-cover"
+                                alt={`Vista ${index + 1}`}
+                            />
+                        </div>
+                    ))}
                 </div>
-                <div className="product__gallery__item">
-                    <img
-                        onClick={() => handleThumbnailClick('/gallery/image2.png')}
-                        src="/gallery/image2.png"
-                        className="w-full h-auto object-cover"
-                        alt=""
-                    />
-                </div>
-                <div className="product__gallery__item">
-                    <img
-                        onClick={() => handleThumbnailClick('/gallery/image3.png')}
-                        src="/gallery/image3.png"
-                        className="w-full h-auto object-cover"
-                        alt=""
-                    />
-                </div>
-                <div className="product__gallery__item">
-                    <img
-                        onClick={() => handleThumbnailClick('/gallery/image1.png')}
-                        src="/gallery/image1.png"
-                        className="w-full h-auto object-cover"
-                        alt=""
-                    />
-                </div>
-            </div>
+            )}
         </div>
-    )
+    );
 }

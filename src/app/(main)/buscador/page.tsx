@@ -1,8 +1,8 @@
 "use client";
 
-import { Product } from "@/adapters/productAdapter";
 import ProductGrid from "@/components/productGrid/ProductGrid";
 import { getArticulosBySearch } from "@/services/articulos/articulos";
+import { Product } from "@/types/product.type";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -40,21 +40,20 @@ export default function BuscadorPage() {
   }, [JSON.stringify(q)]);
 
   if (!q) {
-    return <div>Por favor, ingresa un término de búsqueda.</div>;
+    return <div className="padding-top">Por favor, ingresa un término de búsqueda.</div>;
   }
 
   if (loading) {
-    return <div>Cargando...</div>;
+    return <div className="padding-top">Cargando...</div>;
   }
 
-  if (articulos?.articulos.length === 0) {
-    return <div>No se encontraron resultados para "{q}".</div>;
-  }
+
 
   return (
     <ProductGrid
       title={`Resultados para "${q}"`}
-      products={articulos?.articulos}
+      products={articulos?.articulos as Product[]}
+      loading={loading}
       Breadcrumb={[{ title: q, link: "#" }]}
     />
   );

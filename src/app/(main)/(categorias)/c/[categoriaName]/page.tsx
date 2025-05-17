@@ -1,6 +1,7 @@
 import { adaptProducts } from "@/adapters/productAdapter";
 import ProductGrid from "@/components/productGrid/ProductGrid";
 import { getCategoriasById } from "@/services/categorias/categorias";
+import { Product } from "@/types/product.type";
 import { capitalize, slugATexto } from "@/utils/generic";
 
 export default async function CategoriaPage(params: {
@@ -19,7 +20,8 @@ export default async function CategoriaPage(params: {
   return (
     <ProductGrid
       title={slugATexto(categoriaTitle)}
-      products={products}
+      products={products as Product[]}
+      loading={false}
       Breadcrumb={[{ title: slugATexto(categoriaTitle), link: "#" }]}
     />
   );

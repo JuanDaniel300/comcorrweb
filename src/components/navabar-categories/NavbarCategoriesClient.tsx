@@ -84,7 +84,7 @@ export default function NavbarCategoriesClient({
             >
               {category.lineas.map((sub: any, index: any) => (
                 <Link
-                  href={`/${generarSlug(
+                  href={`/c/${generarSlug(
                     `${category.nombre}-${category.id}`
                   )}/${generarSlug(`${sub.nombre}-${sub.id}`)}`}
                   key={index}

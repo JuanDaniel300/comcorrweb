@@ -1,6 +1,7 @@
 import { adaptProducts } from "@/adapters/productAdapter";
 import ProductGrid from "@/components/productGrid/ProductGrid";
 import { getLineasProduct } from "@/services/lineas/lineas";
+import { Product } from "@/types/product.type";
 import { capitalize, slugATexto } from "@/utils/generic";
 
 export default async function LineasPage(params: {
@@ -21,11 +22,12 @@ export default async function LineasPage(params: {
   return (
     <ProductGrid
       title={slugATexto(lineaTitle)}
-      products={products}
+      products={products as Product[]}
+      loading={false}
       Breadcrumb={[
         {
           title: slugATexto(categoriaTitle),
-          link: `/${categoriaName}`,
+          link: `/c/${categoriaName}`,
         },
         { title: lineaTitle, link: "#" },
       ]}

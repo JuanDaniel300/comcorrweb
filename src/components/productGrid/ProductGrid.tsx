@@ -15,7 +15,7 @@ import { capitalize, formatCurrency } from "@/utils/generic";
 import ProductCard from "@/components/productCard/ProductCard";
 import { useParams } from "next/navigation";
 import Breadcrumbs from "../Breadcrumbs/breadCrumbs";
-import { Product } from "@/adapters/productAdapter";
+import { Product } from "@/types/product.type";
 
 // Animation variants
 const containerVariants = {
@@ -30,16 +30,18 @@ const containerVariants = {
 
 const ProductCardSkeleton = () => {
   return (
-    <Card className="h-full overflow-hidden border border-claro2">
-      <CardContent className="p-4">
-        <Skeleton className="h-48 w-full mb-4" />
-        <Skeleton className="h-3 w-1/3 mb-2" />
-        <Skeleton className="h-4 w-full mb-2" />
-        <Skeleton className="h-3 w-1/2 mb-4" />
-        <Skeleton className="h-5 w-1/3 mb-2" />
-        <Skeleton className="h-10 w-full mt-3" />
-      </CardContent>
-    </Card>
+    <div className="">
+      <Card className="h-full overflow-hidden border border-claro2 w-[300px]">
+        <CardContent className="p-4">
+          <Skeleton className="h-48 w-full mb-4" />
+          <Skeleton className="h-3 w-1/3 mb-2" />
+          <Skeleton className="h-4 w-full mb-2" />
+          <Skeleton className="h-3 w-1/2 mb-4" />
+          <Skeleton className="h-5 w-1/3 mb-2" />
+          <Skeleton className="h-10 w-full mt-3" />
+        </CardContent>
+      </Card>
+    </div>
   );
 };
 
@@ -60,14 +62,15 @@ export default function ProductGrid({
   products,
   title,
   Breadcrumb,
+  loading = true
 }: {
   products: Product[];
   title: string;
   Breadcrumb: any[];
+  loading?: boolean;
 }) {
   const params = useParams<{ categoriaName: string; lineaName: string }>();
 
-  const [loading, setLoading] = useState(true);
   const [priceRange, setPriceRange] = useState([MIN_PRICE, MAX_PRICE]);
   const [sortOption, setSortOption] = useState("lowToHigh");
   const [inStockOnly, setInStockOnly] = useState(false);
@@ -75,14 +78,6 @@ export default function ProductGrid({
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
   const [selectedPromotions, setSelectedPromotions] = useState<string[]>([]);
 
-  useEffect(() => {
-    // Simulate loading
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 1000);
-
-    return () => clearTimeout(timer);
-  }, []);
   // Filtrado y ordenamiento con productos adaptados
   const filteredProducts = useMemo(() => {
     return products
@@ -268,17 +263,15 @@ export default function ProductGrid({
                     <div
                       className="absolute inset-0 flex items-center"
                       style={{
-                        left: `${
-                          ((priceRange[0] - MIN_PRICE) /
-                            (MAX_PRICE - MIN_PRICE)) *
+                        left: `${((priceRange[0] - MIN_PRICE) /
+                          (MAX_PRICE - MIN_PRICE)) *
                           100
-                        }%`,
-                        right: `${
-                          100 -
+                          }%`,
+                        right: `${100 -
                           ((priceRange[1] - MIN_PRICE) /
                             (MAX_PRICE - MIN_PRICE)) *
-                            100
-                        }%`,
+                          100
+                          }%`,
                       }}
                     >
                       <div className="h-1 w-full  rounded-full"></div>
@@ -434,8 +427,8 @@ export default function ProductGrid({
             </motion.div>
 
             {loading ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {Array.from({ length: 6 }).map((_, index) => (
+              <div className="grid grid-cols-2 place-items-center sm:place-items-stretch justify-center sm:grid-cols-[repeat(auto-fill,minmax(300px,1fr))] space-y-5">
+                {Array.from({ length: 8 }).map((_, index) => (
                   <ProductCardSkeleton key={index} />
                 ))}
               </div>

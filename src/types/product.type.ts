@@ -1,12 +1,14 @@
-export type Producto = {
+export type Product = {
   clave: string;
-  codigo: string;
   descripcion: string;
-  categoria: string;
+  precio1: number;
+  precio2: number;
+  imagen1?: string | null;
+  imagen2?: string | null;
+  imagen3?: string | null;
+  existencia: number;
   linea: string;
   marca: string;
-  precio1: string;
-  precio2: string;
-  imagen: string | null;
-  existencia: number;
+  categoria: string;
+  codigo: string;
 };

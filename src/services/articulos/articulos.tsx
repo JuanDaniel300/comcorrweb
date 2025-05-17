@@ -20,3 +20,22 @@ export const getArticulosBySearch = async (q: string) => {
     throw error;
   }
 };
+
+export const getArticulosById = async (id: string) => {
+  try {
+    const cacheKey = `articulo_${id}`;
+    let articulo = cache.get(cacheKey);
+
+    if (!articulo) {
+      const response = await axiosInstance.get(`/articulos/${id}`);
+      articulo = response?.data;
+
+      cache.put(cacheKey, articulo, TIMER_CACHE);
+    }
+
+    return articulo;
+  } catch (error) {
+    console.error("Error fetching articulo by ID:", error);
+    throw error;
+  }
+}

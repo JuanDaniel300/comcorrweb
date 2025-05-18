@@ -20,13 +20,15 @@ export default function BuscadorPage() {
   const [loading, setLoading] = useState(true);
   const searchParams = useSearchParams();
   const q = searchParams.get("q");
+  const page = searchParams.get("page") ? parseInt(searchParams.get("page") as string) : 1;
 
   useEffect(() => {
+    console.log("fetched data on search : " + q + "on page: " + page)
     const fetchArticulos = async () => {
       if (q) {
         try {
           setLoading(true);
-          const data = await getArticulosBySearch(q);
+          const data = await getArticulosBySearch(q, page);
           setArticulos(data);
         } catch (error) {
           console.error("Error fetching articulos:", error);
@@ -37,22 +39,17 @@ export default function BuscadorPage() {
     };
 
     fetchArticulos();
-  }, [JSON.stringify(q)]);
+  }, [JSON.stringify(q), JSON.stringify(page)]);
 
   if (!q) {
     return <div className="padding-top">Por favor, ingresa un término de búsqueda.</div>;
   }
 
-  if (loading) {
-    return <div className="padding-top">Cargando...</div>;
-  }
-
-
-
   return (
     <ProductGrid
       title={`Resultados para "${q}"`}
       products={articulos?.articulos as Product[]}
+      totalPages={articulos?.totalPages}
       loading={loading}
       Breadcrumb={[{ title: q, link: "#" }]}
     />

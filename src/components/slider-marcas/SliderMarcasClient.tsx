@@ -10,7 +10,6 @@ type Marcas = {
 
 const SliderMarcasClient = ({ marcas }: { marcas: Marcas[] }) => {
 
-  console.log("marcas", marcas);
 
   return (
     <div className="inner-container">

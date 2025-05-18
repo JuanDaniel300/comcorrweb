@@ -27,13 +27,16 @@ export default function ArticuloGalery({ images }: Props) {
     return (
         <div className="product__images">
             {/* Imagen principal */}
-            <div className="product__main__image w-full  rounded-xl border-2 border-gray-200 bg-white">
-                <img
-                    src={selectedImage}
-                    className="w-full h-auto object-cover rounded-xl "
-                    alt="Producto"
-                />
-            </div>
+            {selectedImage && (
+                <div className="product__main__image w-full  rounded-2xl border-2 border-gray-200 bg-white">
+                    <img
+                        src={selectedImage}
+                        className="w-full h-auto object-cover rounded-lg"
+                        alt="Imagen principal del producto"
+                    />
+                </div>
+            )}
+
 
             {/* Thumbnails */}
             {images && images.length > 1 && (

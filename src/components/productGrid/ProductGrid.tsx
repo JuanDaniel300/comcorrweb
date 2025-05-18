@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, Fragment } from "react";
 import { motion } from "framer-motion";
 
 // shadcn components
@@ -13,9 +13,11 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { capitalize, formatCurrency } from "@/utils/generic";
 import ProductCard from "@/components/productCard/ProductCard";
-import { useParams } from "next/navigation";
+import { useParams, usePathname, useRouter, useSearchParams } from "next/navigation";
 import Breadcrumbs from "../Breadcrumbs/breadCrumbs";
 import { Product } from "@/types/product.type";
+import ProductGridSkeleton from "../skeletons/ui/productGridSkeleton";
+import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "../ui/pagination";
 
 // Animation variants
 const containerVariants = {
@@ -60,17 +62,19 @@ const MAX_PRICE = 20000;
 
 export default function ProductGrid({
   products,
+  totalPages,
+  totalRecords,
   title,
   Breadcrumb,
   loading = true
 }: {
   products: Product[];
+  totalPages?: number;
+  totalRecords?: number;
   title: string;
   Breadcrumb: any[];
   loading?: boolean;
 }) {
-  const params = useParams<{ categoriaName: string; lineaName: string }>();
-
   const [priceRange, setPriceRange] = useState([MIN_PRICE, MAX_PRICE]);
   const [sortOption, setSortOption] = useState("lowToHigh");
   const [inStockOnly, setInStockOnly] = useState(false);
@@ -78,8 +82,11 @@ export default function ProductGrid({
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
   const [selectedPromotions, setSelectedPromotions] = useState<string[]>([]);
 
+
   // Filtrado y ordenamiento con productos adaptados
   const filteredProducts = useMemo(() => {
+    if (!products || !Array.isArray(products)) return [];
+
     return products
       .filter((product) => {
         // Filtro de precio
@@ -433,16 +440,24 @@ export default function ProductGrid({
                 ))}
               </div>
             ) : filteredProducts.length > 0 ? (
-              <motion.div
-                variants={containerVariants}
-                initial="hidden"
-                animate="visible"
-                className="grid grid-cols-2 place-items-center sm:place-items-stretch justify-center sm:grid-cols-[repeat(auto-fill,minmax(300px,1fr))] space-y-5"
-              >
-                {filteredProducts.map((product, index) => (
-                  <ProductCard key={index} keyIndex={index} product={product} />
-                ))}
-              </motion.div>
+              <Fragment>
+                <motion.div
+                  variants={containerVariants}
+                  initial="hidden"
+                  animate="visible"
+                  className="grid grid-cols-2 place-items-center sm:place-items-stretch justify-center sm:grid-cols-[repeat(auto-fill,minmax(300px,1fr))] space-y-5"
+                >
+                  {filteredProducts.map((product, index) => (
+                    <ProductCard key={index} keyIndex={index} product={product} />
+                  ))}
+                </motion.div>
+
+                {
+                  totalPages && totalPages > 1 && (
+                    <PaginationProducts totalPages={totalPages} />
+                  )
+                }
+              </Fragment>
             ) : (
               <div className="text-center py-12 bg-claro100 rounded-lg border border-claro2">
                 <h3 className="text-lg font-medium mb-2 text-oscuro1">
@@ -471,4 +486,67 @@ export default function ProductGrid({
       </div>
     </div>
   );
+}
+
+
+
+const PaginationProducts = ({ totalPages }: { totalPages: number }) => {
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const { replace } = useRouter();
+
+  const page = searchParams.get("page") ? parseInt(searchParams.get("page") as string, 10) : 1;
+
+  const handleSearch = (page: any) => {
+    const params = new URLSearchParams(searchParams);
+
+    if (page) {
+      params.set("page", page);
+    } else {
+      params.delete("page");
+    }
+
+    replace(`${pathname}?${params.toString()}`);
+  }
+
+  return (
+    <Pagination>
+      <PaginationContent>
+        <PaginationItem>
+          <PaginationPrevious
+            href="#"
+            onClick={(e) => {
+              e.preventDefault();
+              if (page > 1) handleSearch(page - 1);
+            }}
+          />
+        </PaginationItem>
+
+        {[...Array(totalPages)].map((_, i) => (
+          <PaginationItem key={i}>
+            <PaginationLink
+              href="#"
+              isActive={page === i + 1}
+              onClick={(e) => {
+                e.preventDefault();
+                handleSearch(i + 1);
+              }}
+            >
+              {i + 1}
+            </PaginationLink>
+          </PaginationItem>
+        ))}
+
+        <PaginationItem>
+          <PaginationNext
+            href="#"
+            onClick={(e) => {
+              e.preventDefault();
+              if (page < totalPages) handleSearch(page + 1);
+            }}
+          />
+        </PaginationItem>
+      </PaginationContent>
+    </Pagination>
+  )
 }

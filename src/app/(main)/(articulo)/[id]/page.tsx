@@ -1,5 +1,6 @@
 import { adaptProducts } from "@/adapters/productAdapter";
 import ArticuloGalery from "@/components/articulo-gallery/ArticuloGallery";
+import Breadcrumbs from "@/components/Breadcrumbs/breadCrumbs";
 import Button from "@/components/Button/Button";
 import RecomendadosSection from "@/sections/home/recomendados/Recomendados";
 import { getArticulosById } from "@/services/articulos/articulos";
@@ -12,7 +13,7 @@ import { IoShareSocialOutline } from "react-icons/io5";
 
 const ProductView = async ({ params }: { params: { id: string } }) => {
     const { id } = params;
-    const productTitle = capitalize(slugATexto(id.split("-").slice(0, -1).join("-")));
+    const productTitle = capitalize(slugATexto(id.split("-").slice(0, -1).join("-"))).toUpperCase();
     const productId = id.split("-").pop() as string;
 
     const productDetails = await getArticulosById(productId);
@@ -27,7 +28,18 @@ const ProductView = async ({ params }: { params: { id: string } }) => {
         <div className="min-h-screen bg-gray-100 p-4 padding-top">
             <div className="container mx-auto py-10">
                 {/* Breadcrums */}
-                <div className="w-full mb-10">{/* <Breadcrumbs /> */}</div>
+                <div className="w-full mb-10">
+                    <Breadcrumbs Breadcrumbs={[{
+                        title: capitalize(product?.marca),
+                        link: "/"
+                    }, {
+                        title: capitalize(product?.linea),
+                        link: ""
+                    }, {
+                        title: productTitle,
+                        link: ""
+                    }]} />
+                </div>
 
                 <div className="w-full product__container h-max">
                     <div className="grid grid-cols-2 gap-20">

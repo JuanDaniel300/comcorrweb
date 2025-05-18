@@ -12,7 +12,7 @@ import { GoDash, GoPlus } from "react-icons/go";
 import { IoShareSocialOutline } from "react-icons/io5";
 
 const ProductView = async ({ params }: { params: { id: string } }) => {
-    const { id } = params;
+    const { id } = await params;
     const productTitle = capitalize(slugATexto(id.split("-").slice(0, -1).join("-"))).toUpperCase();
     const productId = id.split("-").pop() as string;
 

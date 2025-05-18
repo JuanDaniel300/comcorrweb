@@ -374,3 +374,13 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+[data-active="true"] {
+  background-color: var(--primario) !important;
+  color: white !important;
+}
+
+.data-\[state\=checked\]\:bg-primary[data-state="checked"] {
+  background-color: var(--primario) !important;
+  border: 1px solid var(--primario) !important;
+}

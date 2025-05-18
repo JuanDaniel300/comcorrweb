@@ -47,9 +47,6 @@ const ProductCardSkeleton = () => {
   );
 };
 
-// Available brands
-const BRANDS = ["SAMSUNG", "LG", "MIRAGE"];
-
 // Available types
 const TYPES = ["Automático", "Manual"];
 
@@ -57,7 +54,7 @@ const TYPES = ["Automático", "Manual"];
 const PROMOTIONS = ["Promo 1", "Promo 2"];
 
 // Price range limits
-const MIN_PRICE = 0;
+const MIN_PRICE = -10;
 const MAX_PRICE = 20000;
 
 export default function ProductGrid({
@@ -82,6 +79,7 @@ export default function ProductGrid({
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
   const [selectedPromotions, setSelectedPromotions] = useState<string[]>([]);
 
+  const BRANDS = Array.from(new Set(products.map(p => p.marca)));
 
   // Filtrado y ordenamiento con productos adaptados
   const filteredProducts = useMemo(() => {
@@ -312,7 +310,7 @@ export default function ProductGrid({
                       onCheckedChange={(checked) =>
                         setInStockOnly(checked as boolean)
                       }
-                      className="text-primario border-claro2"
+                      className="border-claro2"
                     />
                     <Label htmlFor="inStock" className="text-oscuro2">
                       En Stock
@@ -332,7 +330,7 @@ export default function ProductGrid({
                           onCheckedChange={(checked) =>
                             handleBrandChange(brand, checked as boolean)
                           }
-                          className="text-primario border-claro2"
+                          className=" border-claro2"
                         />
                         <Label
                           htmlFor={`brand-${brand}`}
@@ -359,7 +357,7 @@ export default function ProductGrid({
                           onCheckedChange={(checked) =>
                             handlePromotionChange(promo, checked as boolean)
                           }
-                          className="text-primario border-claro2"
+                          className="border-claro2"
                         />
                         <Label
                           htmlFor={`promo-${promo}`}
@@ -384,7 +382,7 @@ export default function ProductGrid({
                           onCheckedChange={(checked) =>
                             handleTypeChange(type, checked as boolean)
                           }
-                          className="text-primario border-claro2"
+                          className=" border-claro2"
                         />
                         <Label
                           htmlFor={`type-${type}`}
@@ -402,7 +400,7 @@ export default function ProductGrid({
                   variant="outline"
                   className="w-full border-primario text-primario hover:bg-primario hover:text-claro100"
                   onClick={() => {
-                    setPriceRange([4000, 12000]);
+                    setPriceRange([MIN_PRICE, MAX_PRICE]);
                     setSortOption("lowToHigh");
                     setInStockOnly(false);
                     setSelectedBrands([]);
@@ -493,21 +491,56 @@ export default function ProductGrid({
 const PaginationProducts = ({ totalPages }: { totalPages: number }) => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
-  const { replace } = useRouter();
+  const router = useRouter();
+
 
   const page = searchParams.get("page") ? parseInt(searchParams.get("page") as string, 10) : 1;
 
-  const handleSearch = (page: any) => {
+  const handleSearch = (page: number) => {
     const params = new URLSearchParams(searchParams);
 
     if (page) {
-      params.set("page", page);
+      params.set("page", String(page));
     } else {
       params.delete("page");
     }
 
-    replace(`${pathname}?${params.toString()}`);
-  }
+    router.replace(`${pathname}?${params.toString()}`);
+    router.refresh()
+  };
+
+  const getPageNumbers = () => {
+    const pages = [];
+    const maxPagesToShow = 5;
+    const half = Math.floor(maxPagesToShow / 2);
+
+    let start = Math.max(1, page - half);
+    let end = Math.min(totalPages, page + half);
+
+    if (page <= half) {
+      end = Math.min(totalPages, maxPagesToShow);
+    }
+
+    if (page + half > totalPages) {
+      start = Math.max(1, totalPages - maxPagesToShow + 1);
+    }
+
+    if (start > 1) {
+      pages.push(1);
+      if (start > 2) pages.push("...");
+    }
+
+    for (let i = start; i <= end; i++) {
+      pages.push(i);
+    }
+
+    if (end < totalPages) {
+      if (end < totalPages - 1) pages.push("...");
+      pages.push(totalPages);
+    }
+
+    return pages;
+  };
 
   return (
     <Pagination>
@@ -522,18 +555,22 @@ const PaginationProducts = ({ totalPages }: { totalPages: number }) => {
           />
         </PaginationItem>
 
-        {[...Array(totalPages)].map((_, i) => (
+        {getPageNumbers().map((p, i) => (
           <PaginationItem key={i}>
-            <PaginationLink
-              href="#"
-              isActive={page === i + 1}
-              onClick={(e) => {
-                e.preventDefault();
-                handleSearch(i + 1);
-              }}
-            >
-              {i + 1}
-            </PaginationLink>
+            {p === "..." ? (
+              <span className="px-2 text-muted-foreground">...</span>
+            ) : (
+              <PaginationLink
+                href="#"
+                isActive={page === p}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleSearch(Number(p));
+                }}
+              >
+                {p}
+              </PaginationLink>
+            )}
           </PaginationItem>
         ))}
 
@@ -548,5 +585,5 @@ const PaginationProducts = ({ totalPages }: { totalPages: number }) => {
         </PaginationItem>
       </PaginationContent>
     </Pagination>
-  )
-}
+  );
+};

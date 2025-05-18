@@ -20,15 +20,17 @@ export const getCategorias = async () => {
   }
 };
 
-export const getCategoriasById = async (id: string) => {
+export const getCategoriasById = async (id: string, page: string) => {
   try {
-    let categorias = cache.get(`categorias_${id}`);
+    let categorias = cache.get(`categorias_${id}_${page}`);
 
     if (!categorias) {
-      const response = await axiosInstance.get(`/categorias/${id}`);
+      const response = await axiosInstance.get(
+        `/categorias/${id}?page=${page}`
+      );
       categorias = response?.data;
 
-      cache.put(`categorias_${id}`, categorias, TIMER_CACHE);
+      cache.put(`categorias_${id}_${page}`, categorias, TIMER_CACHE);
     }
 
     return categorias;

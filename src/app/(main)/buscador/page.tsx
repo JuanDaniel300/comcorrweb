@@ -30,6 +30,7 @@ export default function BuscadorPage() {
           setLoading(true);
           const data = await getArticulosBySearch(q, page);
           setArticulos(data);
+          console.log("total products to page: " + page)
         } catch (error) {
           console.error("Error fetching articulos:", error);
         } finally {
@@ -41,8 +42,16 @@ export default function BuscadorPage() {
     fetchArticulos();
   }, [JSON.stringify(q), JSON.stringify(page)]);
 
+  console.table(articulos)
+
   if (!q) {
     return <div className="padding-top">Por favor, ingresa un término de búsqueda.</div>;
+  }
+
+  if (loading) {
+    return (
+      <div>Cargando</div>
+    )
   }
 
   return (

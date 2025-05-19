@@ -9,7 +9,7 @@ import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { capitalize, formatCurrency, generarSlug } from "@/utils/generic";
 import Button from "../Button/Button";
 import { Product } from "@/types/product.type";
-import { useRouter } from 'nextjs-toploader/app';
+import { useRouter } from "nextjs-toploader/app";
 import { useCartStore } from "@/stores/cartStore";
 
 const ProductCard = ({
@@ -19,9 +19,7 @@ const ProductCard = ({
   product: Product;
   keyIndex: number;
 }) => {
-  const {
-    addToCart
-  } = useCartStore();
+  const { addToCart } = useCartStore();
   const router = useRouter();
   const hasPromotion = product?.precio1 < product?.precio2;
   const hasDiscount = product?.precio2 > 0;

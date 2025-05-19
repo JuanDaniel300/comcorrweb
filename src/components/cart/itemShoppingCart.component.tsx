@@ -3,16 +3,20 @@
 import { handleDecreaseQuantity, handleIncreaseQuantity, handleRemoveFromCart } from "@/handlers/cartHandlers";
 import { Product } from "@/types/product.type";
 import { formatCurrency } from "@/utils/generic";
+import { Fragment } from "react";
 import { BiTrash } from "react-icons/bi";
+import { CiDiscount1 } from "react-icons/ci";
 import { GoDash, GoPlus } from "react-icons/go";
 
 
 const ItemShoppingCart = ({ item }: { item: Product }) => {
+  const hasPromotion = item?.precio1 < item?.precio2;
+
 
   return (
     <div className="itemShoppingCart flex w-full">
-      <div className="itemShoppingCart__image max-w-[200px] w-[200px] px-4">
-        <img src={item.imagen1 as string} className="object-cover w-full h-auto" />
+      <div className="itemShoppingCart__image max-w-[200px] h-[180px] w-[200px] px-4">
+        <img src={item.imagen1 as string} className="object-scale-down w-full h-full flex m-auto items-center " />
       </div>
       <div className="itemShoppingCart__info flex flex-col py-3">
         <div className="marca text-oscuro2 text-sm flex-1 w-full">
@@ -34,8 +38,22 @@ const ItemShoppingCart = ({ item }: { item: Product }) => {
           </div>
         </div>
       </div>
-      <div className="itemShoppingCart__price flex flex-col ms-auto  justify-between pb-5">
-        <div className="price text-xl font-semibold ms-auto">{formatCurrency(item.precio1)}</div>
+      <div className="itemShoppingCart__price flex flex-col ms-auto   justify-between pb-5">
+        <div className="ms-auto space-y-2">
+          {hasPromotion && (
+            <Fragment>
+              <div className="flex items-center gap-2 bg-secundario w-max rounded-lg px-2 py-[3px] ">
+                <CiDiscount1 color="white" size={20} />
+                <span className="text-sm text-white font-medium ">¡Oferta!</span>
+              </div>
+
+              <div className="price  text-end line-through text-oscuro2">{formatCurrency(item.precio2)}</div>
+
+            </Fragment>
+          )}
+          <div className="price text-xl font-semibold ms-auto text-end">{formatCurrency(item.precio1)}</div>
+
+        </div>
         <div onClick={() => handleRemoveFromCart(item?.clave)} className="delete__Product flex text-oscuro2 text-sm hover:underline cursor-pointer">
           <BiTrash className="m-auto" />
           <span className="ms-3">Eliminar del carrito</span>

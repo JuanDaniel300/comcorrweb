@@ -8,7 +8,7 @@ export default async function PopularesSection() {
   const popularesFilteres = adaptProducts(populares?.promos);
 
   return (
-    <div className="flex justify-between w-full">
+    <div className="flex justify-between w-full flex-wrap space-y-10">
       {popularesFilteres.map((product: AdaptedProduct, index: number) => (
         <ProductCard key={index} product={product} keyIndex={index} />
       ))}

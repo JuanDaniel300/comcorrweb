@@ -71,3 +71,28 @@ export const slugATexto = (slug: string): string => {
     .replace(/-/g, " ") // Guiones por espacios
     .replace(/\b\w/g, (char) => char.toUpperCase()); // Capitaliza cada palabra
 };
+
+/**
+ * Calcula la fecha estimada de entrega sumando 3 días hábiles a partir de hoy.
+ * Se omiten los fines de semana (sábado y domingo).
+ * @returns {string} La fecha estimada formateada como DD/MM/YYYY
+ */
+export function obtenerFechaEntregaEstimada() {
+  const fecha = new Date();
+  const diasHabiles = 3;
+  let diasHabilesAgregados = 0;
+
+  while (diasHabilesAgregados < diasHabiles) {
+    fecha.setDate(fecha.getDate() + 1);
+    const diaSemana = fecha.getDay();
+    if (diaSemana !== 0 && diaSemana !== 6) {
+      diasHabilesAgregados++;
+    }
+  }
+
+  const dia = String(fecha.getDate()).padStart(2, "0");
+  const mes = String(fecha.getMonth() + 1).padStart(2, "0");
+  const anio = fecha.getFullYear();
+
+  return `${dia}/${mes}/${anio}`;
+}

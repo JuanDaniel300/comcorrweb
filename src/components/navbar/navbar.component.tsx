@@ -8,16 +8,16 @@ import { motion } from "motion/react";
 import Link from "next/link";
 import SearchBar from "../searchBar/SearchBar";
 import { useCartStore } from "@/stores/cartStore";
-
-type userProp = {
-  user: string;
-  type: string;
-};
+import { useEffect, useState } from "react";
 
 const Navbar = () => {
   const { getTotalItems } = useCartStore();
-  const user = null;
-  const isAuthenticated = null;
+  const [hasMounted, setHasMounted] = useState(false);
+
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
+
 
   return (
     <div className="w-full bg-nav ">
@@ -91,7 +91,9 @@ const Navbar = () => {
             </motion.div>
             <span>Carrito</span>
             <span className="cartCount rounded-full bg-cartCount text-white px-2 py-1 text-sm">
-              {getTotalItems()}
+              {
+                hasMounted && getTotalItems()
+              }
             </span>
           </Link>
         </div>

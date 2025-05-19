@@ -10,6 +10,7 @@ import { capitalize, formatCurrency, generarSlug } from "@/utils/generic";
 import Button from "../Button/Button";
 import { Product } from "@/types/product.type";
 import { useRouter } from 'nextjs-toploader/app';
+import { useCartStore } from "@/stores/cartStore";
 
 const ProductCard = ({
   product,
@@ -18,6 +19,9 @@ const ProductCard = ({
   product: Product;
   keyIndex: number;
 }) => {
+  const {
+    addToCart
+  } = useCartStore();
   const router = useRouter();
   const hasPromotion = product?.precio1 < product?.precio2;
   const hasDiscount = product?.precio2 > 0;
@@ -33,6 +37,7 @@ const ProductCard = ({
     e.stopPropagation();
 
     // Lógica para añadir al carrito
+    addToCart(product);
   };
 
   return (

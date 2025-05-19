@@ -7,6 +7,7 @@ import { AiOutlineShoppingCart } from "react-icons/ai";
 import { motion } from "motion/react";
 import Link from "next/link";
 import SearchBar from "../searchBar/SearchBar";
+import { useCartStore } from "@/stores/cartStore";
 
 type userProp = {
   user: string;
@@ -14,6 +15,7 @@ type userProp = {
 };
 
 const Navbar = () => {
+  const { getTotalItems } = useCartStore();
   const user = null;
   const isAuthenticated = null;
 
@@ -89,7 +91,7 @@ const Navbar = () => {
             </motion.div>
             <span>Carrito</span>
             <span className="cartCount rounded-full bg-cartCount text-white px-2 py-1 text-sm">
-              2
+              {getTotalItems()}
             </span>
           </Link>
         </div>

@@ -5,38 +5,6 @@ import { Suspense } from "react";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { BiPackage } from "react-icons/bi";
 
-const products = [
-    {
-        id: 1,
-        marca: "SAMSUNG",
-        name: "Lavadora Aqua Saving 19 Kilos Samsung",
-        sku: "WA19A3351GW/AX",
-        price: "$8,499.00",
-        image: "/products/refrigerador.png",
-        quantity: 1,
-        isOffer: true,
-        offerDetails: {
-            discount: 3000,
-            discountType: "MXN",
-        },
-    },
-
-    {
-        id: 1,
-        marca: "MIRAGE",
-        name: "REFRIGERADOR 10” ACERO TM",
-        sku: "MRX10FS",
-        price: "$6,499.00",
-        image: "/products/refrigerador2.png",
-        quantity: 1,
-        isOffer: true,
-        offerDetails: {
-            discount: 3000,
-            discountType: "MXN",
-        },
-    },
-];
-
 const ShoppingCart = () => {
 
 
@@ -48,7 +16,7 @@ const ShoppingCart = () => {
                         <div className="text-2xl text-primario font-semibold">Carrito</div>
 
                         <div className="w-full my-2">
-                            <ListShoppingCart products={products} />
+                            <ListShoppingCart />
                         </div>
                     </div>
                     <div className="h-full w-[30%] bg-white border border-gray-200 p-5 rounded-xl">

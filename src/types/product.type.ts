@@ -11,4 +11,5 @@ export type Product = {
   marca: string;
   categoria: string;
   codigo: string;
+  quantity?: number;
 };

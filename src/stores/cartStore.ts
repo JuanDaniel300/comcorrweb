@@ -16,6 +16,7 @@ type CartStore = {
   getTotalDiscount: () => number;
   getSubtotalItem: () => number;
   getTotalItem: () => number;
+  syncCartFromServer: (serverCart: CartItem[]) => void;
 };
 
 export const useCartStore = create<CartStore>()(
@@ -101,6 +102,11 @@ export const useCartStore = create<CartStore>()(
           (sum, item) => sum + item.precio1 * item.quantity,
           0
         );
+      },
+
+      // Sincronizar el carrito de la base de datos con el local
+      syncCartFromServer: (serverCart: CartItem[]) => {
+        set({ cart: serverCart });
       },
     }),
     {

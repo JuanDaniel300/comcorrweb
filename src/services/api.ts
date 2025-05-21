@@ -41,11 +41,11 @@ axiosInstance.interceptors.response.use(
       !originalRequest._retry
     ) {
       // Realizar el logout llamando al Route Handler
-      await axios.post(`${process.env.NEXTAUTH_URL}/api/auth/logout`);
+      // await axios.post(`${process.env.NEXTAUTH_URL}/api/auth/logout`);
 
       // Redirigir al usuario a la página principal
       // redirect("/");
-      // window.location.href = "/";
+      window.location.href = "/Login";
 
       // Retornar un error para evitar que se propague
       return Promise.reject(error);

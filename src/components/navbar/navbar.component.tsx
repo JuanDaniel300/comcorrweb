@@ -9,15 +9,18 @@ import Link from "next/link";
 import SearchBar from "../searchBar/SearchBar";
 import { useCartStore } from "@/stores/cartStore";
 import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 
 const Navbar = () => {
   const { getTotalItems } = useCartStore();
   const [hasMounted, setHasMounted] = useState(false);
+  const { data: session, status } = useSession();
+
+  console.log(session);
 
   useEffect(() => {
     setHasMounted(true);
   }, []);
-
 
   return (
     <div className="w-full bg-nav ">
@@ -91,9 +94,7 @@ const Navbar = () => {
             </motion.div>
             <span>Carrito</span>
             <span className="cartCount rounded-full bg-cartCount text-white px-2 py-1 text-sm">
-              {
-                hasMounted && getTotalItems()
-              }
+              {hasMounted && getTotalItems()}
             </span>
           </Link>
         </div>

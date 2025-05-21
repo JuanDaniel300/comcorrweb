@@ -19,7 +19,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "swiper/css/scrollbar";
-import { authOptionsUtils } from "@/lib/session";
+import SessionProviderClient from "@/providers/SessionProviderClient";
 
 export default async function RootLayout({
   children,
@@ -32,7 +32,7 @@ export default async function RootLayout({
     <html lang="en">
       <body className={montserrat.className}>
         {/* {!session && <GuestLogin />} */}
-        {children}
+        <SessionProviderClient>{children}</SessionProviderClient>
       </body>
     </html>
   );

@@ -10,15 +10,30 @@ import EmptyCart from "./emptyCart";
 import { formatCurrency, obtenerFechaEntregaEstimada } from "@/utils/generic";
 
 export default function CartView({ cart }: { cart: any }) {
-  const { getTotalDiscount, getTotalItems, getSubtotalItem, getTotalItem } =
-    useCartStore();
-  const totalItems = getTotalItems();
-  const subtotal = getSubtotalItem();
-  const descuento = getTotalDiscount();
-  const envio = 0;
-  const total = getTotalItem() + envio;
+  const {
+    getTotalDiscount,
+    getTotalItems,
+    getSubtotalItem,
+    getTotalItem,
+    syncCartFromServer,
+  } = useCartStore();
+  const [totalItems, setTotalItems] = useState<number>(0);
+  const [subtotal, setSubTotal] = useState<number>(0);
+  const [descuento, setDescuento] = useState<number>(0);
+  const [envio, setEnvio] = useState<number>(0);
+  const [total, setTotal] = useState<number>(0);
 
-  return !totalItems ? (
+  useEffect(() => {
+    syncCartFromServer(cart);
+
+    setTotalItems(getTotalItems());
+    setSubTotal(getSubtotalItem());
+    setDescuento(getTotalDiscount());
+    setEnvio(0);
+    setTotal(getTotalItem() + envio);
+  }, [cart]);
+
+  return !cart || !Array.isArray(cart) ? (
     <EmptyCart />
   ) : (
     <ShoppingCart

@@ -1,10 +1,17 @@
 // src/handlers/cartHandlers.ts
+import { addProductToCart } from "@/services/cart/cart";
 import { useCartStore } from "@/stores/cartStore";
 import { Product } from "@/types/product.type";
 
 // Handler para agregar
-export const handleAddToCart = (product: Product, quantity = 1) => {
-  useCartStore.getState().addToCart(product, quantity);
+export const handleAddToCart = async (product: Product, quantity = 1) => {
+  try {
+    await addProductToCart(product.clave, quantity);
+
+    useCartStore.getState().addToCart(product, quantity);
+  } catch (error) {
+    console.error("no se pudo agregar el prodcuto", product.clave);
+  }
 };
 
 // Handler para eliminar

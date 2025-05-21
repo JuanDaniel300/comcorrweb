@@ -9,7 +9,7 @@ import { Fragment, useEffect, useState } from "react";
 import EmptyCart from "./emptyCart";
 import { formatCurrency, obtenerFechaEntregaEstimada } from "@/utils/generic";
 
-export default function CartView() {
+export default function CartView({ cart }: { cart: any }) {
   const { getTotalDiscount, getTotalItems, getSubtotalItem, getTotalItem } =
     useCartStore();
   const totalItems = getTotalItems();
@@ -22,6 +22,7 @@ export default function CartView() {
     <EmptyCart />
   ) : (
     <ShoppingCart
+      cart={cart}
       subtotal={subtotal}
       descuento={descuento}
       envio={envio}
@@ -31,11 +32,13 @@ export default function CartView() {
 }
 
 const ShoppingCart = ({
+  cart,
   subtotal,
   descuento,
   envio,
   total,
 }: {
+  cart: any;
   subtotal: number;
   descuento: number;
   envio: number;
@@ -47,7 +50,7 @@ const ShoppingCart = ({
         <div className="text-2xl text-primario font-semibold">Carrito</div>
 
         <div className="w-full my-2">
-          <ListShoppingCart />
+          <ListShoppingCart products={cart} />
         </div>
       </div>
       <div className="h-full w-[30%] bg-white border border-gray-200 p-5 rounded-xl sticky top-[150px]">

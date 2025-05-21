@@ -11,6 +11,7 @@ import Button from "../Button/Button";
 import { Product } from "@/types/product.type";
 import { useRouter } from "nextjs-toploader/app";
 import { useCartStore } from "@/stores/cartStore";
+import { handleAddToCart } from "@/handlers/cartHandlers";
 
 const ProductCard = ({
   product,
@@ -30,12 +31,12 @@ const ProductCard = ({
     router.push(`/${urlPath}`);
   };
 
-  const handleAddToCart = (e: React.MouseEvent) => {
+  const handlerClickAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
 
     // Lógica para añadir al carrito
-    addToCart(product);
+    handleAddToCart(product);
   };
 
   return (
@@ -108,7 +109,7 @@ const ProductCard = ({
       <div className="mt-auto">
         <Button
           variants="primary"
-          onClick={handleAddToCart}
+          onClick={handlerClickAddToCart}
           title="Añadir al carrito"
           icon={<AiOutlineShoppingCart color="white" size={20} />}
         />

@@ -4,6 +4,7 @@ import {
   addProductToCart,
   clearCart,
   deleteProductToCart,
+  updateProductToCart,
 } from "@/services/cart/cart";
 import { useCartStore } from "@/stores/cartStore";
 import { Product } from "@/types/product.type";
@@ -61,18 +62,41 @@ export const handleClearCart = async () => {
 };
 
 // Handler para aumentar cantidad
-export const handleIncreaseQuantity = (clave: string) => {
-  const item = useCartStore.getState().cart.find((i) => i.clave === clave);
-  if (item) {
-    useCartStore.getState().updateQuantity(clave, item.quantity + 1);
+export const handleIncreaseQuantity = async (clave: string) => {
+  try {
+    const item = useCartStore.getState().cart.find((i) => i.clave === clave);
+    if (item) {
+      const result = await updateProductToCart(
+        item.id || item.clave,
+        item.quantity + 1
+      );
+
+      if (result) {
+        useCartStore.getState().updateQuantity(clave, item.quantity + 1);
+      }
+    }
+  } catch (error) {
+    console.error("No se pudo actualizar la cantidad");
   }
 };
 
 // Handler para disminuir cantidad
-export const handleDecreaseQuantity = (clave: string) => {
-  const item = useCartStore.getState().cart.find((i) => i.clave === clave);
-  if (item) {
-    const newQuantity = item.quantity - 1;
-    useCartStore.getState().updateQuantity(clave, newQuantity);
+export const handleDecreaseQuantity = async (clave: string) => {
+  try {
+    const item = useCartStore.getState().cart.find((i) => i.clave === clave);
+    if (item) {
+      const newQuantity = item.quantity - 1;
+
+      const result = await updateProductToCart(
+        item.id || item.clave,
+        newQuantity
+      );
+
+      if (result) {
+        useCartStore.getState().updateQuantity(clave, newQuantity);
+      }
+    }
+  } catch (error) {
+    console.error("No se pudo actualizar la cantidad");
   }
 };

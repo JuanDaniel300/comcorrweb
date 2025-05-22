@@ -178,10 +178,10 @@ const Confirmation = () => {
             </button>
 
             <div className="w-full">
-              <text className="text-oscuro2 text-sm text-center justify-center flex font-[500]">
+              <span className="text-oscuro2 text-sm text-center justify-center flex font-[500]">
                 Si tienes duda a cerca del pedido, comuniquese al correo
                 hola@ejemplo.com
-              </text>
+              </span>
             </div>
           </div>
         </div>

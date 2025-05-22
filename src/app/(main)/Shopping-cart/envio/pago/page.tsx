@@ -43,9 +43,9 @@ export const Payment = () => {
 
             {/* Tarjeta */}
             <div className="w-full mb-9">
-              <text className="text-primario text-xl font-[500]">
+              <span className="text-primario text-xl font-[500]">
                 Introduce tu tarjeta
-              </text>
+              </span>
               <div className="bg-gray-300 h-[100px] w-[250px] rounded-xl mt-5">
                 <span className="text-white mx-auto flex justify-center align-center self-center h-full items-center">
                   -
@@ -114,9 +114,9 @@ export const Payment = () => {
 
             {/* Otros metodos de pago */}
             <div className="w-full">
-              <text className="text-primario text-xl font-[500]">
+              <span className="text-primario text-xl font-[500]">
                 Usar otros métodos de pago
-              </text>
+              </span>
               <div className="w-[50%] space-y-3 mt-6">
                 <Button
                   icon={<BiStore size={20} />}

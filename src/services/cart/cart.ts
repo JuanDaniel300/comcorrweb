@@ -49,7 +49,7 @@ export const updateProductToCart = async (
 
 export const deleteProductToCart = async (productoId: string) => {
   try {
-    const r = await axiosInstance.delete(`/eliminar/${productoId}`);
+    const r = await axiosInstance.delete(`/cart/eliminar/${productoId}`);
     return r.data;
   } catch (error) {
     console.error("Error fetching deleteProductToCart:", error);
@@ -59,7 +59,7 @@ export const deleteProductToCart = async (productoId: string) => {
 
 export const clearCart = async () => {
   try {
-    const r = await axiosInstance.delete("/vaciar");
+    const r = await axiosInstance.delete("/cart/vaciar");
 
     return r.data;
   } catch (error) {

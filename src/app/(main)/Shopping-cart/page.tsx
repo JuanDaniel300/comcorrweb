@@ -9,7 +9,7 @@ const ShoppingCart = async () => {
   return (
     <div className="min-h-screen padding-top ">
       <div className="container mx-auto  py-10">
-        <CartView cart={cart?.articulos} />
+        <CartView />
 
         <div className="w-full" id="productPopular">
           <div className="font-semibold text-primario text-2xl">

@@ -26,7 +26,9 @@ const ProductCard = ({
   const hasDiscount = product?.precio2 > 0;
 
   const handleGoToProductView = () => {
-    const urlPath = `${generarSlug(product?.descripcion)}-${product?.id}`;
+    const urlPath = `${generarSlug(product?.descripcion)}-${
+      product?.id || product?.clave
+    }`;
 
     router.push(`/${urlPath}`);
   };

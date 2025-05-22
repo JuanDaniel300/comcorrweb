@@ -12,8 +12,9 @@ import { FiTrash2 } from "react-icons/fi";
 import { handleClearCart } from "@/handlers/cartHandlers";
 import { useRouter } from "nextjs-toploader/app";
 
-export default function CartView({ cart }: { cart: any }) {
+export default function CartView() {
   const {
+    cart,
     getTotalDiscount,
     getTotalItems,
     getSubtotalItem,
@@ -26,11 +27,7 @@ export default function CartView({ cart }: { cart: any }) {
   const [envio, setEnvio] = useState<number>(0);
   const [total, setTotal] = useState<number>(0);
 
-  console.log({ cart });
-
   useEffect(() => {
-    syncCartFromServer(cart);
-
     setTotalItems(getTotalItems());
     setSubTotal(getSubtotalItem());
     setDescuento(getTotalDiscount());

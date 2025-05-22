@@ -6,7 +6,7 @@ const ListShoppingShipping = ({ products }: { products: any }) => {
   return (
     <div className="w-full space-y-5">
       {products.map((product: any, index: number) => (
-        <div>
+        <div key={index}>
           <ItemShoppingShipping item={product} />
 
           {index === products.length - 1 ? null : (

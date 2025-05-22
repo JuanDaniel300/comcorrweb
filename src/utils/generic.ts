@@ -79,7 +79,7 @@ export const slugATexto = (slug: string): string => {
  */
 export function obtenerFechaEntregaEstimada() {
   const fecha = new Date();
-  const diasHabiles = 3;
+  const diasHabiles = 9;
   let diasHabilesAgregados = 0;
 
   while (diasHabilesAgregados < diasHabiles) {

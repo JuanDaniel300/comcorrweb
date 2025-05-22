@@ -1,3 +1,6 @@
+"use client";
+
+import { useCartStore } from "@/stores/cartStore";
 import { capitalize } from "@/utils/generic";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
@@ -22,12 +25,15 @@ export default function ProfileButton({
   user,
   className = "",
 }: ProfileLinkProps) {
+  const { clearCart } = useCartStore();
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
   // const signOut = useSignOut();
 
-  const logoutRequest = () => {
+  const logoutRequest = async () => {
+    localStorage.clear();
+
     signOut({
       callbackUrl: "/",
     });

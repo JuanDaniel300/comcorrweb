@@ -9,6 +9,8 @@ import Link from "next/link";
 import Button from "@/components/Button/Button";
 import Alert from "@/components/ui/alert";
 import { signIn } from "next-auth/react";
+import { getCart } from "@/services/cart/cart";
+import { useCartStore } from "@/stores/cartStore";
 
 const AuthView = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -23,6 +25,8 @@ const AuthView = () => {
     formState: { errors },
     watch,
   } = useForm();
+
+  const { syncCartFromServer } = useCartStore();
 
   const email = watch("email");
   const password = watch("password");
@@ -45,6 +49,9 @@ const AuthView = () => {
       });
 
       if (res?.ok) {
+        const cart = await getCart();
+        syncCartFromServer(cart?.articulos);
+
         window.location.href = "/";
       } else {
         setErrorMessage("Credenciales incorrectas. Intenta de nuevo.");
@@ -63,12 +70,12 @@ const AuthView = () => {
   };
 
   // registrar la contraseña y combinar refs
-  const {
-    ref: passwordRefFromRegister,
-    ...passwordInputProps
-  } = register("password", {
-    required: "La contraseña es obligatoria",
-  });
+  const { ref: passwordRefFromRegister, ...passwordInputProps } = register(
+    "password",
+    {
+      required: "La contraseña es obligatoria",
+    }
+  );
 
   return (
     <motion.div

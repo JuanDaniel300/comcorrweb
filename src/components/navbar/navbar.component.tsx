@@ -10,13 +10,12 @@ import SearchBar from "../searchBar/SearchBar";
 import { useCartStore } from "@/stores/cartStore";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
+import ProfileButton from "../profile/profileButton";
 
 const Navbar = () => {
   const { getTotalItems } = useCartStore();
   const [hasMounted, setHasMounted] = useState(false);
   const { data: session, status } = useSession();
-
-  console.log(session);
 
   useEffect(() => {
     setHasMounted(true);
@@ -49,33 +48,11 @@ const Navbar = () => {
 
         {/* NavbarItems */}
         <div className="navbarItems flex w-max  gap-5 items-center">
-          {/* <div
-            className="relative overflow-hidden px-4 py-2 rounded-lg flex items-center gap-3 hover:text-white font-medium transition-all duration-300
-        before:absolute before:top-0 before:left-0 before:w-0 before:h-full before:bg-blue-800  before:transition-all before:duration-300 hover:before:w-full sobrenosotros cursor-pointer"
-          >
-            <span className="relative z-10">Sobre nosotros</span>
-          </div> */}
-          <Link
-            href="/Login"
-            className="relative overflow-hidden px-4 py-2 rounded-lg flex items-center gap-3 hover:text-white font-medium transition-all duration-300
-     before:absolute before:top-0 before:left-0 before:w-0 before:h-full before:bg-blue-800  before:transition-all before:duration-300 hover:before:w-full"
-          >
-            <BiUser className=" relative z-10" size={25} />
-            <span className=" relative z-10">Iniciar sesión</span>
-          </Link>
-          {/* {!isAuthenticated || user === null || user.type === "guest" ? (
-                        <Link
-                            to="/Login"
-                            className="relative overflow-hidden px-4 py-2 rounded-lg flex items-center gap-3 hover:text-white font-medium transition-all duration-300
-     before:absolute before:top-0 before:left-0 before:w-0 before:h-full before:bg-blue-800  before:transition-all before:duration-300 hover:before:w-full"
-                        >
-                            <BiUser className=" relative z-10" size={25} />
-                            <span className=" relative z-10">Iniciar sesión</span>
-                        </Link>
-                    ) : (
-                        <ProfileLink user={user?.user} />
-                    )} */}
-
+          {session ? (
+            <ProfileButton user={session.user?.name} />
+          ) : (
+            <LoginButton />
+          )}
           <Link
             href="/Shopping-cart"
             className="Carrito flex items-center gap-3 cursor-pointer"
@@ -100,6 +77,19 @@ const Navbar = () => {
         </div>
       </div>
     </div>
+  );
+};
+
+export const LoginButton = () => {
+  return (
+    <Link
+      href="/Login"
+      className="relative overflow-hidden px-4 py-2 rounded-lg flex items-center gap-3 hover:text-white font-medium transition-all duration-300
+     before:absolute before:top-0 before:left-0 before:w-0 before:h-full before:bg-blue-800  before:transition-all before:duration-300 hover:before:w-full"
+    >
+      <BiUser className=" relative z-10" size={25} />
+      <span className=" relative z-10">Iniciar sesión</span>
+    </Link>
   );
 };
 

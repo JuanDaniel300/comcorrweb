@@ -41,8 +41,9 @@ export const authOptionsUtils: NextAuthOptions = {
         if (res.ok && data.token) {
           return {
             id: data?.user?.id ?? "guest",
-            name: data?.user?.nombre ?? "Invitado",
+            name: data?.user?.username ?? "Invitado",
             email: data?.user?.email ?? credentials?.email,
+            role: data?.user?.role,
             token: data.token,
           };
         }

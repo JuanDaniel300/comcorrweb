@@ -2,9 +2,9 @@
 
 import { motion } from "motion/react";
 import { AiOutlineGoogle } from "react-icons/ai";
-import { FaFacebookF } from "react-icons/fa";
+import { FaEye, FaEyeSlash, FaFacebookF } from "react-icons/fa";
 import { useForm } from "react-hook-form";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import Button from "@/components/Button/Button";
 import Alert from "@/components/ui/alert";
@@ -13,13 +13,16 @@ import { signIn } from "next-auth/react";
 const AuthView = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+
+  const inputPasswordRef = useRef<HTMLInputElement | null>(null);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
     watch,
   } = useForm();
-  //   const signIn = useSignIn();
 
   const email = watch("email");
   const password = watch("password");
@@ -41,13 +44,9 @@ const AuthView = () => {
         password: password,
       });
 
-      console.log({ res });
-
       if (res?.ok) {
-        // Autenticación exitosa, puedes redirigir o hacer otra cosa
         window.location.href = "/";
       } else {
-        // Error en credenciales
         setErrorMessage("Credenciales incorrectas. Intenta de nuevo.");
       }
     } catch (error) {
@@ -59,13 +58,24 @@ const AuthView = () => {
     }
   };
 
+  const handlerClickShowPassword = () => {
+    setShowPassword((prev) => !prev);
+  };
+
+  // registrar la contraseña y combinar refs
+  const {
+    ref: passwordRefFromRegister,
+    ...passwordInputProps
+  } = register("password", {
+    required: "La contraseña es obligatoria",
+  });
+
   return (
     <motion.div
       layout
       transition={{ duration: 0.2, ease: "easeInOut" }}
       className="rounded-xl p-6 bg-white w-[544px] h-max m-auto shadow-md"
     >
-      {/* Logo */}
       <div className="flex items-center w-max me-auto">
         <Link href="/">
           <img src="/logo.svg" className="object-cover" alt="Logo" />
@@ -93,9 +103,7 @@ const AuthView = () => {
           <Alert message={errorMessage} className="mt-3" type="error" />
         )}
 
-        {/* Form */}
         <form onSubmit={handleSubmit(onSubmit)} className="w-full my-6">
-          {/* Email */}
           <div className="mb-3 flex flex-wrap">
             <label htmlFor="email" className="w-full font-semibold mb-2">
               Correo
@@ -121,20 +129,37 @@ const AuthView = () => {
             )}
           </div>
 
-          {/* Password */}
           <div className="mb-3 flex flex-wrap">
             <label htmlFor="password" className="w-full font-semibold mb-2">
               Contraseña
             </label>
-            <input
-              className="border-2 border-gray-200 w-full rounded-lg px-2 py-2"
-              placeholder="Ingresa tu contraseña"
-              type="password"
-              id="password"
-              {...register("password", {
-                required: "La contraseña es obligatoria",
-              })}
-            />
+            <div className="relative w-full">
+              <input
+                ref={(e) => {
+                  passwordRefFromRegister(e);
+                  inputPasswordRef.current = e;
+                }}
+                className="border-2 border-gray-200 w-full rounded-lg px-2 py-2"
+                placeholder="Ingresa tu contraseña"
+                type={showPassword ? "text" : "password"}
+                id="password"
+                {...passwordInputProps}
+              />
+
+              {showPassword ? (
+                <FaEyeSlash
+                  onClick={handlerClickShowPassword}
+                  className="absolute top-[30%] right-[4%] cursor-pointer"
+                  size={20}
+                />
+              ) : (
+                <FaEye
+                  onClick={handlerClickShowPassword}
+                  className="absolute top-[30%] right-[4%] cursor-pointer"
+                  size={20}
+                />
+              )}
+            </div>
             {errors.password && (
               <span className="text-red-500 text-sm mt-1">
                 {typeof errors.password.message === "string" &&
@@ -143,7 +168,6 @@ const AuthView = () => {
             )}
           </div>
 
-          {/* Remember me and reset password */}
           <div className="w-full flex justify-between items-center mt-4">
             <div className="flex items-center">
               <input type="checkbox" id="rememberMe" className="mr-2" />
@@ -160,7 +184,6 @@ const AuthView = () => {
             </Link>
           </div>
 
-          {/* Button login */}
           <div className="w-full my-6">
             <Button
               title="Iniciar sesión"
@@ -174,7 +197,6 @@ const AuthView = () => {
           </div>
         </form>
 
-        {/* Register Link */}
         <div className="w-full text-xs text-center my-5">
           ¿Aún no tienes cuenta?{" "}
           <Link
@@ -186,14 +208,12 @@ const AuthView = () => {
           y disfruta de todos los beneficios.
         </div>
 
-        {/* Divider */}
         <div className="flex items-center my-4">
           <div className="flex-grow border-t border-gray-300"></div>
           <span className="mx-4 text-gray-600">O</span>
           <div className="flex-grow border-t border-gray-300"></div>
         </div>
 
-        {/* Google and Facebook */}
         <div className="space-y-4 w-full">
           <motion.button className="bg-white border cursor-pointer border-gray-300 text-gray-700 rounded-lg py-2 w-full flex justify-center gap-3 items-center">
             <AiOutlineGoogle size={20} />

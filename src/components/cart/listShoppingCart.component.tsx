@@ -1,10 +1,8 @@
 "use client";
 
-import { useCartStore } from "@/stores/cartStore";
 import ItemShoppingCart from "./itemShoppingCart.component";
 
 const ListShoppingCart = ({ products }: { products: any }) => {
-  console.log({ products });
   return (
     <div className="w-full space-y-5">
       {products.map((product: any, index: number) => (

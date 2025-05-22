@@ -8,6 +8,9 @@ import { useCartStore } from "@/stores/cartStore";
 import { Fragment, useEffect, useState } from "react";
 import EmptyCart from "./emptyCart";
 import { formatCurrency, obtenerFechaEntregaEstimada } from "@/utils/generic";
+import { FiTrash2 } from "react-icons/fi";
+import { handleClearCart } from "@/handlers/cartHandlers";
+import { useRouter } from "nextjs-toploader/app";
 
 export default function CartView({ cart }: { cart: any }) {
   const {
@@ -23,6 +26,8 @@ export default function CartView({ cart }: { cart: any }) {
   const [envio, setEnvio] = useState<number>(0);
   const [total, setTotal] = useState<number>(0);
 
+  console.log({ cart });
+
   useEffect(() => {
     syncCartFromServer(cart);
 
@@ -33,7 +38,7 @@ export default function CartView({ cart }: { cart: any }) {
     setTotal(getTotalItem() + envio);
   }, [cart]);
 
-  return !cart || !Array.isArray(cart) ? (
+  return !cart || !Array.isArray(cart) || cart.length <= 0 ? (
     <EmptyCart />
   ) : (
     <ShoppingCart
@@ -59,6 +64,10 @@ const ShoppingCart = ({
   envio: number;
   total: number;
 }) => {
+  const router = useRouter();
+  const handlerProcederCompra = () => {
+    router.push("/Shopping-cart/envio");
+  };
   return (
     <div className="min-h-[450px] flex gap-10 mb-20">
       <div className="h-full w-[70%] bg-white border border-gray-200 p-5 rounded-xl">
@@ -112,6 +121,7 @@ const ShoppingCart = ({
         {/* Buttons */}
         <div className="w-full space-y-4">
           <Button
+            onClick={handlerProcederCompra}
             title="Proceder a la compra"
             variants="primary"
             className="font-[500]"
@@ -123,6 +133,14 @@ const ShoppingCart = ({
             variants="outline"
             className="font-[500]"
             icon={<BiPackage size={25} />}
+          />
+
+          <Button
+            onClick={handleClearCart}
+            title="Limpiar Carrito"
+            variants="outline"
+            className="font-[500]"
+            icon={<FiTrash2 size={20} />}
           />
         </div>
       </div>

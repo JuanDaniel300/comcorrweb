@@ -20,6 +20,7 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "swiper/css/scrollbar";
 import SessionProviderClient from "@/providers/SessionProviderClient";
+import { ToastProvider } from "@/providers/ToastProviderClient";
 
 export default async function RootLayout({
   children,
@@ -32,7 +33,9 @@ export default async function RootLayout({
     <html lang="en">
       <body className={montserrat.className}>
         {/* {!session && <GuestLogin />} */}
-        <SessionProviderClient>{children}</SessionProviderClient>
+        <SessionProviderClient>
+          <ToastProvider>{children}</ToastProvider>
+        </SessionProviderClient>
       </body>
     </html>
   );

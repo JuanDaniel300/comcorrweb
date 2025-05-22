@@ -19,11 +19,12 @@ export default async function CategoriaPage({
   );
   const categoriaId = categoriaName.split("-").pop() as string;
 
-  console.log({ page })
+  console.log({ page });
 
   const categoryProducts = await getCategoriasById(categoriaId, page);
   const products = adaptProducts(categoryProducts?.articulos);
 
+  console.log({ products: categoryProducts?.articulos });
 
   return (
     <ProductGrid

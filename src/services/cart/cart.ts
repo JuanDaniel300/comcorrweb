@@ -9,6 +9,7 @@ export const getCart = async () => {
     return r.data;
   } catch (error) {
     console.error("Error fetching getCart:", error);
+    return false;
   }
 };
 
@@ -25,6 +26,7 @@ export const addProductToCart = async (
     return r.data;
   } catch (error) {
     console.error("Error fetching addProductToCart:", error);
+    return false;
   }
 };
 
@@ -41,6 +43,7 @@ export const updateProductToCart = async (
     return r.data;
   } catch (error) {
     console.error("Error fetching updateProductToCart:", error);
+    return false;
   }
 };
 
@@ -50,6 +53,7 @@ export const deleteProductToCart = async (productoId: string) => {
     return r.data;
   } catch (error) {
     console.error("Error fetching deleteProductToCart:", error);
+    return false;
   }
 };
 
@@ -60,5 +64,6 @@ export const clearCart = async () => {
     return r.data;
   } catch (error) {
     console.error("Error fetching deleteCart:", error);
+    return false;
   }
 };

@@ -1,53 +1,45 @@
-"use client;"
+"use client;";
 import { SlArrowRight } from "react-icons/sl";
 import ListShoppingShipping from "./listShoppingShipping.component";
 import { motion } from "framer-motion";
 import ListItemRecomended from "./listItemsRecomended.component";
-
-const products = [
-  {
-    id: 1,
-    marca: "SAMSUNG",
-    name: "Lavadora Aqua Saving 19 Kilos Samsung",
-    sku: "WA19A3351GW/AX",
-    price: "$8,499.00",
-    image: "/products/refrigerador.png",
-    quantity: 1,
-    isOffer: true,
-    offerDetails: {
-      discount: 3000,
-      discountType: "MXN",
-    },
-  },
-
-  {
-    id: 1,
-    marca: "MIRAGE",
-    name: "Refrigerador 10 Pies Midea Blue Steel Top Mount",
-    sku: "MRX10FS",
-    price: "$6,499.00",
-    image: "/products/refrigerador2.png",
-    quantity: 1,
-    isOffer: true,
-    offerDetails: {
-      discount: 3000,
-      discountType: "MXN",
-    },
-  },
-];
+import { useCartStore } from "@/stores/cartStore";
+import { useEffect, useState } from "react";
+import { formatCurrency } from "@/utils/generic";
 
 const OrderDetail = ({
   showRecommended = true,
 }: {
   showRecommended: boolean;
 }) => {
+  const {
+    cart,
+    getSubtotalItem,
+    getTotalDiscount,
+    getTotalItem,
+    getTotalItems,
+  } = useCartStore();
+  const [totalItems, setTotalItems] = useState<number>(0);
+  const [subtotal, setSubTotal] = useState<number>(0);
+  const [descuento, setDescuento] = useState<number>(0);
+  const [envio, setEnvio] = useState<number>(0);
+  const [total, setTotal] = useState<number>(0);
+
+  useEffect(() => {
+    setTotalItems(getTotalItems());
+    setSubTotal(getSubtotalItem());
+    setDescuento(getTotalDiscount());
+    setEnvio(0);
+    setTotal(getTotalItem() + envio);
+  }, []);
+
   return (
     <div>
       <div className="text-xl  font-semibold">Tu Pedido</div>
 
       {/* Products */}
       <div className="products w-full my-5">
-        <ListShoppingShipping products={products} />
+        <ListShoppingShipping products={cart} />
       </div>
 
       {/* Divider */}
@@ -84,11 +76,15 @@ const OrderDetail = ({
         <div className="border-b-2 border-gray-100 pt-5 pb-0 ">
           <div className="flex space-y-3 justify-between m-auto">
             <div className="text-oscuro2 text-sm">Subtotal</div>
-            <div className="text-oscuro2 text-sm font-semibold">$17,998.00</div>
+            <div className="text-oscuro2 text-sm font-semibold">
+              {formatCurrency(subtotal)}
+            </div>
           </div>
           <div className="flex space-y-3 justify-between m-auto">
             <div className="text-oscuro2 text-sm">Envio</div>
-            <div className="text-oscuro2 text-sm font-semibold">$50.00</div>
+            <div className="text-oscuro2 text-sm font-semibold">
+              {formatCurrency(envio)}
+            </div>
           </div>
         </div>
 
@@ -96,7 +92,7 @@ const OrderDetail = ({
           <div className="flex space-y-3 justify-between m-auto">
             <div className="text-oscuro2  font-[500]">Total</div>
             <div className="text-secundario font-semibold text-base ">
-              $14,998.00
+              {formatCurrency(total)}
             </div>
           </div>
         </div>
@@ -109,7 +105,7 @@ const OrderDetail = ({
             También podria interesarte
           </div>
           <div className="w-full mt-5">
-            <ListItemRecomended products={products} />
+            <ListItemRecomended products={[]} />
           </div>
         </div>
       )}

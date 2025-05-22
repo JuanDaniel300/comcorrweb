@@ -3,6 +3,7 @@
 import { Product } from "@/types/product.type";
 
 export type AdaptedProduct = {
+  id: string;
   clave: string;
   descripcion: string;
   precio1: number;
@@ -21,6 +22,7 @@ const BASE_IMAGE_URL = "http://18.191.238.226:3000/";
 
 export function adaptProducts(rawProducts: Product[] = []): AdaptedProduct[] {
   return rawProducts.map((product) => ({
+    id: product.id,
     clave: product.clave,
     descripcion: product.descripcion,
     precio1: product.precio1,

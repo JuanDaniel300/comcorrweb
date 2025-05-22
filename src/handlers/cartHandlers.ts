@@ -1,27 +1,63 @@
+"use client";
 // src/handlers/cartHandlers.ts
-import { addProductToCart } from "@/services/cart/cart";
+import {
+  addProductToCart,
+  clearCart,
+  deleteProductToCart,
+} from "@/services/cart/cart";
 import { useCartStore } from "@/stores/cartStore";
 import { Product } from "@/types/product.type";
 
 // Handler para agregar
-export const handleAddToCart = async (product: Product, quantity = 1) => {
+export const handleAddToCart = async (
+  product: Product,
+  quantity = 1,
+  cart?: any
+) => {
   try {
-    await addProductToCart(product.clave, quantity);
+    const result = await addProductToCart(product.clave, quantity);
 
-    useCartStore.getState().addToCart(product, quantity);
+    if (result) {
+      useCartStore.getState().addToCart(product, quantity);
+
+      cart({
+        id: product.id,
+        name: product?.descripcion,
+        brand: product?.marca,
+        price: product?.precio1,
+        image: product?.imagen1 || "/products/refrigerador.png",
+        quantity: quantity,
+      });
+    }
   } catch (error) {
     console.error("no se pudo agregar el prodcuto", product.clave);
   }
 };
 
 // Handler para eliminar
-export const handleRemoveFromCart = (clave: string) => {
-  useCartStore.getState().removeFromCart(clave);
+export const handleRemoveFromCart = async (clave: string) => {
+  try {
+    const result = await deleteProductToCart(clave);
+
+    if (result) {
+      useCartStore.getState().removeFromCart(clave);
+    }
+  } catch (error) {
+    console.error("No se pudo eliminar el producto del carro");
+  }
 };
 
 // Handler para vaciar carrito
-export const handleClearCart = () => {
-  useCartStore.getState().clearCart();
+export const handleClearCart = async () => {
+  try {
+    const result = await clearCart();
+
+    if (result) {
+      useCartStore.getState().clearCart();
+    }
+  } catch (error) {
+    console.error("No se pudo limpiar el carrito");
+  }
 };
 
 // Handler para aumentar cantidad

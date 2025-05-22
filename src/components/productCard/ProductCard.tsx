@@ -10,8 +10,8 @@ import { capitalize, formatCurrency, generarSlug } from "@/utils/generic";
 import Button from "../Button/Button";
 import { Product } from "@/types/product.type";
 import { useRouter } from "nextjs-toploader/app";
-import { useCartStore } from "@/stores/cartStore";
 import { handleAddToCart } from "@/handlers/cartHandlers";
+import { useToast } from "@/providers/ToastProviderClient";
 
 const ProductCard = ({
   product,
@@ -20,13 +20,13 @@ const ProductCard = ({
   product: Product;
   keyIndex: number;
 }) => {
-  const { addToCart } = useCartStore();
+  const { cart } = useToast();
   const router = useRouter();
   const hasPromotion = product?.precio1 < product?.precio2;
   const hasDiscount = product?.precio2 > 0;
 
   const handleGoToProductView = () => {
-    const urlPath = `${generarSlug(product?.descripcion)}-${product?.clave}`;
+    const urlPath = `${generarSlug(product?.descripcion)}-${product?.id}`;
 
     router.push(`/${urlPath}`);
   };
@@ -36,7 +36,7 @@ const ProductCard = ({
     e.stopPropagation();
 
     // Lógica para añadir al carrito
-    handleAddToCart(product);
+    handleAddToCart(product, 1, cart);
   };
 
   return (

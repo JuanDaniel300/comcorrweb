@@ -13,11 +13,23 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { capitalize, formatCurrency } from "@/utils/generic";
 import ProductCard from "@/components/productCard/ProductCard";
-import { useParams, usePathname, useRouter, useSearchParams } from "next/navigation";
+import {
+  useParams,
+  usePathname,
+  useRouter,
+  useSearchParams,
+} from "next/navigation";
 import Breadcrumbs from "../Breadcrumbs/breadCrumbs";
 import { Product } from "@/types/product.type";
 import ProductGridSkeleton from "../skeletons/ui/productGridSkeleton";
-import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "../ui/pagination";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "../ui/pagination";
 
 // Animation variants
 const containerVariants = {
@@ -63,7 +75,7 @@ export default function ProductGrid({
   totalRecords,
   title,
   Breadcrumb,
-  loading = true
+  loading = true,
 }: {
   products: Product[];
   totalPages?: number;
@@ -79,7 +91,7 @@ export default function ProductGrid({
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
   const [selectedPromotions, setSelectedPromotions] = useState<string[]>([]);
 
-  const BRANDS = Array.from(new Set(products.map(p => p.marca)));
+  const BRANDS = Array.from(new Set(products.map((p) => p.marca)));
 
   // Filtrado y ordenamiento con productos adaptados
   const filteredProducts = useMemo(() => {
@@ -268,15 +280,17 @@ export default function ProductGrid({
                     <div
                       className="absolute inset-0 flex items-center"
                       style={{
-                        left: `${((priceRange[0] - MIN_PRICE) /
-                          (MAX_PRICE - MIN_PRICE)) *
-                          100
-                          }%`,
-                        right: `${100 -
-                          ((priceRange[1] - MIN_PRICE) /
+                        left: `${
+                          ((priceRange[0] - MIN_PRICE) /
                             (MAX_PRICE - MIN_PRICE)) *
                           100
-                          }%`,
+                        }%`,
+                        right: `${
+                          100 -
+                          ((priceRange[1] - MIN_PRICE) /
+                            (MAX_PRICE - MIN_PRICE)) *
+                            100
+                        }%`,
                       }}
                     >
                       <div className="h-1 w-full  rounded-full"></div>
@@ -446,15 +460,17 @@ export default function ProductGrid({
                   className="grid grid-cols-2 place-items-center sm:place-items-stretch justify-center sm:grid-cols-[repeat(auto-fill,minmax(300px,1fr))] space-y-5"
                 >
                   {filteredProducts.map((product, index) => (
-                    <ProductCard key={index} keyIndex={index} product={product} />
+                    <ProductCard
+                      key={index}
+                      keyIndex={index}
+                      product={product}
+                    />
                   ))}
                 </motion.div>
 
-                {
-                  totalPages && totalPages > 1 && (
-                    <PaginationProducts totalPages={totalPages} />
-                  )
-                }
+                {totalPages && totalPages > 1 && (
+                  <PaginationProducts totalPages={totalPages} />
+                )}
               </Fragment>
             ) : (
               <div className="text-center py-12 bg-claro100 rounded-lg border border-claro2">
@@ -486,15 +502,14 @@ export default function ProductGrid({
   );
 }
 
-
-
 const PaginationProducts = ({ totalPages }: { totalPages: number }) => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
 
-
-  const page = searchParams.get("page") ? parseInt(searchParams.get("page") as string, 10) : 1;
+  const page = searchParams.get("page")
+    ? parseInt(searchParams.get("page") as string, 10)
+    : 1;
 
   const handleSearch = (page: number) => {
     const params = new URLSearchParams(searchParams);
@@ -506,7 +521,7 @@ const PaginationProducts = ({ totalPages }: { totalPages: number }) => {
     }
 
     router.replace(`${pathname}?${params.toString()}`);
-    router.refresh()
+    router.refresh();
   };
 
   const getPageNumbers = () => {

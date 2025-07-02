@@ -22,7 +22,7 @@ export default async function CategoriaPage({
   console.log({ page });
 
   const categoryProducts = await getCategoriasById(categoriaId, page);
-  const products = adaptProducts(categoryProducts?.articulos);
+  const products: Product[] = adaptProducts(categoryProducts?.articulos);
 
   console.log({ products: categoryProducts?.articulos });
 
@@ -30,7 +30,7 @@ export default async function CategoriaPage({
     <ProductGrid
       key={page}
       title={slugATexto(categoriaTitle)}
-      products={products as Product[]}
+      products={products}
       totalPages={categoryProducts?.totalPages}
       loading={false}
       Breadcrumb={[{ title: slugATexto(categoriaTitle), link: "#" }]}

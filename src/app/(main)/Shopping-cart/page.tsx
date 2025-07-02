@@ -1,11 +1,8 @@
 import CartView from "@/components/shopping-cart/cart";
 import RecomendadosSection from "@/sections/home/recomendados/Recomendados";
-import { getCart } from "@/services/cart/cart";
 import { Suspense } from "react";
 
 const ShoppingCart = async () => {
-  const cart = await getCart();
-
   return (
     <div className="min-h-screen padding-top ">
       <div className="container mx-auto  py-10">

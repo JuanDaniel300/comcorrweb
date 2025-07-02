@@ -1,3 +1,4 @@
+import { getCart } from "@/services/cart/cart";
 import { Product } from "@/types/product.type";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
@@ -16,20 +17,19 @@ type CartStore = {
   getTotalDiscount: () => number;
   getSubtotalItem: () => number;
   getTotalItem: () => number;
-  syncCartFromServer: (serverCart: CartItem[]) => void;
+  syncCartFromServer: () => Promise<void>;
 };
 
 export const useCartStore = create<CartStore>()(
   persist(
     (set, get) => ({
       cart: [],
-
       // Agrega al carrito o aumenta cantidad si ya existe
       addToCart: (product, quantity = 1) => {
         if (quantity <= 0) return; // evitar cantidades inválidas
 
         const cart = get().cart;
-        const index = cart.findIndex((item) => item.clave === product.clave);
+        const index = cart.findIndex((item) => item.id === product.id);
 
         if (index !== -1) {
           const updatedCart = [...cart];
@@ -41,8 +41,10 @@ export const useCartStore = create<CartStore>()(
       },
 
       // Elimina producto del carrito
-      removeFromCart: (clave) => {
-        set({ cart: get().cart.filter((item) => item.clave !== clave) });
+      removeFromCart: (id) => {
+        set({
+          cart: get().cart.filter((item) => item.id !== id),
+        });
       },
 
       // Limpia todo el carrito
@@ -51,14 +53,14 @@ export const useCartStore = create<CartStore>()(
       },
 
       // Actualiza cantidad, elimina si es <= 0
-      updateQuantity: (clave, quantity) => {
+      updateQuantity: (id, quantity) => {
         if (quantity <= 0) {
-          get().removeFromCart(clave);
+          get().removeFromCart(id);
           return;
         }
 
         const updatedCart = get().cart.map((item) =>
-          item.clave === clave ? { ...item, quantity } : item
+          item.id === id ? { ...item, quantity } : item
         );
         set({ cart: updatedCart });
       },
@@ -105,8 +107,15 @@ export const useCartStore = create<CartStore>()(
       },
 
       // Sincronizar el carrito de la base de datos con el local
-      syncCartFromServer: (serverCart: CartItem[]) => {
-        set({ cart: serverCart });
+      syncCartFromServer: async () => {
+        try {
+          const serverCart = await getCart();
+          if (serverCart?.articulos) {
+            set({ cart: serverCart.articulos });
+          }
+        } catch (error) {
+          console.error("Error al sincronizar carrito desde servidor", error);
+        }
       },
     }),
     {

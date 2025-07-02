@@ -1,11 +1,12 @@
 "use client";
 
 import ItemShoppingCart from "./itemShoppingCart.component";
+import { Product } from "@/types/product.type";
 
-const ListShoppingCart = ({ products }: { products: any }) => {
+const ListShoppingCart = ({ products }: { products: Product[] }) => {
   return (
     <div className="w-full space-y-5">
-      {products.map((product: any, index: number) => (
+      {products.map((product: Product, index: number) => (
         <div key={index}>
           <ItemShoppingCart item={product} />
 

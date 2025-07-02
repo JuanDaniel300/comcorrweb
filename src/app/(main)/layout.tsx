@@ -3,17 +3,21 @@ import Navbar from "@/components/navbar/navbar.component";
 import NavbarCategories from "@/components/navabar-categories";
 import { Suspense } from "react";
 import NavbarCategoriesSkeleton from "@/components/navabar-categories/Skeleton";
-import NextTopLoader from 'nextjs-toploader';
+import NextTopLoader from "nextjs-toploader";
+import { getServerSession } from "next-auth";
+import { authOptionsUtils } from "@/lib/session";
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await getServerSession(authOptionsUtils);
+
   return (
     <div>
       <div className="fixed w-full z-50">
-        <Navbar />
+        <Navbar session={session} />
 
         <Suspense fallback={<NavbarCategoriesSkeleton />}>
           <NavbarCategories />

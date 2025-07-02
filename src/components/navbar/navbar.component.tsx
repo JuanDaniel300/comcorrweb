@@ -12,10 +12,13 @@ import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import ProfileButton from "../profile/profileButton";
 
-const Navbar = () => {
+interface NavbarProps {
+  session: any;
+}
+
+const Navbar = ({ session }: NavbarProps) => {
   const { getTotalItems } = useCartStore();
   const [hasMounted, setHasMounted] = useState(false);
-  const { data: session, status } = useSession();
 
   useEffect(() => {
     setHasMounted(true);

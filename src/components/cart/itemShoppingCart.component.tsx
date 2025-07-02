@@ -6,20 +6,30 @@ import {
   handleRemoveFromCart,
 } from "@/handlers/cartHandlers";
 import { Product } from "@/types/product.type";
-import { formatCurrency } from "@/utils/generic";
+import { formatCurrency, generarSlug } from "@/utils/generic";
 import { Fragment } from "react";
 import { BiTrash } from "react-icons/bi";
 import { CiDiscount1 } from "react-icons/ci";
 import { GoDash, GoPlus } from "react-icons/go";
+import { useRouter } from "nextjs-toploader/app";
 
 const ItemShoppingCart = ({ item }: { item: Product }) => {
+  const router = useRouter();
   const hasPromotion = item?.precio1 < item?.precio2;
+
+  const handleGoToProductView = () => {
+    const urlPath = `${generarSlug(item?.descripcion)}-${
+      item?.id || item?.clave
+    }`;
+
+    router.push(`/${urlPath}`);
+  };
 
   return (
     <div className="itemShoppingCart flex w-full">
       <div className="itemShoppingCart__image max-w-[200px] h-[180px] w-[200px] px-4">
         <img
-          src={item.imagen1 as string}
+          src={(item.imagen1 as string) || "/products/refrigerador.png"}
           className="object-scale-down w-full h-full flex m-auto items-center "
         />
       </div>
@@ -27,7 +37,10 @@ const ItemShoppingCart = ({ item }: { item: Product }) => {
         <div className="marca text-oscuro2 text-sm flex-1 w-full">
           {item.marca}
         </div>
-        <div className="nombre text-primario font-semibold flex-1 w-full">
+        <div
+          className="nombre text-primario font-semibold flex-1 w-full hover:underline cursor-pointer"
+          onClick={handleGoToProductView}
+        >
           {item.descripcion}
         </div>
         <div className="sku font-[500] text-sm flex-1 w-full">
@@ -36,14 +49,14 @@ const ItemShoppingCart = ({ item }: { item: Product }) => {
         <div className="quantity flex-1 w-full">
           <div className="flex items-center border border-gray-200 py-[2px] w-max rounded-lg">
             <button
-              onClick={() => handleDecreaseQuantity(item.clave)}
+              onClick={() => handleDecreaseQuantity(item.id || item.clave)}
               className=" text-gray-700 px-2 py-1 rounded-l m-auto cursor-pointer"
             >
               <GoDash color="#e12424" />
             </button>
             <span className="mx-3 text-sm font-[500]">{item.quantity}</span>
             <button
-              onClick={() => handleIncreaseQuantity(item.clave)}
+              onClick={() => handleIncreaseQuantity(item.id || item.clave)}
               className=" text-gray-700 px-2 py-1 rounded-r m-auto cursor-pointer"
             >
               <GoPlus color="#02308e" />
@@ -72,7 +85,7 @@ const ItemShoppingCart = ({ item }: { item: Product }) => {
           </div>
         </div>
         <div
-          onClick={() => handleRemoveFromCart(item?.clave)}
+          onClick={() => handleRemoveFromCart(item?.id || item?.clave)}
           className="delete__Product flex text-oscuro2 text-sm hover:underline cursor-pointer"
         >
           <BiTrash className="m-auto" />

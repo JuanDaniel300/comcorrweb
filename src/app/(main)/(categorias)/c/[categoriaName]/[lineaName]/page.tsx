@@ -8,7 +8,7 @@ export default async function LineasPage({
   params,
   searchParams,
 }: {
-  params: { categoriaName: string, lineaName: string };
+  params: { categoriaName: string; lineaName: string };
   searchParams: { page?: string };
 }) {
   const { categoriaName, lineaName } = await params;
@@ -22,14 +22,14 @@ export default async function LineasPage({
   const lineaId = lineaName.split("-").pop() as string;
 
   const lineaProducts = await getLineasProduct(lineaId, page);
-  const products = adaptProducts(lineaProducts?.articulos);
+  const products: Product[] = adaptProducts(lineaProducts?.articulos);
 
   return (
     <ProductGrid
       key={lineaId + page}
       title={slugATexto(lineaTitle)}
       totalPages={lineaProducts?.totalPages}
-      products={products as Product[]}
+      products={products}
       loading={false}
       Breadcrumb={[
         {

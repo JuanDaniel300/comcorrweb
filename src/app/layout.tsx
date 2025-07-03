@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import "../styles/main.css";
-import { getServerSession } from "next-auth";
-import GuestLogin from "@/components/auth/GuestLogin";
+import { Toaster } from "react-hot-toast";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -34,7 +33,13 @@ export default async function RootLayout({
       <body className={montserrat.className}>
         {/* {!session && <GuestLogin />} */}
         <SessionProviderClient>
-          <ToastProvider>{children}</ToastProvider>
+          <ToastProvider>
+            <div>
+              <Toaster />
+            </div>
+
+            {children}
+          </ToastProvider>
         </SessionProviderClient>
       </body>
     </html>

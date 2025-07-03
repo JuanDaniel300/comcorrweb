@@ -6,6 +6,7 @@ import {
 } from "@/services/cart/cart";
 import { useCartStore } from "@/stores/cartStore";
 import { Product } from "@/types/product.type";
+import toast from "react-hot-toast";
 
 export const handleAddToCart = async (
   product: Product,
@@ -28,6 +29,10 @@ export const handleAddToCart = async (
           quantity,
         });
       }
+
+      // toast.success("Producto agregado a su carrito de compras");
+    } else {
+      toast.error("No se pudo agregar el producto a su carrito de compra");
     }
   } catch (error) {
     console.error("No se pudo agregar el producto", product.id, error);
@@ -40,6 +45,8 @@ export const handleRemoveFromCart = async (id: string) => {
 
     if (result) {
       useCartStore.getState().removeFromCart(id);
+    } else {
+      toast.error("No se pudo eliminar el producto del carrito");
     }
   } catch (error) {
     console.error("No se pudo eliminar el producto del carrito", error);
@@ -52,6 +59,8 @@ export const handleClearCart = async () => {
 
     if (result) {
       useCartStore.getState().clearCart();
+    } else {
+      toast.error("No se pudo limpiar el carrito");
     }
   } catch (error) {
     console.error("No se pudo limpiar el carrito", error);

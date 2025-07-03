@@ -16,13 +16,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 import "swiper/css";
@@ -35,6 +28,7 @@ import {
 } from "@/services/direcciones/direcciones";
 import { IoIosHome } from "react-icons/io";
 import toast from "react-hot-toast";
+import { useAddressStore } from "@/stores/adressStore";
 
 export default function AddressSelector() {
   const [addresses, setAddresses] = useState<DireccionType[]>([]);
@@ -63,6 +57,8 @@ export default function AddressSelector() {
 
     if (direcciones) {
       setAddresses(direcciones?.direcciones);
+
+      setSelectedAddressId(useAddressStore.getState().selectedAddress);
     }
 
     setLoading(false);
@@ -71,17 +67,6 @@ export default function AddressSelector() {
   useEffect(() => {
     fetchAddresses();
   }, []);
-
-  const getAddressIcon = (type: string) => {
-    switch (type) {
-      case "home":
-        return <FaHome className="w-4 h-4" />;
-      case "work":
-        return <FaBriefcase className="w-4 h-4" />;
-      default:
-        return <FaMapMarkerAlt className="w-4 h-4" />;
-    }
-  };
 
   const handleAddAddress = async () => {
     if (
@@ -222,7 +207,12 @@ export default function AddressSelector() {
                       ? "ring-2 ring-blue-500 bg-blue-50 border-blue-200 shadow-lg"
                       : "hover:shadow-lg border-gray-200"
                   }`}
-                  onClick={() => setSelectedAddressId(address.id ?? null)}
+                  onClick={() => {
+                    useAddressStore.setState({
+                      selectedAddress: address.id ?? null,
+                    });
+                    setSelectedAddressId(address.id ?? null);
+                  }}
                 >
                   <CardContent className="p-6">
                     <div className="flex items-center gap-3 mb-4">

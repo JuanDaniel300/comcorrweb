@@ -7,9 +7,16 @@ import { FiCheckCircle } from "react-icons/fi";
 import { useRouter } from "nextjs-toploader/app";
 import Breadcrumbs from "@/components/Breadcrumbs/breadCrumbs";
 import Button from "@/components/Button/Button";
+import { useSearchParams } from "next/navigation";
+import { useCartStore } from "@/stores/cartStore";
+import { useEffect, useState } from "react";
+import { formatCurrency } from "@/utils/generic";
 
 const Confirmation = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const orderId = searchParams.get("order_id");
+
   const handlerFollowShopping = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     e.stopPropagation();
@@ -23,6 +30,27 @@ const Confirmation = () => {
 
     router.push("/profile/orders");
   };
+
+  const {
+    cart,
+    getSubtotalItem,
+    getTotalDiscount,
+    getTotalItem,
+    getTotalItems,
+  } = useCartStore();
+  const [totalItems, setTotalItems] = useState<number>(0);
+  const [subtotal, setSubTotal] = useState<number>(0);
+  const [descuento, setDescuento] = useState<number>(0);
+  const [envio, setEnvio] = useState<number>(0);
+  const [total, setTotal] = useState<number>(0);
+
+  useEffect(() => {
+    setTotalItems(getTotalItems());
+    setSubTotal(getSubtotalItem());
+    setDescuento(getTotalDiscount());
+    setEnvio(0);
+    setTotal(getTotalItem() + envio);
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-100 p-4 padding-top">
@@ -72,7 +100,7 @@ const Confirmation = () => {
 
           <div className="text-center">
             <p className="text-sm text-gray-600">Número de Pedido:</p>
-            <p className="text-2xl font-bold text-blue-900">12345</p>
+            <p className="text-2xl font-bold text-blue-900">{orderId}</p>
             <h2 className="text-oscuro2 mt-3">Resumen de compra</h2>
           </div>
 
@@ -106,47 +134,34 @@ const Confirmation = () => {
               </div>
 
               <div className="space-y-4">
-                <div className="flex gap-4 border border-gray-200 rounded-xl py-2">
-                  <img
-                    src="/products/refrigerador.png"
-                    alt="Samsung Lavadora"
-                    width={80}
-                    height={80}
-                    className="object-contain"
-                  />
-                  <div>
-                    <p className="font-semibold text-sm text-oscuro3">
-                      SAMSUNG
-                    </p>
-                    <p className="text-sm text-oscuro3">
-                      Lavadora Aqua Saving 19 Kilos Samsung
-                    </p>
-                    <p className="text-sm text-oscuro3 font-semibold">x1</p>
+                {cart.map((item) => (
+                  <div className="flex gap-4 border border-gray-200 rounded-xl py-2">
+                    <img
+                      src={
+                        (item.imagen1 as string) || "/products/refrigerador.png"
+                      }
+                      alt={item.descripcion}
+                      width={80}
+                      height={80}
+                      className="object-contain"
+                    />
+                    <div>
+                      <p className="text-sm text-oscuro3 font-semibold">
+                        {item.marca}
+                      </p>
+                      <p className="text-sm text-oscuro3">{item.descripcion}</p>
+                      <p className="text-sm text-oscuro3 font-semibold">
+                        x{item.quantity}
+                      </p>
+                    </div>
                   </div>
-                </div>
-
-                <div className="flex gap-4 border border-gray-200 rounded-xl py-2">
-                  <img
-                    src="/products/refrigerador2.png"
-                    alt="Mirage Refrigerador"
-                    width={80}
-                    height={80}
-                    className="object-contain"
-                  />
-                  <div>
-                    <p className="text-sm text-oscuro3 font-semibold">MIRAGE</p>
-                    <p className="text-sm text-oscuro3">
-                      Refrigerador 10 Pies Midea Blue Steel Top Mount
-                    </p>
-                    <p className="text-sm text-oscuro3 font-semibold">x1</p>
-                  </div>
-                </div>
+                ))}
 
                 <div className="pt-4">
                   <div className="flex  items-center">
                     <p className="font-[500] text-oscuro2">Total:</p>
                     <p className="ms-4 text-xl font-[500] text-red-600">
-                      $14,998.00
+                      {formatCurrency(total)}
                     </p>
                   </div>
                 </div>

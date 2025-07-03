@@ -272,6 +272,7 @@ const ToastComponent: React.FC<ToastComponentProps> = ({ toast, onClose }) => {
   if (type === "cart" && product) {
     return (
       <div
+        className="border"
         style={{
           background: "white",
           color: "#1a1a1a",

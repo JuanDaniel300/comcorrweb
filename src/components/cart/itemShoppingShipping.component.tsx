@@ -8,7 +8,7 @@ const ItemShoppingShipping = ({ item }: { item: Product }) => {
     <div className="item-shopping-shipping flex gap-5 w-full">
       <div className="item-shopping-shipping__image max-w-[15%] min-w-[15%] w-[15%]">
         <img
-          src={item.imagen1 as string}
+          src={(item.imagen1 as string) || "/products/refrigerador.png"}
           alt={item.descripcion}
           className="w-auto h-auto object-scale-down"
         />

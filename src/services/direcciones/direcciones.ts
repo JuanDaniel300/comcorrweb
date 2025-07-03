@@ -1,8 +1,7 @@
-import { TIMER_CACHE } from "@/constants/timer";
 import axiosInstance from "../api";
-import cache from "memory-cache";
 
-type DireccionType = {
+export type DireccionType = {
+  id?: number;
   calle: string;
   numero: string;
   colonia: string;
@@ -24,6 +23,17 @@ export const createDirection = async (direccion: DireccionType) => {
     return data;
   } catch (error) {
     console.error("Error al agregar una direccion");
+    return null;
+  }
+};
+
+export const getDirecciones = async () => {
+  try {
+    const response = await axiosInstance.get("/cart/direccion");
+    const data = response?.data;
+    return data;
+  } catch (error) {
+    console.error("Error al obtener direcciones");
     return null;
   }
 };

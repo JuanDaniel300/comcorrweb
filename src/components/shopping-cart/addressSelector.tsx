@@ -28,83 +28,47 @@ import { Navigation, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-
-interface Address {
-  id: string;
-  type: "home" | "work" | "other";
-  name: string;
-  street: string;
-  city: string;
-  state: string;
-  zipCode: string;
-  colony: string;
-  additionalInfo?: string;
-}
-
-const mockAddresses: Address[] = [
-  {
-    id: "1",
-    type: "home",
-    name: "Casa",
-    street: "Av. Revolución #123",
-    city: "Ciudad de México",
-    state: "CDMX",
-    zipCode: "06700",
-    colony: "Del Valle",
-    additionalInfo: "Casa azul, portón negro",
-  },
-  {
-    id: "2",
-    type: "work",
-    name: "Oficina",
-    street: "Paseo de la Reforma #456",
-    city: "Ciudad de México",
-    state: "CDMX",
-    zipCode: "06600",
-    colony: "Juárez",
-    additionalInfo: "Edificio corporativo, piso 15",
-  },
-  {
-    id: "3",
-    type: "other",
-    name: "Casa de Mamá",
-    street: "Calle Morelos #789",
-    city: "Guadalajara",
-    state: "Jalisco",
-    zipCode: "44100",
-    colony: "Centro",
-    additionalInfo: "Casa esquina, puerta café",
-  },
-];
+import {
+  createDirection,
+  DireccionType,
+  getDirecciones,
+} from "@/services/direcciones/direcciones";
+import { IoIosHome } from "react-icons/io";
+import toast from "react-hot-toast";
 
 export default function AddressSelector() {
-  const [addresses, setAddresses] = useState<Address[]>([]);
-  const [selectedAddressId, setSelectedAddressId] = useState<string | null>(
+  const [addresses, setAddresses] = useState<DireccionType[]>([]);
+  const [selectedAddressId, setSelectedAddressId] = useState<number | null>(
     null
   );
   const [showAddForm, setShowAddForm] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [newAddress, setNewAddress] = useState<Partial<Address>>({
-    type: "home",
-    name: "",
-    street: "",
-    city: "",
-    state: "",
-    zipCode: "",
-    colony: "",
-    additionalInfo: "",
+  const [newAddress, setNewAddress] = useState<Partial<DireccionType>>({
+    calle: "",
+    numero: "",
+    colonia: "",
+    ciudad: "",
+    estado: "",
+    codigo_postal: "",
+    referencias: "",
+    latitud: 19.043403,
+    longitud: -98.966772,
+    predeterminado: false,
   });
 
-  // Simular carga de datos del endpoint
-  useEffect(() => {
-    const fetchAddresses = async () => {
-      setLoading(true);
-      // Simular delay de API
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      setAddresses(mockAddresses);
-      setLoading(false);
-    };
+  const fetchAddresses = async () => {
+    setLoading(true);
 
+    const direcciones = await getDirecciones();
+
+    if (direcciones) {
+      setAddresses(direcciones?.direcciones);
+    }
+
+    setLoading(false);
+  };
+
+  useEffect(() => {
     fetchAddresses();
   }, []);
 
@@ -119,32 +83,49 @@ export default function AddressSelector() {
     }
   };
 
-  const handleAddAddress = () => {
-    if (newAddress.name && newAddress.street && newAddress.city) {
-      const address: Address = {
-        id: Date.now().toString(),
-        type: newAddress.type as "home" | "work" | "other",
-        name: newAddress.name,
-        street: newAddress.street,
-        city: newAddress.city,
-        state: newAddress.state || "",
-        zipCode: newAddress.zipCode || "",
-        colony: newAddress.colony || "",
-        additionalInfo: newAddress.additionalInfo || "",
+  const handleAddAddress = async () => {
+    if (
+      newAddress.calle &&
+      newAddress.numero &&
+      newAddress.colonia &&
+      newAddress.ciudad &&
+      newAddress.estado &&
+      newAddress.codigo_postal
+    ) {
+      const address: DireccionType = {
+        calle: newAddress.calle,
+        numero: newAddress.numero,
+        colonia: newAddress.colonia,
+        ciudad: newAddress.ciudad,
+        estado: newAddress.estado,
+        codigo_postal: newAddress.codigo_postal,
+        referencias: newAddress.referencias || "",
+        latitud: newAddress.latitud || 19.043403,
+        longitud: newAddress.longitud || -98.966772,
+        predeterminado: newAddress.predeterminado || false,
       };
 
-      setAddresses([...addresses, address]);
-      setNewAddress({
-        type: "home",
-        name: "",
-        street: "",
-        city: "",
-        state: "",
-        zipCode: "",
-        colony: "",
-        additionalInfo: "",
-      });
+      const response = await createDirection(address);
+
+      if (response) {
+        fetchAddresses();
+        toast.success("Direccion agregada exitosamente");
+      }
+
       setShowAddForm(false);
+
+      setNewAddress({
+        calle: "",
+        numero: "",
+        colonia: "",
+        ciudad: "",
+        estado: "",
+        codigo_postal: "",
+        referencias: "",
+        latitud: 19.043403,
+        longitud: -98.966772,
+        predeterminado: false,
+      });
     }
   };
 
@@ -228,7 +209,7 @@ export default function AddressSelector() {
           className="address-swiper"
         >
           {/* Existing Addresses */}
-          {addresses.map((address) => (
+          {addresses.map((address, index: number) => (
             <SwiperSlide key={address.id} className="pb-4">
               <motion.div
                 className="w-full px-1"
@@ -241,7 +222,7 @@ export default function AddressSelector() {
                       ? "ring-2 ring-blue-500 bg-blue-50 border-blue-200 shadow-lg"
                       : "hover:shadow-lg border-gray-200"
                   }`}
-                  onClick={() => setSelectedAddressId(address.id)}
+                  onClick={() => setSelectedAddressId(address.id ?? null)}
                 >
                   <CardContent className="p-6">
                     <div className="flex items-center gap-3 mb-4">
@@ -252,26 +233,23 @@ export default function AddressSelector() {
                             : "bg-gray-100 text-gray-600"
                         }`}
                       >
-                        {getAddressIcon(address.type)}
+                        <IoIosHome />
                       </div>
                       <h3 className="font-semibold text-lg text-gray-800">
-                        {address.name}
+                        {address.calle} {address.numero}
                       </h3>
                     </div>
 
                     <div className="space-y-2 text-sm text-gray-600">
                       <p className="font-medium text-gray-800">
-                        {address.street}
+                        {address.colonia}, {address.ciudad}
                       </p>
                       <p>
-                        {address.colony}, {address.city}
+                        {address.estado} {address.codigo_postal}
                       </p>
-                      <p>
-                        {address.state} {address.zipCode}
-                      </p>
-                      {address.additionalInfo && (
+                      {address.referencias && (
                         <p className="text-xs text-gray-500 italic">
-                          {address.additionalInfo}
+                          {address.referencias}
                         </p>
                       )}
                     </div>
@@ -371,115 +349,143 @@ export default function AddressSelector() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="md:col-span-2">
-                  <Label htmlFor="addressType">Tipo de dirección</Label>
-                  <Select
-                    value={newAddress.type}
-                    onValueChange={(value) =>
+                  <Label htmlFor="calle">Calle</Label>
+                  <Input
+                    id="calle"
+                    placeholder="Ej: Av. Revolución"
+                    value={newAddress.calle}
+                    onChange={(e) =>
+                      setNewAddress({ ...newAddress, calle: e.target.value })
+                    }
+                  />
+                </div>
+
+                <div>
+                  <Label htmlFor="numero">Número</Label>
+                  <Input
+                    id="numero"
+                    placeholder="Ej: 123"
+                    value={newAddress.numero}
+                    onChange={(e) =>
+                      setNewAddress({ ...newAddress, numero: e.target.value })
+                    }
+                  />
+                </div>
+
+                <div>
+                  <Label htmlFor="colonia">Colonia</Label>
+                  <Input
+                    id="colonia"
+                    placeholder="Ej: Del Valle"
+                    value={newAddress.colonia}
+                    onChange={(e) =>
+                      setNewAddress({ ...newAddress, colonia: e.target.value })
+                    }
+                  />
+                </div>
+
+                <div>
+                  <Label htmlFor="ciudad">Ciudad</Label>
+                  <Input
+                    id="ciudad"
+                    placeholder="Ej: Ciudad de México"
+                    value={newAddress.ciudad}
+                    onChange={(e) =>
+                      setNewAddress({ ...newAddress, ciudad: e.target.value })
+                    }
+                  />
+                </div>
+
+                <div>
+                  <Label htmlFor="estado">Estado</Label>
+                  <Input
+                    id="estado"
+                    placeholder="Ej: CDMX"
+                    value={newAddress.estado}
+                    onChange={(e) =>
+                      setNewAddress({ ...newAddress, estado: e.target.value })
+                    }
+                  />
+                </div>
+
+                <div>
+                  <Label htmlFor="codigo_postal">Código Postal</Label>
+                  <Input
+                    id="codigo_postal"
+                    placeholder="Ej: 06700"
+                    value={newAddress.codigo_postal}
+                    onChange={(e) =>
                       setNewAddress({
                         ...newAddress,
-                        type: value as "home" | "work" | "other",
+                        codigo_postal: e.target.value,
                       })
                     }
-                  >
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="home">🏠 Casa</SelectItem>
-                      <SelectItem value="work">💼 Trabajo</SelectItem>
-                      <SelectItem value="other">📍 Otro</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div className="md:col-span-2">
-                  <Label htmlFor="name">Nombre de la dirección</Label>
-                  <Input
-                    id="name"
-                    placeholder="Ej: Casa, Oficina, Casa de mamá"
-                    value={newAddress.name}
-                    onChange={(e) =>
-                      setNewAddress({ ...newAddress, name: e.target.value })
-                    }
                   />
                 </div>
 
                 <div className="md:col-span-2">
-                  <Label htmlFor="street">Calle y número</Label>
-                  <Input
-                    id="street"
-                    placeholder="Ej: Av. Revolución #123"
-                    value={newAddress.street}
-                    onChange={(e) =>
-                      setNewAddress({ ...newAddress, street: e.target.value })
-                    }
-                  />
-                </div>
-
-                <div>
-                  <Label htmlFor="city">Ciudad</Label>
-                  <Input
-                    id="city"
-                    placeholder="Ciudad de México"
-                    value={newAddress.city}
-                    onChange={(e) =>
-                      setNewAddress({ ...newAddress, city: e.target.value })
-                    }
-                  />
-                </div>
-
-                <div>
-                  <Label htmlFor="colony">Colonia</Label>
-                  <Input
-                    id="colony"
-                    placeholder="Del Valle"
-                    value={newAddress.colony}
-                    onChange={(e) =>
-                      setNewAddress({ ...newAddress, colony: e.target.value })
-                    }
-                  />
-                </div>
-
-                <div>
-                  <Label htmlFor="state">Estado</Label>
-                  <Input
-                    id="state"
-                    placeholder="CDMX"
-                    value={newAddress.state}
-                    onChange={(e) =>
-                      setNewAddress({ ...newAddress, state: e.target.value })
-                    }
-                  />
-                </div>
-
-                <div>
-                  <Label htmlFor="zipCode">Código Postal</Label>
-                  <Input
-                    id="zipCode"
-                    placeholder="06700"
-                    value={newAddress.zipCode}
-                    onChange={(e) =>
-                      setNewAddress({ ...newAddress, zipCode: e.target.value })
-                    }
-                  />
-                </div>
-
-                <div className="md:col-span-2">
-                  <Label htmlFor="additionalInfo">
-                    Indicaciones adicionales
-                  </Label>
+                  <Label htmlFor="referencias">Referencias adicionales</Label>
                   <Textarea
-                    id="additionalInfo"
+                    id="referencias"
                     placeholder="Ej: Casa azul, portón negro, entre calles..."
-                    value={newAddress.additionalInfo}
+                    value={newAddress.referencias}
                     onChange={(e) =>
                       setNewAddress({
                         ...newAddress,
-                        additionalInfo: e.target.value,
+                        referencias: e.target.value,
                       })
                     }
                     rows={3}
                   />
+                </div>
+
+                <div>
+                  <Label htmlFor="latitud">Latitud</Label>
+                  <Input
+                    id="latitud"
+                    placeholder="Ej: 19.4326"
+                    type="number"
+                    value={newAddress.latitud}
+                    onChange={(e) =>
+                      setNewAddress({
+                        ...newAddress,
+                        latitud: parseFloat(e.target.value),
+                      })
+                    }
+                  />
+                </div>
+
+                <div>
+                  <Label htmlFor="longitud">Longitud</Label>
+                  <Input
+                    id="longitud"
+                    placeholder="Ej: -99.1332"
+                    type="number"
+                    value={newAddress.longitud}
+                    onChange={(e) =>
+                      setNewAddress({
+                        ...newAddress,
+                        longitud: parseFloat(e.target.value),
+                      })
+                    }
+                  />
+                </div>
+
+                <div className="flex items-center gap-2 md:col-span-2">
+                  <input
+                    type="checkbox"
+                    id="predeterminado"
+                    checked={newAddress.predeterminado}
+                    onChange={(e) =>
+                      setNewAddress({
+                        ...newAddress,
+                        predeterminado: e.target.checked,
+                      })
+                    }
+                  />
+                  <Label htmlFor="predeterminado">
+                    Usar como dirección predeterminada
+                  </Label>
                 </div>
               </div>
 
@@ -495,7 +501,12 @@ export default function AddressSelector() {
                   onClick={handleAddAddress}
                   className="flex-1 bg-blue-600 hover:bg-blue-700"
                   disabled={
-                    !newAddress.name || !newAddress.street || !newAddress.city
+                    !newAddress.calle ||
+                    !newAddress.numero ||
+                    !newAddress.colonia ||
+                    !newAddress.ciudad ||
+                    !newAddress.estado ||
+                    !newAddress.codigo_postal
                   }
                 >
                   Guardar dirección

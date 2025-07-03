@@ -59,6 +59,8 @@ export const handleClearCart = async () => {
 
     if (result) {
       useCartStore.getState().clearCart();
+
+      toast.success("Carrito limpiado correctamente");
     } else {
       toast.error("No se pudo limpiar el carrito");
     }
@@ -74,10 +76,7 @@ export const handleIncreaseQuantity = async (id: string) => {
     if (item) {
       const result = await updateProductToCart(item.id, item.quantity + 1);
 
-      console.log({ result });
-
       if (result) {
-        console.log("si entro para actualizar la cantidad en el carrito local");
         useCartStore.getState().updateQuantity(id, item.quantity + 1);
       }
     }

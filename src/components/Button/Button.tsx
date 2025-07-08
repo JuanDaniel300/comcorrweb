@@ -74,9 +74,10 @@ const Button: FC<ButtonProps> = ({
           ${baseStyles}
           ${styles}
           ${sizeStyles}
-          ${disabled || isLoading
-            ? "opacity-60 cursor-not-allowed"
-            : "cursor-pointer"
+          ${
+            disabled || isLoading
+              ? "opacity-60 cursor-not-allowed"
+              : "cursor-pointer"
           }
           ${className}
         `}
@@ -87,7 +88,7 @@ const Button: FC<ButtonProps> = ({
         ) : (
           <>
             {icon && icon}
-            <span>{title}</span>
+            <span className="text-xs sm:text-base">{title}</span>
           </>
         )}
       </motion.button>

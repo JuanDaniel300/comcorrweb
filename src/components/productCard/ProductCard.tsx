@@ -46,7 +46,7 @@ const ProductCard = ({
       onClick={handleGoToProductView}
       key={keyIndex}
       whileHover={{ transition: { duration: 0.5 } }}
-      className="productCard w-[300px] min-w-[300px] h-[500px] border border-gray-200 bg-white rounded-2xl px-3 pt-4 pb-3 cursor-pointer flex flex-col justify-between"
+      className="productCard h-[400px] w-[188px] min-w-[188px] sm:w-[300px] sm:min-w-[300px] sm:h-[500px] border border-gray-200 bg-white rounded-2xl px-3 pt-4 pb-3 cursor-pointer flex flex-col justify-between"
     >
       {/* Imagen y badge */}
       <div className="relative h-[250px] w-full">
@@ -79,7 +79,7 @@ const ProductCard = ({
 
       {/* Descripción y código */}
       <div className="flex flex-col h-[70px] overflow-hidden">
-        <div className="text-primario font-semibold text-sm leading-snug line-clamp-2">
+        <div className="text-xs text-primario font-semibold sm:text-sm leading-snug line-clamp-2">
           {product?.descripcion}
         </div>
         <div className="text-xs font-semibold text-gray-600 mt-1">
@@ -93,15 +93,15 @@ const ProductCard = ({
       <div className="flex items-center gap-3">
         {hasPromotion && hasDiscount ? (
           <>
-            <div className="text-secundario font-semibold text-lg">
+            <div className="text-secundario font-semibold text-base sm:text-lg">
               {formatCurrency(product?.precio1)}
             </div>
-            <div className="text-oscuro2 text-sm font-semibold line-through">
+            <div className="text-oscuro2 text-xs sm:text-sm font-semibold line-through">
               {formatCurrency(product?.precio2)}
             </div>
           </>
         ) : (
-          <div className="text-secundario font-semibold text-lg">
+          <div className="text-secundario font-semibold text-sm sm:text-lg">
             {formatCurrency(product?.precio1)}
           </div>
         )}

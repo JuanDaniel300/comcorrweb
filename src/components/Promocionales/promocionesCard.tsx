@@ -12,7 +12,7 @@ export default function PromocionalesCard({
   return (
     <div className="bg-white border border-gray-200 rounded-xl p-2 h-full flex flex-col">
       {/* Imagen con altura fija y centrada */}
-      <div className="w-full h-[700px] flex items-center justify-center overflow-hidden rounded-xl">
+      <div className="w-full sm:h-[700px] flex items-center justify-center overflow-hidden rounded-xl">
         <img
           src={promocionales?.url_imagen || "/promociones/Comcorr-Promo1.jpg"}
           className="object-contain h-full w-full"

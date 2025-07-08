@@ -296,6 +296,10 @@ body {
   display: none !important;
 }
 
+#categories .swiper-slide {
+  width: max-content !important;
+}
+
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -386,4 +390,10 @@ body {
 .data-\[state\=checked\]\:bg-primary[data-state="checked"] {
   background-color: var(--primario) !important;
   border: 1px solid var(--primario) !important;
+}
+
+@media (max-width: 768px) {
+  .padding-top {
+    padding-top: 25px !important;
+  }
 }

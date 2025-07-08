@@ -9,8 +9,6 @@ type Marcas = {
 };
 
 const SliderMarcasClient = ({ marcas }: { marcas: Marcas[] }) => {
-
-
   return (
     <div className="inner-container">
       <div className="wrapper-container">
@@ -21,9 +19,8 @@ const SliderMarcasClient = ({ marcas }: { marcas: Marcas[] }) => {
             style={{ "--speed": `${speed}ms` } as React.CSSProperties}
           >
             {marcas.slice(0, 17).map(({ id, imagen }, index) => (
-
               <div
-                className="w-[200px] h-[80px] flex justify-center items-center mx-auto my-auto "
+                className="w-[100px] sm:w-[200px] h-[80px] flex justify-center items-center mx-auto my-auto "
                 key={id}
               >
                 <img

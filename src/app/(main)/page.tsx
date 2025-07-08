@@ -1,7 +1,6 @@
-import ProductCard from "@/components/productCard/ProductCard";
 import SliderHome from "@/components/slider-home";
 import SliderMarcas from "@/components/slider-marcas";
-import { categoriesHome, promociones } from "@/constants/generic";
+import CategoriasSection from "@/sections/home/categorias/categoriasSection";
 import PopularesSection from "@/sections/home/populares/populares";
 import PromocionalesSection from "@/sections/home/promocionales/promocionales";
 import RecomendadosSection from "@/sections/home/recomendados/Recomendados";
@@ -15,9 +14,9 @@ export default function HomePage() {
   return (
     <div className="min-h-screen mb-20 padding-top ">
       {/* Section 1 */}
-      <section className="container mx-auto pt-10 space-y-15">
+      <section className="container  sm:px-0 mx-auto pt-10 space-y-10 sm:space-y-15">
         {/* Slider */}
-        <div className="w-full">
+        <div className="w-full px-5 sm:px-0">
           <Suspense fallback={<div>cargando..</div>}>
             <SliderHome />
           </Suspense>
@@ -25,34 +24,23 @@ export default function HomePage() {
 
         {/* Categorias */}
         <div id="categories" className="w-full space-y-10">
-          <div className="text-primario font-semibold text-2xl">
+          <div className="text-primario font-semibold text-xl sm:text-2xl px-5 sm:px-0">
             Encuentra lo que Necesitas
           </div>
 
-          <div className="flex gap-20 items-center justify-center">
-            {categoriesHome.map((value, index) => (
-              <div className="text-center mx-auto" key={index}>
-                <div className="rounded-full px-2 py-8 bg-primario clickeable">
-                  <img
-                    src={value?.path}
-                    className="w-full h-full object-scale-down"
-                    alt=""
-                  />
-                </div>
-                <div className=" font-semibold text-sm py-4">{value?.name}</div>
-              </div>
-            ))}
+          <div className="flex  gap-20 items-center justify-center sm:justify-between w-full">
+            <CategoriasSection />
           </div>
         </div>
       </section>
 
       {/* Marcas */}
-      <div id="marcas" className="w-full my-20">
-        <div className="text-center text-primario font-semibold text-2xl">
+      <div id="marcas" className="w-full my-10 sm:my-20">
+        <div className="text-center text-primario font-semibold text-xl sm:text-2xl px-5 sm:px-0">
           Trabajamos con las Mejores Marcas
         </div>
 
-        <div className="w-full h-max py-5 mt-5 bg-white">
+        <div className="w-full h-max py-2 sm:py-5 mt-5 bg-white">
           <Suspense fallback={<div>cargando..</div>}>
             <SliderMarcas />
           </Suspense>
@@ -60,14 +48,14 @@ export default function HomePage() {
       </div>
 
       {/* Section 2 */}
-      <section className="container mx-auto   space-y-28">
+      <section className="container mx-auto space-y-10   sm:space-y-28">
         {/* Products popular */}
         <div className="w-full" id="productPopular">
-          <div className="font-semibold text-primario text-2xl">
+          <div className="font-semibold text-primario text-xl sm:text-2xl px-5 sm:px-0">
             Lo Más Popular Entre Nuestros Clientes
           </div>
 
-          <div className="flex pt-10 justify-between">
+          <div className="flex pt-5 sm:pt-10 justify-between px-5 sm:px-0">
             <Suspense fallback={<div>cargando..</div>}>
               <PopularesSection />
             </Suspense>
@@ -76,22 +64,22 @@ export default function HomePage() {
 
         {/* Promociones */}
         <div className="w-full" id="promociones">
-          <div className="font-semibold text-primario text-2xl">
+          <div className="font-semibold text-primario text-xl px-5 sm:px-0 sm:text-2xl">
             Promociones hechas para ti
           </div>
 
-          <div className="flex justify-between mt-10 gap-10">
+          <div className="flex justify-between px-5 sm:px-0 mt-5 sm:mt-10 sm:gap-10">
             <PromocionalesSection />
           </div>
         </div>
 
         {/* Recomendados */}
         <div className="w-full" id="recomendados">
-          <div className="font-semibold text-primario text-2xl">
+          <div className="font-semibold text-primario text-xl sm:text-2xl px-5 sm:px-0">
             Recomendados para tu Hogar
           </div>
 
-          <div className=" pt-10 recomendados__products__container">
+          <div className="pt-5 sm:pt-10 recomendados__products__container px-5 sm:px-0">
             <Suspense fallback={<div>cargando..</div>}>
               <RecomendadosSection />
             </Suspense>
@@ -100,12 +88,12 @@ export default function HomePage() {
 
         {/* Ofrecemos */}
         <div className="w-full" id="ofrecemos">
-          <div className="font-semibold text-center text-primario text-2xl">
+          <div className="font-semibold text-center text-primario text-xl sm:text-2xl">
             Todo lo que Ofrecemos para Ti
           </div>
 
-          <div className="flex pt-10 justify-between gap-16">
-            <div className="cardGoalItem max-w-[286px] space-y-2 bg-claro1 p-5 rounded-xl">
+          <div className="grid grid-cols-2 sm:flex px-5 sm:px-0 pt-10 sm:justify-between gap-4 sm:gap-16">
+            <div className="cardGoalItem max-w-full sm:max-w-[286px] space-y-2 bg-claro1 p-5 rounded-xl">
               <div>
                 <CgShoppingBag color="red" size={30} />
               </div>
@@ -119,7 +107,7 @@ export default function HomePage() {
               </div>
             </div>
 
-            <div className="cardGoalItem max-w-[286px] space-y-2 bg-claro1 p-5 rounded-xl">
+            <div className="cardGoalItem sm:max-w-[286px] space-y-2 bg-claro1 p-5 rounded-xl">
               <div>
                 <CiDiscount1 color="red" size={30} />
               </div>
@@ -133,7 +121,7 @@ export default function HomePage() {
               </div>
             </div>
 
-            <div className="cardGoalItem max-w-[286px] space-y-2 bg-claro1 p-5 rounded-xl">
+            <div className="cardGoalItem sm:max-w-[286px] space-y-2 bg-claro1 p-5 rounded-xl">
               <div>
                 <MdPhoneInTalk color="red" size={30} />
               </div>
@@ -145,7 +133,7 @@ export default function HomePage() {
               </div>
             </div>
 
-            <div className="cardGoalItem max-w-[286px] space-y-2 bg-claro1 p-5 rounded-xl">
+            <div className="cardGoalItem sm:max-w-[286px] space-y-2 bg-claro1 p-5 rounded-xl">
               <div>
                 <RiMoneyDollarCircleLine color="red" size={30} />
               </div>
@@ -164,7 +152,7 @@ export default function HomePage() {
         {/* Map */}
 
         <div className="w-full" id="map">
-          <div className="font-semibold text-center text-primario text-2xl">
+          <div className="font-semibold text-center text-primario text-xl sm:text-2xl">
             Encuentra tu Sucursal Más Cercana
           </div>
 
@@ -173,7 +161,7 @@ export default function HomePage() {
             servicios. !Te esperamos con las puertas abiertas!
           </div>
 
-          <div className="h-[468px] border border-gray-200 bg-white rounded-xl"></div>
+          <div className="h-[468px] w-full  border border-gray-200 bg-white rounded-xl"></div>
         </div>
       </section>
     </div>

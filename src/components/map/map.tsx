@@ -15,7 +15,7 @@ declare global {
 }
 
 interface MapProps {
-  apiKey: string;
+  apiKey?: string;
   center?: { lat: number; lng: number };
   zoom?: number;
   style?: React.CSSProperties;

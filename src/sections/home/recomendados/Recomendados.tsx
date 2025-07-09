@@ -1,5 +1,4 @@
 import { adaptProducts } from "@/adapters/productAdapter";
-import ProductCard from "@/components/productCard/ProductCard";
 import { getRecomendados } from "@/services/recomendados/recomendados";
 import { Product } from "@/types/product.type";
 import RecomendadosSlider from "./RecomendadosSlider";

@@ -46,7 +46,7 @@ const ProductCard = ({
       onClick={handleGoToProductView}
       key={keyIndex}
       whileHover={{ transition: { duration: 0.5 } }}
-      className="productCard h-[400px] w-[188px] min-w-[188px] sm:w-[300px] sm:min-w-[300px] sm:h-[500px] border border-gray-200 bg-white rounded-2xl px-3 pt-4 pb-3 cursor-pointer flex flex-col justify-between"
+      className="productCard h-[440px] w-[188px] min-w-[188px] sm:w-[300px] sm:min-w-[300px] sm:h-[500px] border border-gray-200 bg-white rounded-2xl px-3 pt-4 pb-3 cursor-pointer flex flex-col justify-between"
     >
       {/* Imagen y badge */}
       <div className="relative h-[250px] w-full">

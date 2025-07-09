@@ -13,6 +13,9 @@ import { RiMoneyDollarCircleLine } from "react-icons/ri";
 import RegisterStep1 from "@/components/auth/register/Step1";
 import RegisterStep2 from "@/components/auth/register/Step2";
 import SuccessRegistrationModal from "@/components/auth/register/sucess-registrarion-modal";
+import { registerUser } from "@/services/auth/registerService";
+import { signIn } from "next-auth/react";
+import toast from "react-hot-toast";
 
 export default function RegisterView() {
   const router = useRouter();
@@ -24,53 +27,44 @@ export default function RegisterView() {
     mode: "onChange",
   });
 
-  const onSubmit = async (data: { nombre: string; email: string }) => {
+  const onSubmit = async (data: {
+    nombre: string;
+    email: string;
+    password: string;
+    direccion: string;
+    phone: string;
+  }) => {
     if (isSubmitting) return;
-
     setIsSubmitting(true);
 
     try {
-      // Mock API call - replace with your actual API call
-      const response: {
-        data: {
-          token: string;
-          user: {
-            id: number;
-            name: string;
-            email: string;
-          };
-        };
-      } = await new Promise((resolve) => {
-        setTimeout(() => {
-          resolve({
-            data: {
-              token: "mock-token-12345",
-              user: {
-                id: 1,
-                name: data.nombre,
-                email: data.email,
-              },
-            },
-          });
-        }, 1500);
+      // 1. Registro real
+      const response = await registerUser(data);
+
+      console.log("Usuario registrado:", response);
+
+      // 2. Iniciar sesión automáticamente con NextAuth
+      const result = await signIn("credentials", {
+        redirect: false,
+        email: data.email,
+        password: data.password,
       });
 
-      console.log("Respuesta del registro:", response);
-
-      // Handle authentication - replace with your auth method
-      // For example with next-auth or a custom auth solution
-      localStorage.setItem("user", JSON.stringify(response.data.user));
-      localStorage.setItem("token", response.data.token);
-
-      setShowModal(true);
+      if (result?.ok) {
+        console.log("Inicio de sesión exitoso");
+        setShowModal(true); // o redirigir, etc.
+      } else {
+        console.error("Error al iniciar sesión:", result);
+      }
     } catch (error) {
       console.error("Error al registrar:", error);
-      // Add toast notification here
+      // Mostrar error con toast si deseas
+      setShowModal(false);
+      toast.error("No se puedo registrar al usuario intenta mas tarde");
     } finally {
       setIsSubmitting(false);
     }
   };
-
   const handleNextStep = async (nextStep: number, ignoreValid = false) => {
     if (ignoreValid || (await methods.trigger())) {
       setStep(nextStep);

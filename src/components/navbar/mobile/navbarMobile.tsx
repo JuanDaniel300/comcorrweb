@@ -1,8 +1,9 @@
 import { Input } from "@/components/ui/input";
+import Link from "next/link";
 
 export default function NavbarMobile() {
   return (
-    <div className="bg-white border p-4">
+    <div className="bg-white  border-b p-4">
       <div className="w-full flex gap-4  items-center align-middle justify-between">
         {/* Menu hamburguesa */}
         <div>
@@ -32,11 +33,13 @@ export default function NavbarMobile() {
 
         {/* logo */}
         <div>
-          <img
-            src="http://comcorr.com.mx/logo.png"
-            className="object-cover"
-            alt=""
-          />
+          <Link href="/">
+            <img
+              src="http://comcorr.com.mx/Logo.png"
+              className="object-cover"
+              alt=""
+            />
+          </Link>
         </div>
 
         {/* Buscador */}

@@ -3,7 +3,7 @@
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import Button from "../Button/Button";
 
-type ItemShoppingCartProps = {
+export type ItemShoppingCartProps = {
   id: string;
   marca: string;
   name: string;

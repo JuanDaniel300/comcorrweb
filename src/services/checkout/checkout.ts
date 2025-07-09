@@ -7,7 +7,7 @@ export const checkout = async () => {
 
     return data;
   } catch (error) {
-    console.error("Error al realizar el checkout");
+    console.error("Error al realizar el checkout", error);
     return null;
   }
 };
@@ -22,7 +22,7 @@ export const createOrder = async (dirrecionId: number) => {
     console.log(data);
     return data;
   } catch (error) {
-    console.error("Error al crear el pedido");
+    console.error("Error al crear el pedido", error);
     return null;
   }
 };

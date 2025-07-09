@@ -4,15 +4,14 @@ import { getCategoriasById } from "@/services/categorias/categorias";
 import { Product } from "@/types/product.type";
 import { capitalize, slugATexto } from "@/utils/generic";
 
-export default async function CategoriaPage({
-  params,
-  searchParams,
-}: {
-  params: { categoriaName: string };
-  searchParams: { page?: string };
-}) {
-  const { categoriaName } = await params;
-  const { page = "1" } = await searchParams;
+type Params = Promise<{
+  categoriaName: string;
+  page: string;
+}>;
+
+export default async function CategoriaPage(props: { params: Params }) {
+  const params = await props.params;
+  const { categoriaName, page = "1" } = params;
 
   const categoriaTitle = capitalize(
     categoriaName.split("-").slice(0, -1).join("-")

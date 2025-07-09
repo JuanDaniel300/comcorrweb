@@ -120,8 +120,11 @@ const ProductCard = ({
   );
 };
 
-const ProductGallery = ({ product }: { product: any }) => {
-  const [swiperRef, setSwiperRef] = useState<any>(null);
+const ProductGallery = ({ product }: { product: Product }) => {
+  const [swiperRef, setSwiperRef] = useState<{
+    slidePrev: () => void;
+    slideNext: () => void;
+  } | null>(null);
 
   const images = [product?.imagen1, product?.imagen2, product?.imagen3].filter(
     Boolean
@@ -159,7 +162,7 @@ const ProductGallery = ({ product }: { product: any }) => {
             className="bg-white h-full flex items-center m-auto w-full justify-center"
           >
             <img
-              src={img}
+              src={img as string}
               className="max-h-full max-w-full object-contain m-auto"
               alt={`Producto ${index + 1}`}
             />

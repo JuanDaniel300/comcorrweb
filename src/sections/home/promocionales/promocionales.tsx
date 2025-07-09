@@ -7,8 +7,13 @@ export default async function PromocionalesSection() {
   return (
     <div className="sm:flex sm:justify-between w-full space-y-5 sm:space-y-0 gap-5 h-max">
       {promocionales?.promos.map(
-        (promocionales: { path: string }, index: number) => (
-          <PromocionalesCard key={index} promocionales={promocionales} />
+        (promocional: {
+          url_imagen: string;
+          nombre: string;
+          id: string;
+          path: string;
+        }) => (
+          <PromocionalesCard key={promocional.id} promocionales={promocional} />
         )
       )}
     </div>

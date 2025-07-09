@@ -4,15 +4,15 @@ import { getLineasProduct } from "@/services/lineas/lineas";
 import { Product } from "@/types/product.type";
 import { capitalize, slugATexto } from "@/utils/generic";
 
-export default async function LineasPage({
-  params,
-  searchParams,
-}: {
-  params: { categoriaName: string; lineaName: string };
-  searchParams: { page?: string };
-}) {
-  const { categoriaName, lineaName } = await params;
-  const { page = "1" } = await searchParams;
+type Params = Promise<{
+  categoriaName: string;
+  lineaName: string;
+  page: string;
+}>;
+
+export default async function LineasPage(props: { params: Params }) {
+  const params = await props.params;
+  const { categoriaName, lineaName, page = "1" } = params;
 
   const categoriaTitle = capitalize(
     categoriaName.split("-").slice(0, -1).join("-")

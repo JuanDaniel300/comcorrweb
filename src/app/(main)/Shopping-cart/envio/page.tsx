@@ -7,7 +7,7 @@ import { obtenerFechaEntregaEstimada } from "@/utils/generic";
 import Link from "next/link";
 import { useRouter } from "nextjs-toploader/app";
 
-export const Shipping = () => {
+export default function Shipping() {
   const router = useRouter();
   const handlerContinueShipping = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -71,6 +71,4 @@ export const Shipping = () => {
       </div>
     </div>
   );
-};
-
-export default Shipping;
+}

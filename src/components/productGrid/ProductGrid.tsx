@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useMemo, Fragment } from "react";
+import { useState, useMemo, Fragment } from "react";
 import { motion } from "framer-motion";
 
 // shadcn components
@@ -13,15 +13,9 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { capitalize, formatCurrency } from "@/utils/generic";
 import ProductCard from "@/components/productCard/ProductCard";
-import {
-  useParams,
-  usePathname,
-  useRouter,
-  useSearchParams,
-} from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Breadcrumbs from "../Breadcrumbs/breadCrumbs";
 import { Product } from "@/types/product.type";
-import ProductGridSkeleton from "../skeletons/ui/productGridSkeleton";
 import {
   Pagination,
   PaginationContent,
@@ -72,7 +66,6 @@ const MAX_PRICE = 20000;
 export default function ProductGrid({
   products,
   totalPages,
-  totalRecords,
   title,
   Breadcrumb,
   loading = true,
@@ -81,7 +74,7 @@ export default function ProductGrid({
   totalPages?: number;
   totalRecords?: number;
   title: string;
-  Breadcrumb: any[];
+  Breadcrumb: { title: string; link: string }[];
   loading?: boolean;
 }) {
   const [priceRange, setPriceRange] = useState([MIN_PRICE, MAX_PRICE]);

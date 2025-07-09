@@ -1,7 +1,6 @@
 "use client";
 
 import "./navbar.component.css";
-import { IoSearch } from "react-icons/io5";
 import { BiUser } from "react-icons/bi";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { motion } from "motion/react";
@@ -9,14 +8,10 @@ import Link from "next/link";
 import SearchBar from "../searchBar/SearchBar";
 import { useCartStore } from "@/stores/cartStore";
 import { useEffect, useState } from "react";
-import { useSession } from "next-auth/react";
 import ProfileButton from "../profile/profileButton";
+import { Session } from "next-auth";
 
-interface NavbarProps {
-  session: any;
-}
-
-const Navbar = ({ session }: NavbarProps) => {
+const Navbar = ({ session }: { session: Session }) => {
   const { getTotalItems } = useCartStore();
   const [hasMounted, setHasMounted] = useState(false);
 
@@ -51,11 +46,7 @@ const Navbar = ({ session }: NavbarProps) => {
 
         {/* NavbarItems */}
         <div className="navbarItems flex w-max  gap-5 items-center">
-          {session ? (
-            <ProfileButton user={session.user?.name} />
-          ) : (
-            <LoginButton />
-          )}
+          {session ? <ProfileButton user={session} /> : <LoginButton />}
           <Link
             href="/Shopping-cart"
             className="Carrito flex items-center gap-3 cursor-pointer"

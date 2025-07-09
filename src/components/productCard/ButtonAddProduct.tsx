@@ -7,7 +7,6 @@ import { handleAddToCart } from "@/handlers/cartHandlers";
 
 export default function ButtonAddProduct({
   product,
-  quantity,
 }: {
   product: Product;
   quantity: 1;

@@ -1,18 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import {
-  ArrowLeft,
-  CreditCard,
-  ShoppingCart,
-  User,
-  Search,
-} from "lucide-react";
-import Image from "next/image";
+import { CreditCard } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
 import CheckoutLoading from "./checkout";
 
 export default function CheckoutNetPay() {
@@ -27,31 +17,10 @@ export default function CheckoutNetPay() {
     return () => clearTimeout(timer);
   }, []);
 
-  const handleFinalizarCompra = () => {
-    // Aquí se abriría el modal de NetPay
-    console.log("Abriendo modal de NetPay...");
-  };
-
-  const orderItems = [
-    {
-      id: 1,
-      name: "DAEWOO",
-      description: "LAVADORA DAEWOO 2 TINAS 12 KILOS C/S TAPA AZUL",
-      quantity: 1,
-      price: 3404.32,
-    },
-    {
-      id: 2,
-      name: "LG",
-      description: "LAVADORA LG DE 13 KILOS S/C 1660-R TWIN TUB",
-      quantity: 1,
-      price: 3102.6,
-    },
-  ];
-
-  const subtotal = 6894.83;
-  const envio = 0.0;
-  const total = 6506.92;
+  // const handleFinalizarCompra = () => {
+  //   // Aquí se abriría el modal de NetPay
+  //   console.log("Abriendo modal de NetPay...");
+  // };
 
   // Mostrar loader inicial
   if (isInitialLoading) {
@@ -137,9 +106,8 @@ export default function CheckoutNetPay() {
                         Listo para procesar
                       </h4>
                       <p className="text-xs text-green-700 mt-1">
-                        Tu pedido está listo. Al hacer clic en "Pagar con
-                        NetPay", se abrirá una ventana segura para completar tu
-                        pago.
+                        Tu pedido está listo. Al hacer clic en Pagar con NetPay,
+                        se abrirá una ventana segura para completar tu pago.
                       </p>
                     </div>
                   </div>

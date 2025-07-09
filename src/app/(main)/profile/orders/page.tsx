@@ -1,17 +1,13 @@
 "use client";
-import { useEffect } from "react";
 import { useRouter } from "nextjs-toploader/app";
 import Breadcrumbs from "@/components/Breadcrumbs/breadCrumbs";
 import TabOrder from "@/components/orders/tabOrder.component";
 import AccordionOrder from "@/components/orders/accordionOrder.component";
 
-export const OrderView = () => {
+export default function Page() {
   const router = useRouter();
-  useEffect(() => {
-    console.log("OrderView");
-  }, []);
 
-  const handlerGoToDetailsOrder = (e: any) => {
+  const handlerGoToDetailsOrder = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     router.push("/profile/orders/detailsOrder");
   };
@@ -67,6 +63,4 @@ export const OrderView = () => {
       </div>
     </div>
   );
-};
-
-export default OrderView;
+}

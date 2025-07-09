@@ -22,7 +22,7 @@ export const createDirection = async (direccion: DireccionType) => {
 
     return data;
   } catch (error) {
-    console.error("Error al agregar una direccion");
+    console.error("Error al agregar una direccion", error);
     return null;
   }
 };
@@ -33,7 +33,7 @@ export const getDirecciones = async () => {
     const data = response?.data;
     return data;
   } catch (error) {
-    console.error("Error al obtener direcciones");
+    console.error("Error al obtener direcciones", error);
     return null;
   }
 };

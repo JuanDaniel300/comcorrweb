@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { Loader2, ShoppingCart, CreditCard } from "lucide-react";
-import axios from "axios";
 import { checkout } from "@/services/checkout/checkout";
 
 interface CheckoutLoadingProps {

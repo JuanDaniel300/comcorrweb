@@ -9,7 +9,6 @@ import Link from "next/link";
 import Button from "@/components/Button/Button";
 import Alert from "@/components/ui/alert";
 import { signIn } from "next-auth/react";
-import { getCart } from "@/services/cart/cart";
 import { useCartStore } from "@/stores/cartStore";
 
 const AuthView = () => {
@@ -37,7 +36,7 @@ const AuthView = () => {
     }
   }, [email, password]);
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async () => {
     setIsLoading(true);
     setErrorMessage("");
 
@@ -49,8 +48,7 @@ const AuthView = () => {
       });
 
       if (res?.ok) {
-        const cart = await getCart();
-        syncCartFromServer(cart?.articulos);
+        syncCartFromServer();
 
         window.location.href = "/";
       } else {

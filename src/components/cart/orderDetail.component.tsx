@@ -12,23 +12,13 @@ const OrderDetail = ({
 }: {
   showRecommended: boolean;
 }) => {
-  const {
-    cart,
-    getSubtotalItem,
-    getTotalDiscount,
-    getTotalItem,
-    getTotalItems,
-  } = useCartStore();
-  const [totalItems, setTotalItems] = useState<number>(0);
+  const { cart, getSubtotalItem, getTotalItem } = useCartStore();
   const [subtotal, setSubTotal] = useState<number>(0);
-  const [descuento, setDescuento] = useState<number>(0);
   const [envio, setEnvio] = useState<number>(0);
   const [total, setTotal] = useState<number>(0);
 
   useEffect(() => {
-    setTotalItems(getTotalItems());
     setSubTotal(getSubtotalItem());
-    setDescuento(getTotalDiscount());
     setEnvio(0);
     setTotal(getTotalItem() + envio);
   }, []);

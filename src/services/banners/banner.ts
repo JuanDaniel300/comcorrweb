@@ -14,8 +14,15 @@ export const getBanners = async () => {
     }
 
     return banners;
-  } catch (error: any) {
-    console.error("Error fetching banner:", error.message);
+  } catch (error: unknown) {
+    if (typeof error === "object" && error !== null && "message" in error) {
+      console.error(
+        "Error fetching banner:",
+        (error as { message: string }).message
+      );
+    } else {
+      console.error("Error fetching banner:", error);
+    }
     return [];
   }
 };

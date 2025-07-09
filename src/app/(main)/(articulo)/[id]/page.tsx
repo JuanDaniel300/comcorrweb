@@ -1,22 +1,21 @@
 import { adaptProducts } from "@/adapters/productAdapter";
 import ArticuloGalery from "@/components/articulo-gallery/ArticuloGallery";
 import Breadcrumbs from "@/components/Breadcrumbs/breadCrumbs";
-import Button from "@/components/Button/Button";
 import ButtonAddProduct from "@/components/productCard/ButtonAddProduct";
-import { handleAddToCart } from "@/handlers/cartHandlers";
-import { useToast } from "@/providers/ToastProviderClient";
 import RecomendadosSection from "@/sections/home/recomendados/Recomendados";
 import { getArticulosById } from "@/services/articulos/articulos";
 import { Product } from "@/types/product.type";
 import { capitalize, formatCurrency, slugATexto } from "@/utils/generic";
 import { Suspense } from "react";
-import { AiOutlineShoppingCart } from "react-icons/ai";
 import { CiDiscount1 } from "react-icons/ci";
 import { GoDash, GoPlus } from "react-icons/go";
 import { IoShareSocialOutline } from "react-icons/io5";
 
-const ProductView = async ({ params }: { params: { id: string } }) => {
-  const { id } = await params;
+type Params = Promise<{ id: string }>;
+
+const ProductView = async (props: { params: Params }) => {
+  const params = await props.params;
+  const id = params.id;
 
   const productTitle = capitalize(
     slugATexto(id.split("-").slice(0, -1).join("-"))
@@ -27,7 +26,7 @@ const ProductView = async ({ params }: { params: { id: string } }) => {
   const [product] = adaptProducts([productDetails?.articulo]);
 
   const hasPromotion = product?.precio1 < product?.precio2;
-  const hasDiscount = product?.precio2 > 0;
+  // const hasDiscount = product?.precio2 > 0;
 
   return (
     <div className="min-h-screen bg-gray-100 p-4 padding-top">
@@ -56,11 +55,11 @@ const ProductView = async ({ params }: { params: { id: string } }) => {
           <div className="grid grid-cols-2 gap-20">
             {/* Galería de imágenes */}
             <ArticuloGalery
-              images={[
-                product.imagen1,
-                product.imagen2,
-                product.imagen3,
-              ].filter(Boolean)}
+              images={
+                [product.imagen1, product.imagen2, product.imagen3].filter(
+                  (img): img is string => img !== null && img !== undefined
+                ) as (string | boolean)[]
+              }
             />
 
             {/* Detalles del producto */}

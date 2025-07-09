@@ -12,7 +12,7 @@ import CheckoutNetPay from "@/components/shopping-cart/netpay";
 import { createOrder } from "@/services/checkout/checkout";
 import toast from "react-hot-toast";
 
-export const Payment = () => {
+export default function Payment() {
   const router = useRouter();
   const { selectedAddress } = useAddressStore();
 
@@ -101,6 +101,4 @@ export const Payment = () => {
       </div>
     </div>
   );
-};
-
-export default Payment;
+}

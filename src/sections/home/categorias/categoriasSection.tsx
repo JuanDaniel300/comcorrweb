@@ -16,7 +16,7 @@ export default function CategoriasSection() {
           className="!px-2 sm:hidden"
         >
           {categoriesHome.map((value, index) => (
-            <SwiperSlide>
+            <SwiperSlide key={index}>
               <div
                 className="sm:text-center sm:mx-auto w-max sm:w-full"
                 key={index}

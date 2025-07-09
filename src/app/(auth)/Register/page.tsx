@@ -20,16 +20,27 @@ export default function RegisterView() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
-  const methods = useForm({ mode: "onChange" });
+  const methods = useForm<{ nombre: string; email: string }>({
+    mode: "onChange",
+  });
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: { nombre: string; email: string }) => {
     if (isSubmitting) return;
 
     setIsSubmitting(true);
 
     try {
       // Mock API call - replace with your actual API call
-      const response = await new Promise((resolve) => {
+      const response: {
+        data: {
+          token: string;
+          user: {
+            id: number;
+            name: string;
+            email: string;
+          };
+        };
+      } = await new Promise((resolve) => {
         setTimeout(() => {
           resolve({
             data: {
@@ -48,12 +59,12 @@ export default function RegisterView() {
 
       // Handle authentication - replace with your auth method
       // For example with next-auth or a custom auth solution
-      localStorage.setItem("user", JSON.stringify((response as any).data.user));
-      localStorage.setItem("token", (response as any).data.token);
+      localStorage.setItem("user", JSON.stringify(response.data.user));
+      localStorage.setItem("token", response.data.token);
 
       setShowModal(true);
-    } catch (error: any) {
-      console.error("Error al registrar:", error.message);
+    } catch (error) {
+      console.error("Error al registrar:", error);
       // Add toast notification here
     } finally {
       setIsSubmitting(false);

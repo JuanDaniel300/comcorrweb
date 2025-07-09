@@ -1,12 +1,18 @@
 "use client";
 
-import ItemRecomended from "./itemsRecomended.component";
+import ItemRecomended, {
+  ItemShoppingCartProps,
+} from "./itemsRecomended.component";
 
-const ListItemRecomended = ({ products }: { products: any }) => {
+const ListItemRecomended = ({
+  products,
+}: {
+  products: ItemShoppingCartProps[];
+}) => {
   return (
     <div className="w-full space-y-5">
-      {products.map((product: any, index: number) => (
-        <div>
+      {products.map((product: ItemShoppingCartProps, index: number) => (
+        <div key={index}>
           <ItemRecomended item={product} />
 
           {index === products.length - 1 ? null : (

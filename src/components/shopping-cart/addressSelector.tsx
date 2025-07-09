@@ -2,15 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  FaPlus,
-  FaMapMarkerAlt,
-  FaHome,
-  FaBriefcase,
-  FaTimes,
-  FaChevronLeft,
-  FaChevronRight,
-} from "react-icons/fa";
+import { FaPlus, FaTimes, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -194,7 +186,7 @@ export default function AddressSelector() {
           className="address-swiper"
         >
           {/* Existing Addresses */}
-          {addresses.map((address, index: number) => (
+          {addresses.map((address) => (
             <SwiperSlide key={address.id} className="pb-4">
               <motion.div
                 className="w-full px-1"

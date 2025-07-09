@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { FC } from "react";
+import { FC, JSX } from "react";
 import ClipLoader from "react-spinners/ClipLoader";
 
 type ButtonProps = {

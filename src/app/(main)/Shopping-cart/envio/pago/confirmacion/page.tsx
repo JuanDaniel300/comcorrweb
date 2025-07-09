@@ -12,7 +12,7 @@ import { useCartStore } from "@/stores/cartStore";
 import { useEffect, useState } from "react";
 import { formatCurrency } from "@/utils/generic";
 
-const Confirmation = () => {
+export default function Confirmation() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const orderId = searchParams.get("order_id");
@@ -31,23 +31,11 @@ const Confirmation = () => {
     router.push("/profile/orders");
   };
 
-  const {
-    cart,
-    getSubtotalItem,
-    getTotalDiscount,
-    getTotalItem,
-    getTotalItems,
-  } = useCartStore();
-  const [totalItems, setTotalItems] = useState<number>(0);
-  const [subtotal, setSubTotal] = useState<number>(0);
-  const [descuento, setDescuento] = useState<number>(0);
+  const { cart, getTotalItem } = useCartStore();
   const [envio, setEnvio] = useState<number>(0);
   const [total, setTotal] = useState<number>(0);
 
   useEffect(() => {
-    setTotalItems(getTotalItems());
-    setSubTotal(getSubtotalItem());
-    setDescuento(getTotalDiscount());
     setEnvio(0);
     setTotal(getTotalItem() + envio);
   }, []);
@@ -134,8 +122,11 @@ const Confirmation = () => {
               </div>
 
               <div className="space-y-4">
-                {cart.map((item) => (
-                  <div className="flex gap-4 border border-gray-200 rounded-xl py-2">
+                {cart.map((item, index) => (
+                  <div
+                    key={index}
+                    className="flex gap-4 border border-gray-200 rounded-xl py-2"
+                  >
                     <img
                       src={
                         (item.imagen1 as string) || "/products/refrigerador.png"
@@ -214,6 +205,4 @@ const Confirmation = () => {
       </div>
     </div>
   );
-};
-
-export default Confirmation;
+}

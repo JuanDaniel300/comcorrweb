@@ -7,11 +7,24 @@ import { capitalize, generarSlug } from "@/utils/generic";
 import "./styles.css";
 import Link from "next/link";
 
+interface Subcategory {
+  nombre: string;
+  id: string;
+}
+
+interface Category {
+  id: string;
+  nombre: string;
+  lineas: Subcategory[];
+}
+
+interface NavbarCategoriesClientProps {
+  categorias: Category[];
+}
+
 export default function NavbarCategoriesClient({
   categorias,
-}: {
-  categorias: any;
-}) {
+}: NavbarCategoriesClientProps) {
   const [openCategory, setOpenCategory] = useState<string | null>(null);
   const menuRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
 
@@ -50,7 +63,7 @@ export default function NavbarCategoriesClient({
   return (
     <div className="w-full bg-navbarCategories">
       <div className="container  text-white mx-auto flex justify-between py-3">
-        {categorias.map((category: any) => (
+        {categorias.map((category: Category) => (
           <div
             key={category.nombre}
             className="relative"
@@ -65,7 +78,9 @@ export default function NavbarCategoriesClient({
             >
               <span>{capitalize(category.nombre)}</span>
               <motion.div
-                animate={{ rotate: openCategory === category.nombre ? 180 : 0 }}
+                animate={{
+                  rotate: openCategory === category.nombre ? 180 : 0,
+                }}
                 transition={{ duration: 0.3 }}
               >
                 <IoIosArrowDown />
@@ -82,7 +97,7 @@ export default function NavbarCategoriesClient({
               transition={{ duration: 0.3, ease: "easeInOut" }}
               className="absolute left-0 mt-3 bg-white border border-gray-200 text-black rounded-b-lg shadow-lg overflow-hidden w-40"
             >
-              {category.lineas.map((sub: any, index: any) => (
+              {category.lineas.map((sub: Subcategory, index: number) => (
                 <Link
                   href={`/c/${generarSlug(
                     `${category.nombre}-${category.id}`

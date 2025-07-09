@@ -4,10 +4,13 @@ import { getPromocionalesById } from "@/services/promos/promocionales";
 import { Product } from "@/types/product.type";
 import { capitalize, slugATexto } from "@/utils/generic";
 
-export default async function PromocionPage(params: {
-  params: { promocion: string };
-}) {
-  const { promocion } = await params.params;
+type Params = Promise<{
+  promocion: string;
+}>;
+
+export default async function PromocionPage(props: { params: Params }) {
+  const params = await props.params;
+  const { promocion } = params;
 
   const promocionTitle = capitalize(
     promocion.split("-").slice(0, -1).join("-")

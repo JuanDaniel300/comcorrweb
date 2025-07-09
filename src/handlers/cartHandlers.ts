@@ -8,13 +8,24 @@ import { useCartStore } from "@/stores/cartStore";
 import { Product } from "@/types/product.type";
 import toast from "react-hot-toast";
 
+interface CartCallbackItem {
+  id: string;
+  name: string;
+  brand: string;
+  price: number;
+  image: string;
+  quantity: number;
+}
+
+type CartCallback = (item: CartCallbackItem) => void;
+
 export const handleAddToCart = async (
   product: Product,
-  quantity = 1,
-  cartCallback?: (item: any) => void
-) => {
+  quantity: number = 1,
+  cartCallback?: CartCallback
+): Promise<void> => {
   try {
-    const result = await addProductToCart(product.id, quantity);
+    const result: boolean = await addProductToCart(product.id, quantity);
 
     if (result) {
       useCartStore.getState().addToCart(product, quantity);

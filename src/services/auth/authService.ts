@@ -44,7 +44,7 @@ export async function autoLoginGuest() {
       }
     );
 
-    const data = await response.json();
+    // const data = await response.json();
 
     return response.ok;
   } catch (error) {

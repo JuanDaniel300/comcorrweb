@@ -4,44 +4,11 @@ import { FC, useState } from "react";
 import { motion } from "framer-motion";
 import { FaWhatsapp } from "react-icons/fa";
 import Button from "../Button/Button";
-import ListShoppingShipping from "../cart/listShoppingShipping.component";
 
-type AccordionOrderProps = {
+interface AccordionOrderProps {
   typeOrder: number;
-  handlerOnClick?: (e: any) => void;
-};
-
-const products = [
-  {
-    id: 1,
-    marca: "SAMSUNG",
-    name: "Lavadora Aqua Saving 19 Kilos Samsung",
-    sku: "WA19A3351GW/AX",
-    price: "$8,499.00",
-    image: "/products/refrigerador.png",
-    quantity: 1,
-    isOffer: true,
-    offerDetails: {
-      discount: 3000,
-      discountType: "MXN",
-    },
-  },
-
-  {
-    id: 1,
-    marca: "MIRAGE",
-    name: "Refrigerador 10 Pies Midea Blue Steel Top Mount",
-    sku: "MRX10FS",
-    price: "$6,499.00",
-    image: "/products/refrigerador2.png",
-    quantity: 1,
-    isOffer: true,
-    offerDetails: {
-      discount: 3000,
-      discountType: "MXN",
-    },
-  },
-];
+  handlerOnClick?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+}
 
 const getStatus = ({ statusOrder }: { statusOrder: number }) => {
   switch (statusOrder) {
@@ -154,7 +121,7 @@ const AccordionBody = () => {
       <hr className="border-gray-300 my-4" />
 
       <div className="">
-        <ListShoppingShipping products={products} />
+        {/* <ListShoppingShipping products={products as Product[]} /> */}
       </div>
     </div>
   );

@@ -1,6 +1,4 @@
-import { TIMER_CACHE } from "@/constants/timer";
 import axiosInstance from "../api";
-import cache from "memory-cache";
 
 export const getCart = async () => {
   try {

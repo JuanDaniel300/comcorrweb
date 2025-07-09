@@ -3,7 +3,7 @@ import NextTopLoader from "nextjs-toploader";
 import { getServerSession } from "next-auth";
 import { authOptionsUtils } from "@/lib/session";
 import ClientNavbarSwitcher from "@/components/navbar/ClientNavbarSwitcher";
-
+import { Session } from "next-auth";
 export default async function RootLayout({
   children,
 }: Readonly<{
@@ -13,7 +13,7 @@ export default async function RootLayout({
 
   return (
     <div>
-      <ClientNavbarSwitcher session={session} />
+      <ClientNavbarSwitcher session={session as Session} />
       <NextTopLoader color="#02308e" />
 
       <div className="min-h-screen  padding-top">{children}</div>

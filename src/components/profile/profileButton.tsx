@@ -1,23 +1,15 @@
 "use client";
 
-import { useCartStore } from "@/stores/cartStore";
 import { capitalize } from "@/utils/generic";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { BiChevronDown, BiLogOut, BiUser, BiUserCircle } from "react-icons/bi";
-
-interface ProfileOption {
-  icon: React.ReactNode;
-  label: string;
-  href?: string;
-  handler?: () => void;
-}
+import { Session } from "next-auth";
 
 interface ProfileLinkProps {
-  user: any;
-
+  user: Session;
   className?: string;
 }
 
@@ -25,7 +17,6 @@ export default function ProfileButton({
   user,
   className = "",
 }: ProfileLinkProps) {
-  const { clearCart } = useCartStore();
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -82,7 +73,9 @@ export default function ProfileButton({
         before:absolute before:top-0 before:left-0 before:w-0 before:h-full before:bg-blue-800 before:transition-all before:duration-300 hover:before:w-full cursor-pointer ${className}`}
       >
         <BiUser className="relative z-10 w-5 h-5" />
-        <span className="relative z-10">{capitalize(user)}</span>
+        <span className="relative z-10">
+          {capitalize(user.user?.name ?? "")}
+        </span>
         <BiChevronDown
           className={`relative z-10 w-4 h-4 transition-transform duration-300 ${
             isOpen ? "rotate-180" : ""
@@ -95,7 +88,7 @@ export default function ProfileButton({
           {/* Añadimos un "puente" invisible para evitar que se pierda el hover */}
           <div className="h-2 bg-transparent"></div>
           <div className="w-full">
-            {options.map((option: any, index: any) => (
+            {options.map((option, index) => (
               <Link
                 key={index}
                 href={option.href || "#"}

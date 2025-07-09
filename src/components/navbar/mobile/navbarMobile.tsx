@@ -32,7 +32,11 @@ export default function NavbarMobile() {
 
         {/* logo */}
         <div>
-          <img src="/logo.png" className="object-cover" alt="" />
+          <img
+            src="http://comcorr.com.mx/logo.png"
+            className="object-cover"
+            alt=""
+          />
         </div>
 
         {/* Buscador */}

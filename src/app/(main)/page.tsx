@@ -1,3 +1,4 @@
+import Map from "@/components/map/map";
 import SliderHome from "@/components/slider-home";
 import SliderMarcas from "@/components/slider-marcas";
 import CategoriasSection from "@/sections/home/categorias/categoriasSection";
@@ -161,7 +162,9 @@ export default function HomePage() {
             servicios. !Te esperamos con las puertas abiertas!
           </div>
 
-          <div className="h-[468px] w-full  border border-gray-200 bg-white rounded-xl"></div>
+          <div className="h-[468px] w-full  border border-gray-200 bg-white rounded-xl">
+            <Map />
+          </div>
         </div>
       </section>
     </div>

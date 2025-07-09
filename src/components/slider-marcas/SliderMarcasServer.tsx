@@ -15,10 +15,7 @@ export default async function SliderMarcasServer() {
     (marca: { id: string; imagen: string }) => {
       return {
         id: marca.id,
-        imagen:
-          marca.imagen == null
-            ? false
-            : "http://18.191.238.226:3000/" + marca.imagen,
+        imagen: marca.imagen,
       };
     }
   );

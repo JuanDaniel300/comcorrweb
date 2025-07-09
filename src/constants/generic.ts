@@ -61,87 +61,87 @@ export const categoriesHome = [
 export const images = [
   {
     id: 1,
-    path: "/marcas/Acros.png",
+    path: "http://comcorr.com.mx/marcas/Acros.png",
   },
   {
     id: 1,
-    path: "/marcas/airon.png",
+    path: "http://comcorr.com.mx/marcas/airon.png",
   },
   {
     id: 1,
-    path: "/marcas/Cinsa.png",
+    path: "http://comcorr.com.mx/marcas/Cinsa.png",
   },
   {
     id: 1,
-    path: "/marcas/disa-home.png",
+    path: "http://comcorr.com.mx/marcas/disa-home.png",
   },
   {
     id: 1,
-    path: "/marcas/Duna.png",
+    path: "http://comcorr.com.mx/marcas/Duna.png",
   },
   {
     id: 1,
-    path: "/marcas/DUV_duventus_lo_verti.png",
+    path: "http://comcorr.com.mx/marcas/DUV_duventus_lo_verti.png",
   },
   {
     id: 1,
-    path: "/marcas/Frikko.png",
-  },
-
-  {
-    id: 1,
-    path: "/marcas/Koblenz.png",
-  },
-  {
-    id: 1,
-    path: "/marcas/Kumulus.png",
-  },
-  {
-    id: 1,
-    path: "/marcas/LogoRestonic_Azul-05.png",
-  },
-  {
-    id: 1,
-    path: "/marcas/mabe.png",
-  },
-  {
-    id: 1,
-    path: "/marcas/Man.jpg",
-  },
-  {
-    id: 1,
-    path: "/marcas/Mirage.png",
+    path: "http://comcorr.com.mx/marcas/Frikko.png",
   },
 
   {
     id: 1,
-    path: "/marcas/Samsung.png",
+    path: "http://comcorr.com.mx/marcas/Koblenz.png",
   },
   {
     id: 1,
-    path: "/marcas/Santa anita.png",
+    path: "http://comcorr.com.mx/marcas/Kumulus.png",
   },
   {
     id: 1,
-    path: "/marcas/Spring air.png",
+    path: "http://comcorr.com.mx/marcas/LogoRestonic_Azul-05.png",
   },
   {
     id: 1,
-    path: "/marcas/TCL.png",
+    path: "http://comcorr.com.mx/marcas/mabe.png",
+  },
+  {
+    id: 1,
+    path: "http://comcorr.com.mx/marcas/Man.jpg",
+  },
+  {
+    id: 1,
+    path: "http://comcorr.com.mx/marcas/Mirage.png",
+  },
+
+  {
+    id: 1,
+    path: "http://comcorr.com.mx/marcas/Samsung.png",
+  },
+  {
+    id: 1,
+    path: "http://comcorr.com.mx/marcas/Santa anita.png",
+  },
+  {
+    id: 1,
+    path: "http://comcorr.com.mx/marcas/Spring air.png",
+  },
+  {
+    id: 1,
+    path: "http://comcorr.com.mx/marcas/TCL.png",
   },
 ];
 
 export const promociones = [
   {
     id: 1,
-    path: "/promociones/Comcorr-Promo1.jpg",
+    path: "http://comcorr.com.mx/promociones/Comcorr-Promo1.jpg",
   },
   {
     id: 2,
-    path: "/promociones/Comcorr-Promo2.jpg",
+    path: "http://comcorr.com.mx/promociones/Comcorr-Promo2.jpg",
   },
   {
     id: 3,
-    path: "/promociones/Comcorr-Promo3.jpg",
+    path: "http://comcorr.com.mx/promociones/Comcorr-Promo3.jpg",
   },
 ];

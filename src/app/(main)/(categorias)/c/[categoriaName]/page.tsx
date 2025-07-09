@@ -9,9 +9,20 @@ type Params = Promise<{
   page: string;
 }>;
 
-export default async function CategoriaPage(props: { params: Params }) {
+type SearchParams = Promise<{
+  page: string;
+}>;
+export default async function CategoriaPage(props: {
+  params: Params;
+  searchParams: SearchParams;
+}) {
   const params = await props.params;
-  const { categoriaName, page = "1" } = params;
+  const { categoriaName } = params;
+
+  const SearchParamsAwait = await props.searchParams;
+  const { page = "1" } = SearchParamsAwait;
+
+  console.log(page);
 
   const categoriaTitle = capitalize(
     categoriaName.split("-").slice(0, -1).join("-")

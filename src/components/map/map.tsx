@@ -3,7 +3,14 @@ import React, { useRef, useEffect } from "react";
 
 declare global {
   interface Window {
-    google?: any;
+    google?: {
+      maps: {
+        Map: new (
+          element: HTMLElement,
+          options: google.maps.MapOptions
+        ) => google.maps.Map;
+      };
+    };
   }
 }
 

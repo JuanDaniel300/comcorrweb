@@ -9,7 +9,6 @@ declare global {
 }
 
 interface MapProps {
-  apiKey?: string;
   center?: google.maps.LatLngLiteral;
   zoom?: number;
   style?: React.CSSProperties;
@@ -43,7 +42,6 @@ const waitForGoogleMaps = () =>
   });
 
 const GoogleMap: React.FC<MapProps> = ({
-  apiKey,
   center = { lat: 19.4326, lng: -99.1332 },
   zoom = 12,
   style = { width: "100%", height: "100%" },
@@ -59,7 +57,7 @@ const GoogleMap: React.FC<MapProps> = ({
 
     if (!isScriptAppended) {
       const script = document.createElement("script");
-      script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}`;
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_API_KEY_GOOGLE}`;
       script.async = true;
       script.defer = true;
       script.id = "google-maps-script";
@@ -70,7 +68,7 @@ const GoogleMap: React.FC<MapProps> = ({
     waitForGoogleMaps()
       .then(() => setIsMapReady(true))
       .catch((err) => console.error(err));
-  }, [apiKey]);
+  }, []);
 
   // Renderiza el mapa si todo está listo
   useEffect(() => {

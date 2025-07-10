@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "node --max-old-space-size=4096 ./node_modules/.bin/next build",
+    "build_dev": "next build",
     "start": "next start",
     "lint": "next lint"
   },

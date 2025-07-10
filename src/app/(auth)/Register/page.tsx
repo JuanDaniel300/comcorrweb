@@ -23,7 +23,13 @@ export default function RegisterView() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
-  const methods = useForm<{ nombre: string; email: string }>({
+  const methods = useForm<{
+    nombre: string;
+    email: string;
+    password: string;
+    direccion: string;
+    phone: string;
+  }>({
     mode: "onChange",
   });
 
@@ -41,6 +47,7 @@ export default function RegisterView() {
       const response = await registerUser(data);
 
       console.log("Usuario registrado:", response);
+      console.log(showModal)
 
       // 2. Iniciar sesión automáticamente con NextAuth
       const result = await signIn("credentials", {

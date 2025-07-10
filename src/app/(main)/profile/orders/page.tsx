@@ -1,10 +1,7 @@
 
-import { useRouter } from "nextjs-toploader/app";
 import Breadcrumbs from "@/components/Breadcrumbs/breadCrumbs";
-import TabOrder from "@/components/orders/tabOrder.component";
 import { getOrders } from "@/services/orders/orders";
 import { Order } from "@/types/order.type";
-import AccordionOrder from "@/components/orders/accordionOrder.component";
 import OrdersTabClient from "@/components/orders/ordersClient";
 
 

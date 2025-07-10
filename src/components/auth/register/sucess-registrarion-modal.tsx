@@ -2,7 +2,7 @@
 
 import { useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { FaCheckCircle, FaShoppingCart, FaTag, FaPercent, FaTruck } from "react-icons/fa"
+import { FaCheckCircle, FaShoppingCart, FaPercent, FaTruck } from "react-icons/fa"
 import { MdLocalOffer, MdSupportAgent } from "react-icons/md"
 import { RiSecurePaymentLine } from "react-icons/ri"
 

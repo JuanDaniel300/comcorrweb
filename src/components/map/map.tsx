@@ -9,7 +9,7 @@ declare global {
 }
 
 interface MapProps {
-  apiKey: string;
+  apiKey?: string;
   center?: google.maps.LatLngLiteral;
   zoom?: number;
   style?: React.CSSProperties;

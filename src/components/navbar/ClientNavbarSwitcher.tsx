@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, Suspense } from "react";
+import { Fragment } from "react";
 import Navbar from "@/components/navbar/navbar.component";
 import { useIsMobile } from "@/hooks/useMobile";
 import NavbarMobile from "./mobile/navbarMobile";

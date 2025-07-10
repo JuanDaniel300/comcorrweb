@@ -1,16 +1,24 @@
-"use client";
+
 import { useRouter } from "nextjs-toploader/app";
 import Breadcrumbs from "@/components/Breadcrumbs/breadCrumbs";
 import TabOrder from "@/components/orders/tabOrder.component";
+import { getOrders } from "@/services/orders/orders";
+import { Order } from "@/types/order.type";
 import AccordionOrder from "@/components/orders/accordionOrder.component";
+import OrdersTabClient from "@/components/orders/ordersClient";
 
-export default function Page() {
-  const router = useRouter();
 
-  const handlerGoToDetailsOrder = (e: { preventDefault: () => void }) => {
-    e.preventDefault();
-    router.push("/profile/orders/detailsOrder");
-  };
+export default async function Page() {
+  // const router = useRouter();
+
+  // const handlerGoToDetailsOrder = (e: { preventDefault: () => void }) => {
+  //   e.preventDefault();
+  //   router.push("/profile/orders/detailsOrder");
+  // };
+
+  const pedidos: Order[] = await getOrders();
+
+  console.table(pedidos)
 
   return (
     <div className="min-h-screen padding-top ">
@@ -31,35 +39,7 @@ export default function Page() {
           </div>
         </div>
 
-        <div className="w-full mb-5 space-y-5">
-          {/* Tabs */}
-          <div className="tabs__container flex w-full gap-3">
-            <TabOrder title="Pedidos pendientes de envio" childrenId={1} />
-            <TabOrder title="Pedidos en camino" childrenId={1} />
-            <TabOrder title="Pedidos entregados" childrenId={1} />
-            <TabOrder title="Pedidos cancelados" childrenId={1} />
-          </div>
-
-          {/* Orders */}
-          <div className="orders__container space-y-4">
-            <AccordionOrder
-              handlerOnClick={handlerGoToDetailsOrder}
-              typeOrder={1}
-            />
-            <AccordionOrder
-              handlerOnClick={handlerGoToDetailsOrder}
-              typeOrder={2}
-            />
-            <AccordionOrder
-              handlerOnClick={handlerGoToDetailsOrder}
-              typeOrder={3}
-            />
-            <AccordionOrder
-              handlerOnClick={handlerGoToDetailsOrder}
-              typeOrder={4}
-            />
-          </div>
-        </div>
+        <OrdersTabClient pedidos={pedidos} />
       </div>
     </div>
   );

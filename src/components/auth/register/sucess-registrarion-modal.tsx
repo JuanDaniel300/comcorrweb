@@ -47,7 +47,7 @@ export default function SuccessRegistrationModal({ isOpen, onClose, userName }: 
                         className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-xl bg-white rounded-2xl shadow-2xl z-50 overflow-hidden"
                     >
                         {/* Success header */}
-                        <div className="bg-gradient-to-r from-primario to-primario/80 p-6 text-white text-center">
+                        <div className="bg-gradient-to-r bg-primario from-primario to-primario/80 p-6 text-white text-center">
                             <motion.div
                                 initial={{ scale: 0 }}
                                 animate={{ scale: 1 }}
@@ -103,7 +103,7 @@ export default function SuccessRegistrationModal({ isOpen, onClose, userName }: 
                             </motion.div>
 
                             {/* First purchase offer */}
-                            <motion.div
+                            {/* <motion.div
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 1.1 }}
@@ -119,7 +119,7 @@ export default function SuccessRegistrationModal({ isOpen, onClose, userName }: 
                                         descuento en tu primera compra
                                     </p>
                                 </div>
-                            </motion.div>
+                            </motion.div> */}
 
                             {/* Action buttons */}
                             <motion.div
@@ -148,7 +148,7 @@ export default function SuccessRegistrationModal({ isOpen, onClose, userName }: 
                             className="bg-gray-50 border-t border-gray-200 p-4 flex items-center justify-center gap-3 text-oscuro2"
                         >
                             <FaTruck size={20} />
-                            <span>Envíos gratis en compras mayores a $5,000</span>
+                            <span>Envíos gratis en compras mayores a $3,000</span>
                         </motion.div>
                     </motion.div>
                 </>

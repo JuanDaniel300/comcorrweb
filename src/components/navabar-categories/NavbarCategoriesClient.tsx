@@ -61,7 +61,7 @@ export default function NavbarCategoriesClient({
   }, []);
 
   return (
-    <div className="w-full bg-navbarCategories">
+    <div className="w-full bg-navbarCategories hidden sm:block">
       <div className="container  text-white mx-auto flex justify-between py-3">
         {categorias.map((category: Category) => (
           <div

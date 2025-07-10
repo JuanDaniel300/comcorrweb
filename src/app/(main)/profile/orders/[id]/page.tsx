@@ -1,4 +1,3 @@
-"use client";
 
 import React from "react";
 import { FaClipboardList, FaWhatsapp } from "react-icons/fa";
@@ -9,14 +8,41 @@ import { GrMapLocation } from "react-icons/gr";
 import Breadcrumbs from "@/components/Breadcrumbs/breadCrumbs";
 import Button from "@/components/Button/Button";
 import ListShoppingShipping from "@/components/cart/listShoppingShipping.component";
+import { getOrderDetails } from "@/services/orders/orders";
+import Map from "@/components/map/map";
 
-const DetailsOrderView: React.FC = () => {
-  const statuses = [
-    { id: 1, label: "Pedido realizado", icon: <BsCartCheck size={30} /> },
-    { id: 2, label: "Pedido en proceso", icon: <FaBox size={30} /> },
-    { id: 3, label: "Pedido en camino", icon: <GrMapLocation size={30} /> },
-    { id: 4, label: "Pedido entregado", icon: <BsHouseCheck size={30} /> },
-  ];
+type Params = Promise<{ id: string }>;
+
+const statuses = [
+  { id: 1, label: "Pedido realizado", icon: <BsCartCheck size={30} /> },
+  { id: 2, label: "Pedido en proceso", icon: <FaBox size={30} /> },
+  { id: 3, label: "Pedido en camino", icon: <GrMapLocation size={30} /> },
+  { id: 4, label: "Pedido entregado", icon: <BsHouseCheck size={30} /> },
+];
+
+type ProductOrder = {
+  articulo_id: number,
+  descripcion: string,
+  cantidad: number,
+  precio: string,
+  total: string,
+  imagen1: string
+}
+
+export default async function DetailsOrderView(props: { params: Params }) {
+  const params = await props.params;
+  const id = params.id;
+
+  const order = await getOrderDetails(id);
+  const detalle = order?.detalle.map((producto: ProductOrder) => {
+    return {
+      id: producto?.articulo_id,
+      descripcion: producto?.descripcion,
+      precio1: producto?.precio,
+      imagen1: producto?.imagen1,
+      quantity: producto?.cantidad,
+    }
+  });
 
   return (
     <div className="min-h-screen padding-top ">
@@ -90,7 +116,7 @@ const DetailsOrderView: React.FC = () => {
                     <span className="text-sm font-[500]">
                       Número de compra:{" "}
                     </span>
-                    <span className="text-sm text-oscuro2">1234</span>
+                    <span className="text-sm text-oscuro2">{id}</span>
                   </div>
                   <div className="order__body__item">
                     <span className="text-sm font-[500]">
@@ -158,7 +184,7 @@ const DetailsOrderView: React.FC = () => {
                 {/* body */}
                 <div className="order__body space-y-4">
                   <div className="order__body__item">
-                    <ListShoppingShipping products={[]} />
+                    <ListShoppingShipping products={detalle} />
                   </div>
                   <div className="order__body__item">
                     <Button
@@ -205,7 +231,9 @@ const DetailsOrderView: React.FC = () => {
                   </div>
 
                   <div>
-                    <div className="h-[200px] border border-gray-200 bg-gray-100 rounded-xl"></div>
+                    <div className="h-[200px] border border-gray-200 bg-gray-100 rounded-xl">
+                      <Map />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -217,4 +245,3 @@ const DetailsOrderView: React.FC = () => {
   );
 };
 
-export default DetailsOrderView;

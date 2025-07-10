@@ -30,31 +30,37 @@ export const categoriesHome = [
     id: 1,
     path: "/categories/category1.png",
     name: "Refrigeradores",
+    link: "/c/linea-blanca-1/refrigeradores-4",
   },
   {
     id: 2,
     path: "/categories/category2.png",
     name: "Microondas",
+    link: "/c/electronica-4/microondas-35"
   },
   {
     id: 3,
     path: "/categories/category3.png",
     name: "Minisplits",
+    link: "/c/aire-acondicionado-5/mini-split-6"
   },
   {
     id: 4,
     path: "/categories/category4.png",
     name: "Sistemas de sonido",
+    link: "/c/electronica-4/bocinas-22"
   },
   {
     id: 5,
     path: "/categories/category5.png",
     name: "Colchones",
+    link: "/c/colchones-6"
   },
   {
     id: 6,
     path: "/categories/category6.png",
     name: "Estufas",
+    link: "/c/linea-blanca-1/estufas-3"
   },
 ];
 
@@ -145,3 +151,5 @@ export const promociones = [
     path: "http://comcorr.com.mx/promociones/Comcorr-Promo3.jpg",
   },
 ];
+
+

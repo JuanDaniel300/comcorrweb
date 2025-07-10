@@ -1,11 +1,11 @@
 "use client";
 
-import { Fragment } from "react";
+import { Fragment, Suspense } from "react";
 import Navbar from "@/components/navbar/navbar.component";
 import { useIsMobile } from "@/hooks/useMobile";
 import NavbarMobile from "./mobile/navbarMobile";
-import NavbarCategoriesSuspense from "../navabar-categories/navbarCategoriesSuspense";
 import { Session } from "next-auth";
+
 
 export default function ClientNavbarSwitcher({
   session,
@@ -15,7 +15,7 @@ export default function ClientNavbarSwitcher({
   const isMobile = useIsMobile();
 
   return (
-    <div className="fixed w-full z-50">
+    <Fragment>
       {isMobile ? (
         <Fragment>
           <NavbarMobile />
@@ -23,9 +23,11 @@ export default function ClientNavbarSwitcher({
       ) : (
         <Fragment>
           <Navbar session={session} />
-          <NavbarCategoriesSuspense />
+
+
         </Fragment>
       )}
-    </div>
+    </Fragment>
+
   );
 }

@@ -96,3 +96,17 @@ export function obtenerFechaEntregaEstimada() {
 
   return `${dia}/${mes}/${anio}`;
 }
+
+
+/**
+ * Formatea una fecha en formato DD/MM/YYYY.
+ * @param date - La fecha a formatear (Date o string ISO)
+ * @returns La fecha formateada como DD/MM/YYYY
+ */
+export function formatDate(date: Date | string): string {
+  const d = typeof date === "string" ? new Date(date) : date;
+  const day = String(d.getDate()).padStart(2, "0");
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const year = d.getFullYear();
+  return `${day}/${month}/${year}`;
+}

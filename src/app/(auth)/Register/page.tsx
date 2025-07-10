@@ -38,7 +38,6 @@ export default function RegisterView() {
     setIsSubmitting(true);
 
     try {
-      // 1. Registro real
       const response = await registerUser(data);
 
       console.log("Usuario registrado:", response);
@@ -52,7 +51,7 @@ export default function RegisterView() {
 
       if (result?.ok) {
         console.log("Inicio de sesión exitoso");
-        setShowModal(true); // o redirigir, etc.
+        setShowModal(true);
       } else {
         console.error("Error al iniciar sesión:", result);
       }
@@ -190,7 +189,7 @@ export default function RegisterView() {
       </div>
 
       <SuccessRegistrationModal
-        isOpen={showModal}
+        isOpen={true}
         onClose={() => {
           setShowModal(false);
           router.push("/");

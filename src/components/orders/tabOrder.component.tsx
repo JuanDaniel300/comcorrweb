@@ -1,24 +1,28 @@
 "use client";
 
-import { FC } from "react";
 import { motion } from "framer-motion";
 
-type TabOrderProps = {
-  childrenId: number;
+interface TabOrderProps {
   title: string;
-  variants?: "entregado" | "encamino" | "enproceso" | "cancelado" | string;
-};
+  onClick: () => void;
+  isActive?: boolean;
+}
 
-const TabOrder: FC<TabOrderProps> = ({ title }) => {
+const TabOrder: React.FC<TabOrderProps> = ({ title, onClick, isActive }) => {
   return (
-    <motion.div
-      whileHover={{
-        scale: 1.05,
-      }}
-      className="w-max py-2 px-4 rounded-lg cursor-pointer border-primario"
+    <motion.button
+      onClick={onClick}
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.97 }}
+      className={`px-4 py-2 rounded-lg border text-sm font-medium relative overflow-hidden cursor-pointer ${isActive
+        ? "bg-primario text-white"
+        : "bg-white text-primario border-primario"
+        }`}
     >
-      <div className="text-sm text-primario">{title}</div>
-    </motion.div>
+      {title}
+
+
+    </motion.button>
   );
 };
 

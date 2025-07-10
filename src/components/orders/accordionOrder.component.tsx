@@ -4,39 +4,48 @@ import { FC, useState } from "react";
 import { motion } from "framer-motion";
 import { FaWhatsapp } from "react-icons/fa";
 import Button from "../Button/Button";
+import { Order } from "@/types/order.type";
+import { formatDate } from "@/utils/generic";
+import { useRouter } from "next/navigation";
 
 interface AccordionOrderProps {
-  typeOrder: number;
-  handlerOnClick?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  Order: Order;
 }
 
-const getStatus = ({ statusOrder }: { statusOrder: number }) => {
+const getStatus = ({ statusOrder }: { statusOrder: string }) => {
   switch (statusOrder) {
-    case 1:
-      return <span className="text-green-600">Entregado</span>;
-    case 2:
-      return <span className="text-yellow-500">En camino</span>;
-
-    case 3:
+    case 'Pendiente':
+      return <span className=" text-yellow-500 ">Pendiente</span>;
+    case 'En camino':
+      return <span className="text-blue-700">En camino</span>;
+    case 'En proceso':
       return <span className="text-orange-400">En proceso</span>;
-
-    case 4:
+    case 'Cancelado':
       return <span className="text-red-700">Cancelado</span>;
-
     default:
-      return "Desconocido";
+      return <span className="text-red-700">Sin estatus</span>;
+      ;
   }
 };
 
 const AccordionOrder: FC<AccordionOrderProps> = ({
-  typeOrder,
-  handlerOnClick,
+  Order,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
+
+
+  const handlerOnClick = (e: React.MouseEvent<HTMLButtonElement>, pedidoId: number) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    router.push(`/profile/orders/${pedidoId}`);
+  }
 
   const handleOpen = () => {
     setIsOpen(!isOpen);
   };
+
 
   return (
     <motion.div
@@ -47,26 +56,28 @@ const AccordionOrder: FC<AccordionOrderProps> = ({
       <div className="grid grid-cols-6 px-5 py-3 overflow-hidden">
         <div className="accordion__item text-oscuro2 font-[500] text-sm">
           Pedido realizado el
-          <div className="text-oscuro100 font-[500] text-sm">16/02/2024</div>
+          <div className="text-oscuro100 font-[500] text-sm">{formatDate(Order.fecha_venta)}</div>
         </div>
         <div className="accordion__item text-oscuro2 font-[500] text-sm">
           Numero del pedido
-          <div className="text-oscuro100 font-[500] text-sm">12345</div>
+          <div className="text-oscuro100 font-[500] text-sm">{Order.pedido_id}</div>
         </div>
         <div className="accordion__item text-oscuro2 font-[500] text-sm">
           Estado del pedido
           <div className="text-oscuro100 font-[500] text-sm">
-            {getStatus({ statusOrder: typeOrder })}
+            {getStatus({ statusOrder: Order.estado_actual })}
           </div>
         </div>
         <div className="accordion__item text-oscuro2 font-[500] text-sm">
-          Total
-          <div className="text-oscuro100 font-[500] text-sm">$14,998.00</div>
+          Total Articulos
+          <div className="text-oscuro100 font-[500] text-sm">{Order.total_articulos}</div>
         </div>
-        <div className="accordion__item">
-          <Button onClick={handlerOnClick} title="Ver detalles de mi compra" />
+        <div className="accordion__item w-full ">
+          <Button className="" onClick={(e) => {
+            handlerOnClick(e, Order.pedido_id)
+          }} title="Ver pedido" />
         </div>
-        <div className="accordion__item flex justify-center items-center">
+        <div className="accordion__item flex justify-center items-center ">
           <motion.svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-6 w-6 text-oscuro2"

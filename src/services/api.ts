@@ -49,7 +49,9 @@ axiosInstance.interceptors.response.use(
 
       // Redirigir al usuario a la página principal
       // redirect("/");
-      window.location.href = "/Login";
+      if (isClient) {
+        window.location.href = "/Login";
+      }
 
       // Retornar un error para evitar que se propague
       return Promise.reject(error);

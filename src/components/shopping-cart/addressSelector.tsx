@@ -21,6 +21,7 @@ import {
 import { IoIosHome } from "react-icons/io";
 import toast from "react-hot-toast";
 import { useAddressStore } from "@/stores/adressStore";
+import LocationSearchInput from "../location/LocationSearchInput";
 
 export default function AddressSelector() {
   const [addresses, setAddresses] = useState<DireccionType[]>([]);
@@ -151,13 +152,7 @@ export default function AddressSelector() {
 
   return (
     <div className="w-full max-w-6xl mx-auto">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="mb-8"
-      >
-        <p className="">Elige una dirección guardada o agrega una nueva</p>
-      </motion.div>
+
 
       {/* Swiper Carousel Container */}
       <div className="relative">
@@ -194,11 +189,10 @@ export default function AddressSelector() {
                 whileTap={{ scale: 0.98 }}
               >
                 <Card
-                  className={`cursor-pointer transition-all duration-200 ${
-                    selectedAddressId === address.id
-                      ? "ring-2 ring-blue-500 bg-blue-50 border-blue-200 shadow-lg"
-                      : "hover:shadow-lg border-gray-200"
-                  }`}
+                  className={`cursor-pointer transition-all duration-200 ${selectedAddressId === address.id
+                    ? "ring-2 ring-blue-700 bg-blue-50 border-blue-200 shadow-lg"
+                    : "hover:shadow-lg border-gray-200"
+                    }`}
                   onClick={() => {
                     useAddressStore.setState({
                       selectedAddress: address.id ?? null,
@@ -209,11 +203,10 @@ export default function AddressSelector() {
                   <CardContent className="p-6">
                     <div className="flex items-center gap-3 mb-4">
                       <div
-                        className={`p-2 rounded-full ${
-                          selectedAddressId === address.id
-                            ? "bg-blue-500 text-white"
-                            : "bg-gray-100 text-gray-600"
-                        }`}
+                        className={`p-2 rounded-full ${selectedAddressId === address.id
+                          ? "bg-blue-700 text-white"
+                          : "bg-gray-100 text-gray-600"
+                          }`}
                       >
                         <IoIosHome />
                       </div>
@@ -331,6 +324,17 @@ export default function AddressSelector() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="md:col-span-2">
+                  <Label htmlFor="autocomplete">Buscar dirección con Google</Label>
+                  <LocationSearchInput
+                    onSelect={(data) => {
+                      setNewAddress((prev) => ({
+                        ...prev,
+                        ...data,
+                      }));
+                    }}
+                  />
+                </div>
+                <div className="md:col-span-2">
                   <Label htmlFor="calle">Calle</Label>
                   <Input
                     id="calle"
@@ -421,12 +425,11 @@ export default function AddressSelector() {
                   />
                 </div>
 
-                <div>
-                  <Label htmlFor="latitud">Latitud</Label>
+                <div className="">
                   <Input
                     id="latitud"
                     placeholder="Ej: 19.4326"
-                    type="number"
+                    type="hidden"
                     value={newAddress.latitud}
                     onChange={(e) =>
                       setNewAddress({
@@ -437,12 +440,11 @@ export default function AddressSelector() {
                   />
                 </div>
 
-                <div>
-                  <Label htmlFor="longitud">Longitud</Label>
+                <div className="">
                   <Input
                     id="longitud"
                     placeholder="Ej: -99.1332"
-                    type="number"
+                    type="hidden"
                     value={newAddress.longitud}
                     onChange={(e) =>
                       setNewAddress({

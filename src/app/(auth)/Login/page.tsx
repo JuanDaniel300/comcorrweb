@@ -48,7 +48,7 @@ const AuthView = () => {
       });
 
       if (res?.ok) {
-        syncCartFromServer();
+        await syncCartFromServer();
 
         window.location.href = "/";
       } else {

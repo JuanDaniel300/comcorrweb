@@ -20,18 +20,24 @@ import "swiper/css/navigation";
 import "swiper/css/scrollbar";
 import SessionProviderClient from "@/providers/SessionProviderClient";
 import { ToastProvider } from "@/providers/ToastProviderClient";
+import Script from "next/script";
 
 export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // const session = await getServerSession(authOptionsUtils)
 
   return (
     <html lang="en">
+      <head>
+        <Script
+          src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_API_KEY_GOOGLE}`}
+          strategy="beforeInteractive"
+          id="google-maps-script"
+        />
+      </head>
       <body className={montserrat.className}>
-        {/* {!session && <GuestLogin />} */}
         <SessionProviderClient>
           <ToastProvider>
             <div>

@@ -194,9 +194,14 @@ body {
   animation: pulse 1.5s infinite;
 }
 
+label {
+  padding-bottom: 10px !important;
+}
+
 .bg-modal {
   background-color: #00000098 !important;
 }
+
 @keyframes pulse {
   0% {
     opacity: 1;

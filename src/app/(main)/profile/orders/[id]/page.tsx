@@ -8,7 +8,7 @@ import { GrMapLocation } from "react-icons/gr";
 import Breadcrumbs from "@/components/Breadcrumbs/breadCrumbs";
 import Button from "@/components/Button/Button";
 import ListShoppingShipping from "@/components/cart/listShoppingShipping.component";
-import { getOrderDetails } from "@/services/orders/orders";
+import { getOrderDetails, getOrderTracking } from "@/services/orders/orders";
 import Map from "@/components/map/map";
 
 type Params = Promise<{ id: string }>;
@@ -29,11 +29,46 @@ type ProductOrder = {
   imagen1: string
 }
 
+
+export interface Status {
+  id: string;
+  label: string;
+  icon: React.ReactNode;
+}
+
+
+interface SeguimientoItem {
+  estado: string;
+  fecha: string | null;
+}
+
+function filterUniqueWithDate(seguimiento: SeguimientoItem[]): SeguimientoItem[] {
+  const seen = new Set<string>();
+
+  return seguimiento
+    .filter(item => item.fecha != null)
+    .filter(item => {
+      if (seen.has(item.estado)) {
+        return false;
+      } else {
+        seen.add(item.estado);
+        return true;
+      }
+    });
+}
+
+
 export default async function DetailsOrderView(props: { params: Params }) {
   const params = await props.params;
   const id = params.id;
 
   const order = await getOrderDetails(id);
+  const tracking = await getOrderTracking(id);
+
+  const uniqueWithDate = filterUniqueWithDate(tracking?.seguimiento);
+  console.log(uniqueWithDate);
+
+
   const detalle = order?.detalle.map((producto: ProductOrder) => {
     return {
       id: producto?.articulo_id,
@@ -44,11 +79,12 @@ export default async function DetailsOrderView(props: { params: Params }) {
     }
   });
 
+
   return (
-    <div className="min-h-screen padding-top ">
-      <div className="container mx-auto px-20 py-10">
+    <div className=" ">
+      <div className="">
         {/* Breadcrums */}
-        <div className="w-full mb-10">
+        <div className="w-full mb-5">
           <Breadcrumbs
             Breadcrumbs={[
               { title: "Perfil", link: "/profile" },
@@ -73,32 +109,8 @@ export default async function DetailsOrderView(props: { params: Params }) {
             </h1>
 
             {/* Timeline */}
-            <div className="flex items-center justify-between ">
-              {statuses.map((status, index) => (
-                <div
-                  key={status.id}
-                  className="flex flex-col items-center w-1/4"
-                >
-                  {/* Línea horizontal */}
-                  {index !== statuses.length - 1 && (
-                    <div>
-                      <div className="absolute top-1/2 w-[74%] left-[180px] h-2 bg-gray-300 z-0" />
-                      <div className="absolute top-1/2 w-[74%] left-[180px] h-2 bg-degradado-primario z-0" />
-                    </div>
-                  )}
+            <Timeline currentIndex={1} />
 
-                  {/* Punto del timeline */}
-                  <div className="relative z-10 w-16 h-16 flex items-center justify-center rounded-full  bg-degradado-primario text-white">
-                    {status.icon}
-                  </div>
-
-                  {/* Etiqueta */}
-                  <span className="mt-4 text-sm text-[500]">
-                    {status.label}
-                  </span>
-                </div>
-              ))}
-            </div>
           </div>
         </div>
 
@@ -245,3 +257,53 @@ export default async function DetailsOrderView(props: { params: Params }) {
   );
 };
 
+
+
+const Timeline = ({ currentIndex }: { currentIndex: number }) => {
+  const segments = statuses.length - 1;
+  // porcentaje de línea completa hasta currentIndex
+  const fillPercent = segments > 0
+    ? (currentIndex / segments) * 75
+    : 0;
+
+  return (
+    <div className="relative w-full px-4 py-6">
+      {/* Línea de fondo */}
+      <div className="absolute top-[61px]  w-[74%]  left-[150px] h-2 bg-gray-300 transform -translate-y-1/2 z-0" />
+
+      {/* Línea de progreso */}
+      <div
+        className="absolute top-[61px]   left-[150px] h-2 bg-primario transform -translate-y-1/2 z-10 transition-all duration-500"
+        style={{ width: `${fillPercent}%` }}
+      />
+
+      {/* Puntos y etiquetas */}
+      <div className="flex justify-between relative z-20">
+        {statuses.map((status, idx) => {
+          const isActive = idx <= currentIndex;
+          return (
+            <div key={status.id} className="flex flex-col items-center w-1/4">
+              {/* Punto */}
+              <div
+                className={`relative z-10 w-16 h-16 flex items-center justify-center rounded-full
+                  ${isActive ? "bg-primario text-white" : "bg-gray-300 text-white"}
+                `}
+              >
+                {status.icon}
+              </div>
+
+              {/* Etiqueta */}
+              <span
+                className={`mt-4 text-sm font-medium
+                  ${isActive ? "text-primario" : "text-gray-500"}
+                `}
+              >
+                {status.label}
+              </span>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+};

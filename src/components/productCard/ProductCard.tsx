@@ -12,6 +12,8 @@ import { Product } from "@/types/product.type";
 import { useRouter } from "nextjs-toploader/app";
 import { handleAddToCart } from "@/handlers/cartHandlers";
 import { useToast } from "@/providers/ToastProviderClient";
+import { useSession } from "next-auth/react";
+import toast from "react-hot-toast";
 
 const ProductCard = ({
   product,
@@ -24,11 +26,13 @@ const ProductCard = ({
   const router = useRouter();
   const hasPromotion = product?.precio1 < product?.precio2;
   const hasDiscount = product?.precio2 > 0;
+  const { data: session } = useSession();
 
   const handleGoToProductView = () => {
-    const urlPath = `${generarSlug(product?.descripcion)}-${
-      product?.id || product?.clave
-    }`;
+    const urlPath = `${generarSlug(product?.descripcion)}-${product?.id || product?.clave
+      }`;
+
+
 
     router.push(`/${urlPath}`);
   };
@@ -36,6 +40,11 @@ const ProductCard = ({
   const handlerClickAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
+
+    if (!session) {
+      toast.error("Debes iniciar sesión para agregar productos a tu carrito.");
+      return;
+    }
 
     // Lógica para añadir al carrito
     handleAddToCart(product, 1, cart);

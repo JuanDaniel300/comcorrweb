@@ -6,22 +6,15 @@ import OrdersTabClient from "@/components/orders/ordersClient";
 
 
 export default async function Page() {
-  // const router = useRouter();
-
-  // const handlerGoToDetailsOrder = (e: { preventDefault: () => void }) => {
-  //   e.preventDefault();
-  //   router.push("/profile/orders/detailsOrder");
-  // };
-
   const pedidos: Order[] = await getOrders();
 
   console.table(pedidos)
 
   return (
-    <div className="min-h-screen padding-top ">
-      <div className="container mx-auto px-20 py-10">
+    <div className=" ">
+      <div className="">
         {/* Breadcrums */}
-        <div className="w-full mb-10">
+        <div className="w-full mb-5">
           <Breadcrumbs
             Breadcrumbs={[
               { title: "Perfil", link: "/profile" },

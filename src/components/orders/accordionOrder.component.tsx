@@ -14,6 +14,8 @@ interface AccordionOrderProps {
 
 const getStatus = ({ statusOrder }: { statusOrder: string }) => {
   switch (statusOrder) {
+    case 'En preparación':
+      return <span className=" text-orange-500 ">En preparación</span>;
     case 'Pendiente':
       return <span className=" text-yellow-500 ">Pendiente</span>;
     case 'En camino':

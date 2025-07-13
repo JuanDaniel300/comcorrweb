@@ -15,14 +15,12 @@ interface MapProps {
   onMapLoad?: (map: google.maps.Map) => void;
 }
 
-let isScriptAppended = false;
-let isMapScriptLoaded = false;
-const waitForGoogleMaps = () =>
-  new Promise<void>((resolve, reject) => {
+// Espera a que Google Maps esté disponible
+const waitForGoogleMaps = (): Promise<void> => {
+  return new Promise((resolve, reject) => {
     if (typeof window === "undefined") return;
 
     if (window.google && window.google.maps) {
-      isMapScriptLoaded = true;
       resolve();
       return;
     }
@@ -30,7 +28,6 @@ const waitForGoogleMaps = () =>
     const interval = setInterval(() => {
       if (window.google && window.google.maps) {
         clearInterval(interval);
-        isMapScriptLoaded = true;
         resolve();
       }
     }, 50);
@@ -40,6 +37,7 @@ const waitForGoogleMaps = () =>
       reject("Google Maps script load timeout");
     }, 10000);
   });
+};
 
 const GoogleMap: React.FC<MapProps> = ({
   center = { lat: 19.4326, lng: -99.1332 },
@@ -51,26 +49,12 @@ const GoogleMap: React.FC<MapProps> = ({
   const mapInstance = useRef<google.maps.Map | null>(null);
   const [isMapReady, setIsMapReady] = useState(false);
 
-  // Carga el script solo una vez
   useEffect(() => {
-    if (typeof window === "undefined" || isMapScriptLoaded) return;
-
-    if (!isScriptAppended) {
-      const script = document.createElement("script");
-      script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_API_KEY_GOOGLE}`;
-      script.async = true;
-      script.defer = true;
-      script.id = "google-maps-script";
-      document.head.appendChild(script);
-      isScriptAppended = true;
-    }
-
     waitForGoogleMaps()
       .then(() => setIsMapReady(true))
       .catch((err) => console.error(err));
   }, []);
 
-  // Renderiza el mapa si todo está listo
   useEffect(() => {
     if (isMapReady && mapRef.current && !mapInstance.current) {
       mapInstance.current = new window.google.maps.Map(mapRef.current, {

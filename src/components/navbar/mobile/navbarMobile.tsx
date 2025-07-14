@@ -1,12 +1,30 @@
+"use client";
 import { Input } from "@/components/ui/input";
+import { useCartStore } from "@/stores/cartStore";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
-export default function NavbarMobile() {
+export default function NavbarMobile({
+  toggleSidebar,
+}: {
+  toggleSidebar?: () => void;
+}) {
+  const cart = useCartStore((state) => state.cart);
+  const [hasMounted, setHasMounted] = useState(false);
+
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
+
+  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
   return (
     <div className="bg-white  border-b p-4">
       <div className="w-full flex gap-4  items-center align-middle justify-between">
         {/* Menu hamburguesa */}
-        <div>
+        <div
+          className="hover:bg-gray-300 p-2 rounded-full cursor-pointer"
+          onClick={toggleSidebar}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -49,23 +67,30 @@ export default function NavbarMobile() {
 
         {/* Carrito de compras */}
         <div className="flex items-center align-middle gap-3">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            className="lucide lucide-shopping-cart-icon lucide-shopping-cart"
+          <Link
+            href="/Shopping-cart"
+            className="relative flex items-center gap-2"
           >
-            <circle cx="8" cy="21" r="1" />
-            <circle cx="19" cy="21" r="1" />
-            <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" />
-          </svg>
-          <div className="rounded-full bg-primario text-white px-2 py-1">0</div>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              className="lucide lucide-shopping-cart-icon lucide-shopping-cart"
+            >
+              <circle cx="8" cy="21" r="1" />
+              <circle cx="19" cy="21" r="1" />
+              <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" />
+            </svg>
+            <div className="rounded-full bg-primario text-white px-2 py-1">
+              {hasMounted && totalItems}
+            </div>
+          </Link>
         </div>
       </div>
     </div>

@@ -18,7 +18,7 @@ export default function RegisterStep1({
 
   return (
     <>
-      <div className="text-2xl font-bold pt-6 mb-6">
+      <div className="text-sm sm:text-2xl font-bold pt-6 mb-6">
         Tu Hogar Merece lo Mejor,
         <br />
         Empieza Aquí
@@ -27,18 +27,18 @@ export default function RegisterStep1({
       <div className="w-full mb-6 space-y-4">
         {/* Nombre */}
         <div>
-          <label className="block font-semibold mb-1 text-oscuro1">
+          <label className="block font-semibold mb-1 text-oscuro1 text-xs sm:text-base">
             Nombre Completo
           </label>
           <input
             {...register("nombre", { required: "Campo obligatorio" })}
             className={`border-2 ${
               errors.nombre ? "border-red-500" : "border-claro2"
-            } w-full rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primario/50`}
+            } w-full rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primario/50 text-xs sm:text-base`}
             placeholder="Nombre Apellido"
           />
           {errors.nombre && (
-            <span className="text-red-500 text-xs mt-1">
+            <span className="text-red-500 text-xs mt-1 ">
               {String(errors.nombre.message)}
             </span>
           )}
@@ -46,7 +46,7 @@ export default function RegisterStep1({
 
         {/* Email */}
         <div>
-          <label className="block font-semibold mb-1 text-oscuro1">
+          <label className="block font-semibold mb-1 text-oscuro1 text-xs sm:text-base">
             Correo
           </label>
           <input
@@ -56,7 +56,7 @@ export default function RegisterStep1({
             })}
             className={`border-2 ${
               errors.email ? "border-red-500" : "border-claro2"
-            } w-full rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primario/50`}
+            } w-full rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primario/50 text-xs sm:text-base`}
             placeholder="usuario@correo.com"
           />
           {errors.email && (
@@ -68,7 +68,7 @@ export default function RegisterStep1({
 
         {/* Contraseña */}
         <div>
-          <label className="block font-semibold mb-1 text-oscuro1">
+          <label className="block font-semibold mb-1 text-oscuro1 text-xs sm:text-base">
             Contraseña
           </label>
           <input
@@ -79,7 +79,7 @@ export default function RegisterStep1({
             })}
             className={`border-2 ${
               errors.password ? "border-red-500" : "border-claro2"
-            } w-full rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primario/50`}
+            } w-full rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primario/50 text-xs sm:text-base`}
             placeholder="Ingresa tu contraseña"
           />
           {errors.password && (
@@ -91,7 +91,7 @@ export default function RegisterStep1({
 
         {/* Confirmar Contraseña */}
         <div>
-          <label className="block font-semibold mb-1 text-oscuro1">
+          <label className="block font-semibold mb-1 text-oscuro1 text-xs sm:text-base">
             Confirmar Contraseña
           </label>
           <input
@@ -103,7 +103,7 @@ export default function RegisterStep1({
             })}
             className={`border-2 ${
               errors.confirm_password ? "border-red-500" : "border-claro2"
-            } w-full rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primario/50`}
+            } w-full rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primario/50 text-xs sm:text-base`}
             placeholder="Ingresa nuevamente tu contraseña"
           />
           {errors.confirm_password?.message && (
@@ -119,7 +119,7 @@ export default function RegisterStep1({
         onClick={() => handle(2)}
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.98 }}
-        className="bg-primario hover:bg-primario/90 cursor-pointer text-white rounded-full py-2.5 w-full flex justify-center gap-3 items-center font-medium transition-colors"
+        className="bg-primario hover:bg-primario/90 text-xs sm:text-base cursor-pointer text-white rounded-full py-2.5 w-full flex justify-center gap-3 items-center font-medium transition-colors"
       >
         Continuar
       </motion.button>
@@ -134,7 +134,7 @@ export default function RegisterStep1({
         <motion.button
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
-          className="bg-white border border-claro2 text-oscuro1 rounded-lg py-2.5 w-full flex justify-center gap-3 items-center font-medium hover:bg-claro1 transition-colors"
+          className="bg-white border text-xs sm:text-base border-claro2 text-oscuro1 rounded-lg py-2.5 w-full flex justify-center gap-3 items-center font-medium hover:bg-claro1 transition-colors"
         >
           <AiOutlineGoogle size={20} className="text-red-500" />
           Registrate con Google
@@ -143,14 +143,14 @@ export default function RegisterStep1({
         <motion.button
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
-          className="bg-white border border-claro2 text-oscuro1 rounded-lg py-2.5 w-full flex justify-center gap-3 items-center font-medium hover:bg-claro1 transition-colors"
+          className="bg-white border text-xs sm:text-base border-claro2 text-oscuro1 rounded-lg py-2.5 w-full flex justify-center gap-3 items-center font-medium hover:bg-claro1 transition-colors"
         >
           <FaFacebookF size={20} className="text-blue-600" />
           Registrate con Facebook
         </motion.button>
       </div>
 
-      <div className="w-full text-sm text-center my-5 text-oscuro2">
+      <div className="w-full text-xs sm:text-sm text-center my-5 text-oscuro2">
         ¿Ya tienes cuenta?{" "}
         <Link
           href="/Login"

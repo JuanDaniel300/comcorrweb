@@ -60,9 +60,9 @@ export default function Payment() {
 
   return (
     <div className="min-h-screen padding-top ">
-      <div className="container mx-auto px-20 py-10">
-        <div className="min-h-[450px] flex gap-10 mb-20">
-          <div className="h-full w-[60%]  px-5 rounded-xl">
+      <div className="container mx-auto sm:px-20 py-10">
+        <div className="min-h-[450px] sm:flex gap-10 mb-20">
+          <div className="h-full w-full sm:w-[60%]  px-5 rounded-xl">
             {/* Breadcrums */}
             <div className="w-full mb-10">
               <Breadcrumbs
@@ -77,7 +77,7 @@ export default function Payment() {
 
             <div>
               {/* buttons */}
-              <div className="w-full flex justify-between mt-10">
+              <div className="w-full flex justify-between mt-10 gap-20 sm:gap-0">
                 <Link
                   href="/Shopping-cart/envio"
                   className="w-[30%] text-center text-secundario cursor-pointer py-3 flex items-center"
@@ -94,7 +94,7 @@ export default function Payment() {
             </div>
           </div>
 
-          <div className="h-full w-[40%] bg-white border border-gray-200 p-5 rounded-xl">
+          <div className="h-full w-full hidden sm:block sm:w-[40%] bg-white border border-gray-200 p-5 rounded-xl">
             <OrderDetail showRecommended={false} />
           </div>
         </div>

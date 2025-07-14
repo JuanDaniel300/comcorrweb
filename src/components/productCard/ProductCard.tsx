@@ -29,10 +29,9 @@ const ProductCard = ({
   const { data: session } = useSession();
 
   const handleGoToProductView = () => {
-    const urlPath = `${generarSlug(product?.descripcion)}-${product?.id || product?.clave
-      }`;
-
-
+    const urlPath = `${generarSlug(product?.descripcion)}-${
+      product?.id || product?.clave
+    }`;
 
     router.push(`/${urlPath}`);
   };
@@ -55,7 +54,7 @@ const ProductCard = ({
       onClick={handleGoToProductView}
       key={keyIndex}
       whileHover={{ transition: { duration: 0.5 } }}
-      className="productCard h-[440px] w-[188px] min-w-[188px] sm:w-[300px] sm:min-w-[300px] sm:h-[500px] border border-gray-200 bg-white rounded-2xl px-3 pt-4 pb-3 cursor-pointer flex flex-col justify-between"
+      className="productCard h-[480px] w-[180px] min-w-[180px] sm:w-[300px] sm:min-w-[300px] sm:h-[500px] border border-gray-200 bg-white rounded-2xl px-3 pt-4 pb-3 cursor-pointer flex flex-col justify-between"
     >
       {/* Imagen y badge */}
       <div className="relative h-[250px] w-full">
@@ -87,7 +86,7 @@ const ProductCard = ({
       <hr className="border border-gray-100 my-2" />
 
       {/* Descripción y código */}
-      <div className="flex flex-col h-[70px] overflow-hidden">
+      <div className="flex flex-col h-[100px] sm:h-[70px] overflow-hidden">
         <div className="text-xs text-primario font-semibold sm:text-sm leading-snug line-clamp-2">
           {product?.descripcion}
         </div>

@@ -180,20 +180,20 @@ export default function ProductGrid({
   };
 
   return (
-    <div className="min-h-screen pt-15 bg-claro1">
-      <div className="container mx-auto py-10">
+    <div className="min-h-screen pt-10 sm:pt-15 bg-claro1">
+      <div className="container mx-auto py-10 px-5 sm:px-0">
         {/* Breadcrumb */}
         <div className="pb-5">
           <Breadcrumbs Breadcrumbs={Breadcrumb} />
         </div>
 
-        <div className="flex flex-col md:flex-row gap-6">
+        <div className="flex flex-col md:flex-row gap-6 ">
           {/* Filters Sidebar */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2 }}
-            className="w-full md:w-64 h-max shrink-0 bg-white  rounded-2xl  sticky right-0 top-[150px]"
+            className="w-full md:w-64 h-max shrink-0 bg-white  rounded-2xl hidden sm:block  sticky right-0 top-[150px]"
           >
             <Card className="border-claro2 bg-claro100">
               <CardContent className="px-6">
@@ -450,7 +450,7 @@ export default function ProductGrid({
                   variants={containerVariants}
                   initial="hidden"
                   animate="visible"
-                  className="grid grid-cols-2 place-items-center sm:place-items-stretch justify-center sm:grid-cols-[repeat(auto-fill,minmax(300px,1fr))] space-y-5"
+                  className="grid grid-cols-2 gap-2 sm:gap-0 place-items-center sm:place-items-stretch justify-center sm:grid-cols-[repeat(auto-fill,minmax(300px,1fr))] space-y-5"
                 >
                   {filteredProducts.map((product, index) => (
                     <ProductCard
@@ -467,10 +467,10 @@ export default function ProductGrid({
               </Fragment>
             ) : (
               <div className="text-center py-12 bg-claro100 rounded-lg border border-claro2">
-                <h3 className="text-lg font-medium mb-2 text-oscuro1">
+                <h3 className="text-sm sm:text-lg font-medium mb-2 text-oscuro1">
                   No se encontraron productos
                 </h3>
-                <p className="text-oscuro3 mb-4">
+                <p className="text-oscuro3 mb-4 text-sm sm:text-base">
                   No hay productos que coincidan con los filtros seleccionados.
                 </p>
                 <Button

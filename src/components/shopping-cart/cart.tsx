@@ -78,15 +78,15 @@ const ShoppingCart = ({
   };
 
   return (
-    <div className="min-h-[450px] flex gap-10 mb-20">
-      <div className="h-full w-[70%] bg-white border border-gray-200 p-5 rounded-xl">
+    <div className="min-h-[450px] sm:flex gap-10 mb-20 px-5 sm:px-0">
+      <div className="h-full w-full sm:w-[70%]  bg-white border border-gray-200 p-5 rounded-xl">
         <div className="text-2xl text-primario font-semibold">Carrito</div>
 
         <div className="w-full my-2">
           <ListShoppingCart products={cart} />
         </div>
       </div>
-      <div className="h-full w-[30%] bg-white border border-gray-200 p-5 rounded-xl sticky top-[150px]">
+      <div className="h-full w-full sm:w-[30%] my-5 sm:my-0 bg-white border border-gray-200 p-5 rounded-xl sticky top-[150px]">
         <div className="border-b-2 border-gray-100 pb-5">
           <div className="text-xl font-[500]">Resumen del Pedido</div>
           <div className="font-[600] my-3">Entrega</div>

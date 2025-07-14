@@ -47,7 +47,6 @@ export default function RegisterView() {
       const response = await registerUser(data);
 
       console.log("Usuario registrado:", response);
-      console.log(showModal)
 
       // 2. Iniciar sesión automáticamente con NextAuth
       const result = await signIn("credentials", {
@@ -78,12 +77,12 @@ export default function RegisterView() {
   };
 
   return (
-    <div className="flex flex-wrap gap-10 w-full min-h-screen">
+    <div className="flex flex-wrap sm:gap-10 w-full h-max mt-5 sm:mt-0 min-h-max sm:min-h-screen">
       <div className="flex-1 w-full md:w-[50%] h-full m-auto flex items-center justify-center md:justify-end p-4">
         <motion.div
           layout
           transition={{ duration: 0.2, ease: "easeInOut" }}
-          className="rounded-xl p-6 bg-white w-full max-w-md md:max-w-lg shadow-md"
+          className="rounded-xl p-6 bg-white w-[90%] sm:w-full max-w-md md:max-w-lg shadow-md"
         >
           {/* Logo */}
           <div className="flex items-center justify-between w-full mb-4">
@@ -121,7 +120,7 @@ export default function RegisterView() {
         </motion.div>
       </div>
 
-      <div className="w-full md:w-[50%] flex-1 h-full m-auto flex items-center bg-transparent p-8">
+      <div className="w-full md:w-[50%] flex-1 h-full m-auto hidden sm:flex items-center bg-transparent p-8 ">
         <div className="w-full max-w-xl mx-auto">
           <div className="w-full">
             <div className="text-xl font-semibold">
@@ -196,7 +195,7 @@ export default function RegisterView() {
       </div>
 
       <SuccessRegistrationModal
-        isOpen={true}
+        isOpen={showModal}
         onClose={() => {
           setShowModal(false);
           router.push("/");

@@ -29,7 +29,7 @@ const ProductView = async (props: { params: Params }) => {
   // const hasDiscount = product?.precio2 > 0;
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4 padding-top">
+    <div className="min-h-screen bg-gray-100 p-5 padding-top">
       <div className="container mx-auto py-10">
         {/* Breadcrums */}
         <div className="w-full mb-10">
@@ -52,7 +52,7 @@ const ProductView = async (props: { params: Params }) => {
         </div>
 
         <div className="w-full product__container h-max">
-          <div className="grid grid-cols-2 gap-20">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-20">
             {/* Galería de imágenes */}
             <ArticuloGalery
               images={
